@@ -1,0 +1,10 @@
+{
+  "id": "table",
+  "label": "Tabla",
+  "icon": "table",
+  "html": "<table class=\"table\"><thead><tr><th>#</th><th>Nombre</th></tr></thead><tbody><tr><td>1</td><td>Ejemplo</td></tr></tbody></table>",
+  "settings": [
+    { "label": "setting.classes", "attr": "class", "type": "text" },
+    { "label": "setting.id", "attr": "id", "type": "text" }
+  ]
+}

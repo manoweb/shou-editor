@@ -1,0 +1,13 @@
+{
+  "id": "card",
+  "label": "Card",
+  "icon": "card",
+  "html": "<div class=\"card\"><div class=\"card-body\"><h5 class=\"card-title\">Card</h5><p class=\"card-text\">Contenido de la card.</p><a href=\"#\" class=\"btn btn-primary\">Acción</a></div></div>",
+  "settings": [
+    { "label": "setting.title", "prop": "textContent", "selector": ".card-title", "type": "text" },
+    { "label": "setting.text", "prop": "textContent", "selector": ".card-text", "type": "text" },
+    { "label": "setting.buttonText", "prop": "textContent", "selector": ".btn", "type": "text" },
+    { "label": "setting.buttonUrl", "attr": "href", "selector": ".btn", "type": "text" },
+    { "label": "setting.classes", "attr": "class", "type": "text" }
+  ]
+}

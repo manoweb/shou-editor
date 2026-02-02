@@ -1,0 +1,10 @@
+{
+  "id": "spinner",
+  "label": "Spinner",
+  "icon": "spinner",
+  "html": "<div class=\"text-center p-3\"><div class=\"spinner-border text-primary\" role=\"status\"><span class=\"visually-hidden\">Cargando...</span></div></div>",
+  "settings": [
+    { "label": "setting.variant", "attr": "class", "selector": "[role='status']", "type": "select", "options": ["spinner-border text-primary", "spinner-border text-secondary", "spinner-border text-success", "spinner-border text-danger", "spinner-border text-warning", "spinner-border text-info", "spinner-grow text-primary", "spinner-grow text-secondary", "spinner-grow text-success", "spinner-grow text-danger"] },
+    { "label": "setting.classes", "attr": "class", "type": "text" }
+  ]
+}

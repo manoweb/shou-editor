@@ -1,0 +1,12 @@
+{
+  "id": "toast",
+  "label": "Toast",
+  "icon": "toast",
+  "html": "<div class=\"toast show\" role=\"alert\"><div class=\"toast-header\"><strong class=\"me-auto\">Notificación</strong><small>Ahora</small><button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"toast\"></button></div><div class=\"toast-body\">Este es un mensaje de notificación.</div></div>",
+  "settings": [
+    { "label": "setting.title", "prop": "textContent", "selector": ".me-auto", "type": "text" },
+    { "label": "setting.text", "prop": "textContent", "selector": ".toast-body", "type": "text" },
+    { "label": "setting.time", "prop": "textContent", "selector": "small", "type": "text" },
+    { "label": "setting.classes", "attr": "class", "type": "text" }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "id": "hero",
+  "label": "Hero",
+  "icon": "hero",
+  "html": "<section class=\"py-5 bg-primary text-white text-center\"><div class=\"container py-5\"><h1 class=\"display-4\">Bienvenido</h1><p class=\"lead\">Descripción del sitio</p><a href=\"#\" class=\"btn btn-light btn-lg\">Comenzar</a></div></section>",
+  "settings": [
+    { "label": "setting.title", "prop": "textContent", "selector": "h1", "type": "text" },
+    { "label": "setting.subtitle", "prop": "textContent", "selector": ".lead", "type": "text" },
+    { "label": "setting.buttonText", "prop": "textContent", "selector": ".btn", "type": "text" },
+    { "label": "setting.buttonUrl", "attr": "href", "selector": ".btn", "type": "text" },
+    { "label": "setting.classes", "attr": "class", "type": "text" }
+  ]
+}

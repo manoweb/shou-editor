@@ -1,0 +1,11 @@
+{
+  "id": "list-group",
+  "label": "List Group",
+  "icon": "listGroup",
+  "html": "<ul class=\"list-group\"><li class=\"list-group-item\">Elemento 1</li><li class=\"list-group-item\">Elemento 2</li><li class=\"list-group-item\">Elemento 3</li><li class=\"list-group-item\">Elemento 4</li><li class=\"list-group-item\">Elemento 5</li></ul>",
+  "settings": [
+    { "label": "setting.variant", "attr": "class", "type": "select", "options": ["list-group", "list-group list-group-flush", "list-group list-group-numbered"] },
+    { "label": "setting.id", "attr": "id", "type": "text" },
+    { "label": "setting.classes", "attr": "class", "type": "text" }
+  ]
+}

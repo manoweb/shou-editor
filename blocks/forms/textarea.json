@@ -1,0 +1,15 @@
+{
+  "id": "textarea",
+  "label": "Textarea",
+  "icon": "textarea",
+  "html": "<div class=\"mb-3\"><label class=\"form-label\">Descripción</label><textarea class=\"form-control\" rows=\"3\" name=\"descripcion\"></textarea></div>",
+  "settings": [
+    { "label": "setting.label", "prop": "textContent", "selector": "label", "type": "text" },
+    { "label": "setting.name", "attr": "name", "selector": "textarea", "type": "text" },
+    { "label": "setting.placeholder", "attr": "placeholder", "selector": "textarea", "type": "text" },
+    { "label": "setting.rows", "attr": "rows", "selector": "textarea", "type": "text" },
+    { "label": "setting.required", "attr": "required", "selector": "textarea", "type": "checkbox" },
+    { "label": "setting.readonly", "attr": "readonly", "selector": "textarea", "type": "checkbox" },
+    { "label": "setting.disabled", "attr": "disabled", "selector": "textarea", "type": "checkbox" }
+  ]
+}

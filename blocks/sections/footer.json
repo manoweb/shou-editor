@@ -1,0 +1,11 @@
+{
+  "id": "footer",
+  "label": "Footer",
+  "icon": "footer",
+  "html": "<footer class=\"py-4 bg-dark text-white text-center\"><div class=\"container\"><p class=\"mb-0\">&copy; 2024 Mi Sitio</p></div></footer>",
+  "settings": [
+    { "label": "setting.footerText", "prop": "innerHTML", "selector": "p", "type": "text" },
+    { "label": "setting.classes", "attr": "class", "type": "text" },
+    { "label": "setting.id", "attr": "id", "type": "text" }
+  ]
+}

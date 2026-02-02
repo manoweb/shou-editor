@@ -1,0 +1,13 @@
+{
+  "id": "select",
+  "label": "Select",
+  "icon": "select",
+  "html": "<div class=\"mb-3\"><label class=\"form-label\">Selecciona</label><select class=\"form-select\" name=\"seleccion\"><option value=\"1\">Opción 1</option><option value=\"2\">Opción 2</option><option value=\"3\">Opción 3</option></select></div>",
+  "settings": [
+    { "label": "setting.label", "prop": "textContent", "selector": "label", "type": "text" },
+    { "label": "setting.name", "attr": "name", "selector": "select", "type": "text" },
+    { "label": "setting.options", "prop": "options", "selector": "select", "type": "options" },
+    { "label": "setting.required", "attr": "required", "selector": "select", "type": "checkbox" },
+    { "label": "setting.disabled", "attr": "disabled", "selector": "select", "type": "checkbox" }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "id": "accordion",
+  "label": "Accordion",
+  "icon": "accordion",
+  "html": "<div class=\"accordion\" id=\"acc1\"><div class=\"accordion-item\"><h2 class=\"accordion-header\"><button class=\"accordion-button\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#acc1-c1\">Sección 1</button></h2><div id=\"acc1-c1\" class=\"accordion-collapse collapse show\" data-bs-parent=\"#acc1\"><div class=\"accordion-body\">Contenido de la primera sección.</div></div></div><div class=\"accordion-item\"><h2 class=\"accordion-header\"><button class=\"accordion-button collapsed\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#acc1-c2\">Sección 2</button></h2><div id=\"acc1-c2\" class=\"accordion-collapse collapse\" data-bs-parent=\"#acc1\"><div class=\"accordion-body\">Contenido de la segunda sección.</div></div></div><div class=\"accordion-item\"><h2 class=\"accordion-header\"><button class=\"accordion-button collapsed\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#acc1-c3\">Sección 3</button></h2><div id=\"acc1-c3\" class=\"accordion-collapse collapse\" data-bs-parent=\"#acc1\"><div class=\"accordion-body\">Contenido de la tercera sección.</div></div></div></div>",
+  "settings": [
+    { "label": "setting.id", "attr": "id", "type": "text" },
+    { "label": "setting.classes", "attr": "class", "type": "text" }
+  ]
+}

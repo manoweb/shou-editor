@@ -1,0 +1,13 @@
+{
+  "id": "link",
+  "label": "Enlace",
+  "icon": "link",
+  "html": "<a href=\"#\">Enlace de ejemplo</a>",
+  "settings": [
+    { "label": "setting.url", "attr": "href", "type": "text" },
+    { "label": "setting.target", "attr": "target", "type": "select", "options": ["", "_blank", "_self", "_parent", "_top"] },
+    { "label": "setting.rel", "attr": "rel", "type": "text" },
+    { "label": "setting.id", "attr": "id", "type": "text" },
+    { "label": "setting.classes", "attr": "class", "type": "text" }
+  ]
+}

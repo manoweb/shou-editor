@@ -1,0 +1,13 @@
+{
+  "id": "form",
+  "label": "Form",
+  "icon": "container",
+  "html": "<form class=\"p-4 border rounded\"><div class=\"mb-3\"><label class=\"form-label\">Nombre</label><input type=\"text\" class=\"form-control\" name=\"nombre\" placeholder=\"Tu nombre\"></div><div class=\"mb-3\"><label class=\"form-label\">Email</label><input type=\"email\" class=\"form-control\" name=\"email\" placeholder=\"tu@email.com\"></div><button type=\"submit\" class=\"btn btn-primary\">Enviar</button></form>",
+  "settings": [
+    { "label": "setting.action", "attr": "action", "type": "text" },
+    { "label": "setting.method", "attr": "method", "type": "select", "options": ["", "GET", "POST"] },
+    { "label": "setting.buttonText", "prop": "textContent", "selector": "button", "type": "text" },
+    { "label": "setting.id", "attr": "id", "type": "text" },
+    { "label": "setting.classes", "attr": "class", "type": "text" }
+  ]
+}

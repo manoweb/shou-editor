@@ -1,0 +1,14 @@
+{
+  "id": "switch",
+  "label": "Switch",
+  "icon": "input",
+  "html": "<div class=\"mb-3 form-check form-switch\"><input class=\"form-check-input\" type=\"checkbox\" role=\"switch\" id=\"switch1\" name=\"switch1\"><label class=\"form-check-label\" for=\"switch1\">Activar</label></div>",
+  "settings": [
+    { "label": "setting.name", "attr": "name", "selector": "input", "type": "text" },
+    { "label": "setting.id", "attr": "id", "selector": "input", "type": "text" },
+    { "label": "setting.text", "prop": "textContent", "selector": "label", "type": "text" },
+    { "label": "setting.checked", "attr": "checked", "selector": "input", "type": "checkbox" },
+    { "label": "setting.required", "attr": "required", "selector": "input", "type": "checkbox" },
+    { "label": "setting.disabled", "attr": "disabled", "selector": "input", "type": "checkbox" }
+  ]
+}

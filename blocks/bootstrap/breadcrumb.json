@@ -1,0 +1,10 @@
+{
+  "id": "breadcrumb",
+  "label": "Breadcrumb",
+  "icon": "breadcrumb",
+  "html": "<nav aria-label=\"breadcrumb\"><ol class=\"breadcrumb\"><li class=\"breadcrumb-item\"><a href=\"#\">Inicio</a></li><li class=\"breadcrumb-item\"><a href=\"#\">Sección</a></li><li class=\"breadcrumb-item active\" aria-current=\"page\">Página actual</li></ol></nav>",
+  "settings": [
+    { "label": "setting.classes", "attr": "class", "selector": ".breadcrumb", "type": "text" },
+    { "label": "setting.id", "attr": "id", "type": "text" }
+  ]
+}

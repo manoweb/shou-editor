@@ -1,0 +1,10 @@
+{
+  "id": "pagination",
+  "label": "Pagination",
+  "icon": "pagination",
+  "html": "<nav aria-label=\"Paginación\"><ul class=\"pagination\"><li class=\"page-item\"><a class=\"page-link\" href=\"#\">&laquo;</a></li><li class=\"page-item active\"><a class=\"page-link\" href=\"#\">1</a></li><li class=\"page-item\"><a class=\"page-link\" href=\"#\">2</a></li><li class=\"page-item\"><a class=\"page-link\" href=\"#\">3</a></li><li class=\"page-item\"><a class=\"page-link\" href=\"#\">&raquo;</a></li></ul></nav>",
+  "settings": [
+    { "label": "setting.variant", "attr": "class", "selector": ".pagination", "type": "select", "options": ["pagination", "pagination pagination-sm", "pagination pagination-lg", "pagination justify-content-center", "pagination justify-content-end"] },
+    { "label": "setting.classes", "attr": "class", "type": "text" }
+  ]
+}

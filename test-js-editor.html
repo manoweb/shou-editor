@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shou Editor - Editor Visual Bootstrap</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; overflow: hidden; }
+  </style>
+</head>
+<body>
+  <div id="editor"></div>
+
+  <script src="js/image-editor.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    // Inicializar el editor como plugin
+    const editor = ShouEditor.init('#editor', {
+      theme: 'dark',
+      width: '100%',
+      height: '100vh',
+      defaultView: 'visual',
+      defaultDevice: 'desktop'
+      // lang: 'es',                    // Idioma: 'en' | 'es'
+      // storagePrefix: 'shou-editor-',   // Prefijo localStorage
+      // bootstrapCss: 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css',
+      // blocksPath: 'blocks/',         // Ruta a bloques JSON
+      // customBlocks: {},              // Bloques inline personalizados
+      // saveFormat: 'html',            // 'html' (pagina completa) | 'json' (solo html/css/js)
+      // saveTarget: 'local',           // 'local' (descarga) | 'remote' (POST a endpoint)
+      // saveEndpoint: null,            // URL para POST cuando saveTarget es 'remote'
+      // saveFilename: 'proyecto',      // Nombre base del archivo
+      // onSaveSuccess: (res) => {},    // Callback tras POST exitoso
+      // onSaveError: (err) => {}       // Callback tras POST fallido
+    });
+
+    // API programatica:
+    // editor.getHtml()               - Obtener HTML
+    // editor.getCss()                - Obtener CSS
+    // editor.getJs()                 - Obtener JS
+    // editor.getCode()               - Obtener todo { html, css, js }
+    // editor.setHtml(html)           - Establecer HTML
+    // editor.setCss(css)             - Establecer CSS
+    // editor.setJs(js)               - Establecer JS
+    // editor.setCode({html,css,js})  - Establecer todo
+    // editor.save()                  - Guardar (local o remoto segun config)
+    // editor.preview()               - Vista previa
+    // editor.setTheme('dark')        - Cambiar tema
+    // editor.toggleTheme()           - Alternar tema
+    // editor.setLang('es')           - Cambiar idioma
+    // editor.getLang()               - Obtener idioma actual
+    // editor.setSaveFormat('json')   - Cambiar formato de guardado
+    // editor.setSaveTarget('remote', 'https://...') - Cambiar destino
+    // editor.newProject()            - Nuevo proyecto
+    // editor.destroy()               - Destruir editor
+    //
+    // Integracion con formularios:
+    // editor.bindToForm('#form')                        - 3 campos: editor_html, editor_css, editor_js
+    // editor.bindToForm('#form', { field: 'desc' })     - 1 campo JSON: desc
+    // editor.bindToForm('#form', { htmlField: 'h', cssField: 'c', jsField: 'j' }) - Campos custom
+    // editor.unbindForm()                               - Desvincular formulario
+  </script>
+</body>
+</html>

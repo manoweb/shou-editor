@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shou Editor SDK — Embeddable Web & Image Editor</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    :root {
+      --accent: #007acc;
+      --accent-light: #339fdd;
+      --accent-dark: #005a99;
+      --bg-dark: #0d1117;
+      --bg-dark2: #161b22;
+      --bg-dark3: #1c2333;
+      --text-muted-dark: #8b949e;
+      --gradient-1: linear-gradient(135deg, #007acc 0%, #00b4d8 50%, #0077b6 100%);
+      --gradient-2: linear-gradient(135deg, #1c2333 0%, #0d1117 100%);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      color: #c9d1d9;
+      background: var(--bg-dark);
+      overflow-x: hidden;
+    }
+
+    /* ── Navbar ─────────────────────────────── */
+    .navbar-custom {
+      background: rgba(13, 17, 23, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .navbar-custom .navbar-brand {
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .navbar-custom .navbar-brand .brand-logo {
+      font-size: 1.6rem;
+      line-height: 1;
+      color: var(--accent);
+    }
+    .navbar-custom .navbar-brand span {
+      color: var(--accent);
+    }
+    .navbar-custom .nav-link {
+      color: var(--text-muted-dark);
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color .2s;
+    }
+    .navbar-custom .nav-link:hover { color: #fff; }
+
+    /* ── Hero ──────────────────────────────── */
+    .hero {
+      padding: 8rem 0 6rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -120px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 900px;
+      height: 900px;
+      background: radial-gradient(circle, rgba(0,122,204,0.12) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+    .hero h1 .highlight {
+      background: var(--gradient-1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero .lead {
+      font-size: 1.2rem;
+      color: var(--text-muted-dark);
+      max-width: 560px;
+      line-height: 1.7;
+    }
+    .btn-accent {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 0.7rem 1.8rem;
+      font-weight: 600;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      transition: all .2s;
+    }
+    .btn-accent:hover {
+      background: var(--accent-light);
+      color: #fff;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 24px rgba(0,122,204,0.3);
+    }
+    .btn-outline-light-custom {
+      border: 1px solid rgba(255,255,255,0.15);
+      color: #c9d1d9;
+      padding: 0.7rem 1.8rem;
+      font-weight: 600;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      transition: all .2s;
+    }
+    .btn-outline-light-custom:hover {
+      border-color: rgba(255,255,255,0.4);
+      color: #fff;
+      background: rgba(255,255,255,0.05);
+    }
+
+    /* Code preview in hero */
+    .code-preview {
+      background: var(--bg-dark2);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.3);
+    }
+    .code-preview-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 12px 16px;
+      background: var(--bg-dark3);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .code-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .code-dot.red { background: #ff5f57; }
+    .code-dot.yellow { background: #ffbd2e; }
+    .code-dot.green { background: #28c840; }
+    .code-preview pre {
+      margin: 0;
+      padding: 20px;
+      font-size: 0.82rem;
+      line-height: 1.7;
+      color: #c9d1d9;
+      overflow-x: auto;
+    }
+    .code-preview .kw { color: #ff7b72; }
+    .code-preview .str { color: #a5d6ff; }
+    .code-preview .fn { color: #d2a8ff; }
+    .code-preview .cm { color: #8b949e; }
+    .code-preview .pr { color: #79c0ff; }
+    .code-preview .num { color: #79c0ff; }
+
+    /* ── Hero Perspective Mockups ────────── */
+    .hero-mockups {
+      position: relative;
+      perspective: 1200px;
+      height: 420px;
+    }
+    .hero-mockup {
+      position: absolute;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.04);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    .hero-mockup:hover {
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 20px rgba(0,122,204,0.15);
+    }
+    .hero-mockup-editor {
+      width: 420px;
+      height: 300px;
+      top: 0;
+      left: 0;
+      transform: rotateY(-12deg) rotateX(4deg);
+      z-index: 2;
+    }
+    .hero-mockup-editor:hover { transform: rotateY(-8deg) rotateX(2deg) scale(1.02); }
+    .hero-mockup-image {
+      width: 380px;
+      height: 280px;
+      bottom: 0;
+      right: 0;
+      transform: rotateY(-12deg) rotateX(4deg);
+      z-index: 1;
+    }
+    .hero-mockup-image:hover { transform: rotateY(-8deg) rotateX(2deg) scale(1.02); }
+    .mockup-titlebar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      background: #1e1e2e;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .mockup-titlebar .dot { width: 8px; height: 8px; border-radius: 50%; }
+    .mockup-titlebar .dot.r { background: #ff5f57; }
+    .mockup-titlebar .dot.y { background: #ffbd2e; }
+    .mockup-titlebar .dot.g { background: #28c840; }
+    .mockup-titlebar .title {
+      font-size: 10px;
+      color: #8b949e;
+      margin-left: 6px;
+      font-weight: 500;
+    }
+    .mockup-badge {
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      background: rgba(0,122,204,0.85);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 4px;
+      backdrop-filter: blur(4px);
+      letter-spacing: 0.3px;
+    }
+    /* Web editor mockup body */
+    .mock-we-body {
+      display: flex;
+      height: calc(100% - 33px);
+      background: #1a1a2e;
+    }
+    .mock-we-sidebar {
+      width: 100px;
+      background: #161625;
+      border-right: 1px solid rgba(255,255,255,0.06);
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .mock-we-sidebar-title {
+      font-size: 8px;
+      text-transform: uppercase;
+      color: #585878;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+    .mock-we-block {
+      background: #22223a;
+      border: 1px solid rgba(255,255,255,0.04);
+      border-radius: 4px;
+      padding: 6px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 8px;
+      color: #888;
+    }
+    .mock-we-block-icon {
+      width: 14px;
+      height: 14px;
+      border-radius: 2px;
+      background: var(--accent);
+      opacity: 0.5;
+    }
+    .mock-we-canvas {
+      flex: 1;
+      background: #0f0f1a;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+    }
+    .mock-we-toolbar {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 8px;
+    }
+    .mock-we-toolbar-btn {
+      width: 24px;
+      height: 18px;
+      border-radius: 3px;
+      background: #22223a;
+    }
+    .mock-we-toolbar-btn.active { background: var(--accent); opacity: 0.7; }
+    .mock-we-viewport {
+      flex: 1;
+      background: #fff;
+      border-radius: 4px;
+      padding: 8px;
+      overflow: hidden;
+    }
+    .mock-we-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 4px 8px;
+      background: #f8f9fa;
+      border-radius: 3px;
+      margin-bottom: 6px;
+    }
+    .mock-we-nav-brand {
+      width: 40px;
+      height: 6px;
+      background: #333;
+      border-radius: 2px;
+    }
+    .mock-we-nav-links {
+      display: flex;
+      gap: 6px;
+    }
+    .mock-we-nav-link {
+      width: 20px;
+      height: 4px;
+      background: #999;
+      border-radius: 2px;
+    }
+    .mock-we-hero-block {
+      background: linear-gradient(135deg, #007acc22, #005a9933);
+      border-radius: 4px;
+      padding: 10px 8px;
+      margin-bottom: 6px;
+    }
+    .mock-we-hero-title {
+      width: 70%;
+      height: 6px;
+      background: #333;
+      border-radius: 2px;
+      margin-bottom: 5px;
+    }
+    .mock-we-hero-text {
+      width: 90%;
+      height: 3px;
+      background: #bbb;
+      border-radius: 2px;
+      margin-bottom: 3px;
+    }
+    .mock-we-hero-btn {
+      width: 36px;
+      height: 10px;
+      background: var(--accent);
+      border-radius: 2px;
+      margin-top: 4px;
+    }
+    .mock-we-cols {
+      display: flex;
+      gap: 5px;
+    }
+    .mock-we-col {
+      flex: 1;
+      background: #f0f0f0;
+      border-radius: 3px;
+      padding: 6px;
+    }
+    .mock-we-col-img {
+      width: 100%;
+      height: 20px;
+      background: #ddd;
+      border-radius: 2px;
+      margin-bottom: 4px;
+    }
+    .mock-we-col-line {
+      width: 80%;
+      height: 3px;
+      background: #ccc;
+      border-radius: 2px;
+      margin-bottom: 2px;
+    }
+    /* Image editor mockup body */
+    .mock-ie-body {
+      display: flex;
+      height: calc(100% - 33px);
+      background: #1a1a1a;
+    }
+    .mock-ie-tools {
+      width: 36px;
+      background: #252526;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 6px 0;
+      gap: 3px;
+    }
+    .mock-ie-tool {
+      width: 22px;
+      height: 22px;
+      border-radius: 3px;
+      background: #3c3c3c;
+    }
+    .mock-ie-tool.active { background: var(--accent); }
+    .mock-ie-canvas {
+      flex: 1;
+      background: #2d2d2d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .mock-ie-canvas-art {
+      width: 65%;
+      height: 70%;
+      border-radius: 4px;
+      background: linear-gradient(135deg, #fce4ec, #f8bbd0, #f48fb1);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+      position: relative;
+      overflow: hidden;
+    }
+    .mock-ie-canvas-shape1 {
+      position: absolute;
+      width: 40%;
+      height: 40%;
+      border-radius: 50%;
+      background: rgba(0,122,204,0.4);
+      top: 15%;
+      left: 10%;
+    }
+    .mock-ie-canvas-shape2 {
+      position: absolute;
+      width: 30%;
+      height: 50%;
+      background: rgba(255,183,77,0.5);
+      bottom: 10%;
+      right: 15%;
+      border-radius: 4px;
+      transform: rotate(12deg);
+    }
+    .mock-ie-canvas-text {
+      position: absolute;
+      bottom: 14%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 10px;
+      font-weight: 700;
+      color: rgba(0,0,0,0.5);
+      letter-spacing: 1px;
+    }
+    .mock-ie-layers {
+      width: 120px;
+      background: #252526;
+      padding: 6px;
+    }
+    .mock-ie-layers-title {
+      font-size: 8px;
+      text-transform: uppercase;
+      color: #585858;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .mock-ie-layer {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 5px;
+      border-radius: 3px;
+      font-size: 8px;
+      color: #aaa;
+      margin-bottom: 2px;
+    }
+    .mock-ie-layer.active { background: #094771; color: #d4d4d4; }
+    .mock-ie-layer-thumb {
+      width: 24px;
+      height: 16px;
+      border-radius: 2px;
+      border: 1px solid #3c3c3c;
+    }
+    .mock-ie-layer-thumb.t {
+      background: #2d2d2d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 7px;
+      font-weight: 700;
+      color: #888;
+    }
+    .mock-ie-layer-thumb.pink { background: #fce4ec; }
+    .mock-ie-layer-thumb.checker {
+      background: repeating-conic-gradient(#808080 0% 25%, #a0a0a0 0% 50%) 50% / 6px 6px;
+    }
+
+    @media (max-width: 992px) {
+      .hero-mockups { height: 340px; }
+      .hero-mockup-editor { width: 320px; height: 240px; }
+      .hero-mockup-image { width: 280px; height: 220px; }
+    }
+    @media (max-width: 768px) {
+      .hero-mockups {
+        height: 280px;
+        perspective: 800px;
+      }
+      .hero-mockup-editor {
+        width: 260px; height: 200px;
+        transform: rotateY(-8deg) rotateX(3deg);
+      }
+      .hero-mockup-image {
+        width: 240px; height: 180px;
+        transform: rotateY(-8deg) rotateX(3deg);
+      }
+    }
+
+    /* ── Section base ─────────────────────── */
+    section { padding: 6rem 0; }
+    .section-dark { background: var(--bg-dark2); }
+    .section-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+    .section-subtitle {
+      font-size: 1.05rem;
+      color: var(--text-muted-dark);
+      max-width: 620px;
+      line-height: 1.7;
+    }
+
+    /* ── Feature Cards ────────────────────── */
+    .feature-card {
+      background: var(--bg-dark2);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 14px;
+      padding: 2rem;
+      height: 100%;
+      transition: all .25s;
+    }
+    .feature-card:hover {
+      border-color: rgba(0,122,204,0.3);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 36px rgba(0,0,0,0.2);
+    }
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      margin-bottom: 1.25rem;
+      color: #fff;
+    }
+    .feature-icon.blue { background: linear-gradient(135deg, #007acc, #00b4d8); }
+    .feature-icon.purple { background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
+    .feature-icon.green { background: linear-gradient(135deg, #10b981, #34d399); }
+    .feature-icon.orange { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
+    .feature-icon.pink { background: linear-gradient(135deg, #ec4899, #f472b6); }
+    .feature-icon.cyan { background: linear-gradient(135deg, #06b6d4, #22d3ee); }
+    .feature-card h5 {
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.6rem;
+      font-size: 1.05rem;
+    }
+    .feature-card p {
+      color: var(--text-muted-dark);
+      font-size: 0.9rem;
+      line-height: 1.65;
+      margin: 0;
+    }
+
+    /* ── Highlight row (alternating image + text) ── */
+    .highlight-row {
+      padding: 4rem 0;
+    }
+    .highlight-row .highlight-img {
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+      width: 100%;
+    }
+    .highlight-row h3 {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 1rem;
+    }
+    .highlight-row p {
+      color: var(--text-muted-dark);
+      line-height: 1.7;
+      font-size: 0.95rem;
+    }
+    .check-list {
+      list-style: none;
+      padding: 0;
+      margin: 1.5rem 0 0;
+    }
+    .check-list li {
+      padding: 0.35rem 0;
+      color: #c9d1d9;
+      font-size: 0.9rem;
+    }
+    .check-list li i {
+      color: #10b981;
+      margin-right: 0.5rem;
+    }
+
+    /* ── Image Editor section ─────────────── */
+    .img-editor-preview {
+      background: var(--bg-dark3);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      padding: 1.5rem;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+    }
+    .img-editor-mockup {
+      display: flex;
+      gap: 2px;
+      background: #1e1e1e;
+      border-radius: 8px;
+      overflow: hidden;
+      min-height: 300px;
+    }
+    .img-mock-toolbox {
+      width: 40px;
+      background: #252526;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 8px 0;
+      gap: 4px;
+    }
+    .img-mock-tool {
+      width: 28px;
+      height: 28px;
+      border-radius: 4px;
+      background: #3c3c3c;
+    }
+    .img-mock-tool.active { background: var(--accent); }
+    .img-mock-canvas {
+      flex: 1;
+      background: #2d2d2d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .img-mock-canvas-inner {
+      width: 70%;
+      height: 70%;
+      background: linear-gradient(135deg, #fce4ec, #f8bbd0, #f48fb1);
+      border-radius: 4px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+    }
+    .img-mock-layers {
+      width: 180px;
+      background: #252526;
+      padding: 8px;
+    }
+    .img-mock-layers-title {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #858585;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+    .img-mock-layer {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 6px;
+      border-radius: 4px;
+      font-size: 11px;
+      color: #d4d4d4;
+      margin-bottom: 2px;
+    }
+    .img-mock-layer.active { background: #094771; }
+    .img-mock-layer-thumb {
+      width: 32px;
+      height: 22px;
+      border-radius: 2px;
+      border: 1px solid #3c3c3c;
+    }
+    .img-mock-layer-thumb.bg-pink { background: #fce4ec; }
+    .img-mock-layer-thumb.bg-checker { background: repeating-conic-gradient(#808080 0% 25%, #a0a0a0 0% 50%) 50% / 8px 8px; }
+    .img-mock-layer-thumb.bg-text {
+      background: #2d2d2d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 12px;
+      color: #fff;
+    }
+
+    /* ── Integration code block ───────────── */
+    .integration-block {
+      background: var(--bg-dark2);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .integration-block .tab-nav {
+      display: flex;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .integration-block .tab-btn {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      background: transparent;
+      color: var(--text-muted-dark);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all .2s;
+    }
+    .integration-block .tab-btn.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+    .integration-block pre {
+      margin: 0;
+      padding: 1.25rem 1.5rem;
+      font-size: 0.82rem;
+      line-height: 1.7;
+      color: #c9d1d9;
+    }
+    .integration-block .kw { color: #ff7b72; }
+    .integration-block .str { color: #a5d6ff; }
+    .integration-block .fn { color: #d2a8ff; }
+    .integration-block .cm { color: #8b949e; }
+    .integration-block .pr { color: #79c0ff; }
+    .integration-block .num { color: #79c0ff; }
+
+    /* ── Stats / numbers ──────────────────── */
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #fff;
+    }
+    .stat-label {
+      font-size: 0.85rem;
+      color: var(--text-muted-dark);
+    }
+
+    /* ── CTA Section ──────────────────────── */
+    .cta-section {
+      background: linear-gradient(135deg, rgba(0,122,204,0.15) 0%, rgba(0,180,216,0.08) 100%);
+      border-top: 1px solid rgba(0,122,204,0.2);
+      border-bottom: 1px solid rgba(0,122,204,0.2);
+    }
+
+    /* ── Footer ───────────────────────────── */
+    .footer {
+      background: var(--bg-dark2);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 3rem 0 2rem;
+    }
+    .footer a {
+      color: var(--text-muted-dark);
+      text-decoration: none;
+      font-size: 0.88rem;
+      transition: color .2s;
+    }
+    .footer a:hover { color: #fff; }
+    .footer h6 {
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 1rem;
+    }
+
+    /* ── Responsive ───────────────────────── */
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2.25rem; }
+      .hero { padding: 5rem 0 3rem; }
+      .section-title { font-size: 1.75rem; }
+      .img-mock-layers { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══ Navbar ═══ -->
+  <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#"><span class="brand-logo">手</span> Shou<span> Editor</span></a>
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav ms-auto me-3 gap-1">
+          <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+          <li class="nav-item"><a class="nav-link" href="#image-editor">Image Editor</a></li>
+          <li class="nav-item"><a class="nav-link" href="#integration">Integration</a></li>
+          <li class="nav-item"><a class="nav-link" href="https://github.com" target="_blank">GitHub</a></li>
+        </ul>
+        <a href="test-js-editor.html" class="btn btn-accent btn-sm">Try the Editor</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══ Hero ═══ -->
+  <section class="hero">
+    <div class="container">
+      <div class="row align-items-center g-5">
+        <div class="col-lg-6">
+          <div class="hero-brand mb-3" style="display:flex;align-items:center;gap:0.6rem;">
+            <span style="font-size:5rem;font-weight:700;color:var(--accent);line-height:1;">手</span>
+            <span style="font-size:5rem;font-weight:700;color:var(--text-muted-dark);letter-spacing:-0.05em;">Shŏu</span>
+          </div>
+          <h1>The embeddable<br><span class="highlight">web editor</span> SDK.</h1>
+          <p class="lead mt-3">
+            A zero-dependency, vanilla JavaScript toolkit for building visual web editors and image editors.
+            Drop it into any project with a single script tag.
+          </p>
+          <div class="d-flex gap-3 mt-4 flex-wrap">
+            <a href="test-js-editor.html" class="btn btn-accent">
+              <i class="bi bi-play-fill me-1"></i> Try the Editor
+            </a>
+            <a href="#integration" class="btn btn-outline-light-custom">
+              <i class="bi bi-code-slash me-1"></i> View Docs
+            </a>
+          </div>
+          <div class="d-flex gap-4 mt-4 pt-2">
+            <div>
+              <div class="stat-number">0</div>
+              <div class="stat-label">Dependencies</div>
+            </div>
+            <div>
+              <div class="stat-number">2</div>
+              <div class="stat-label">Editors in 1</div>
+            </div>
+            <div>
+              <div class="stat-number">ES6+</div>
+              <div class="stat-label">Modern JS</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="hero-mockups">
+            <!-- Web Editor mockup -->
+            <div class="hero-mockup hero-mockup-editor">
+              <div class="mockup-titlebar">
+                <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+                <span class="title">Shou Editor</span>
+              </div>
+              <div class="mock-we-body">
+                <div class="mock-we-sidebar">
+                  <div class="mock-we-sidebar-title">Blocks</div>
+                  <div class="mock-we-block"><div class="mock-we-block-icon"></div>Heading</div>
+                  <div class="mock-we-block"><div class="mock-we-block-icon"></div>Text</div>
+                  <div class="mock-we-block"><div class="mock-we-block-icon"></div>Image</div>
+                  <div class="mock-we-block"><div class="mock-we-block-icon"></div>Button</div>
+                  <div class="mock-we-block"><div class="mock-we-block-icon"></div>Columns</div>
+                </div>
+                <div class="mock-we-canvas">
+                  <div class="mock-we-toolbar">
+                    <div class="mock-we-toolbar-btn active"></div>
+                    <div class="mock-we-toolbar-btn"></div>
+                    <div class="mock-we-toolbar-btn"></div>
+                    <div class="mock-we-toolbar-btn"></div>
+                  </div>
+                  <div class="mock-we-viewport">
+                    <div class="mock-we-nav">
+                      <div class="mock-we-nav-brand"></div>
+                      <div class="mock-we-nav-links">
+                        <div class="mock-we-nav-link"></div>
+                        <div class="mock-we-nav-link"></div>
+                        <div class="mock-we-nav-link"></div>
+                      </div>
+                    </div>
+                    <div class="mock-we-hero-block">
+                      <div class="mock-we-hero-title"></div>
+                      <div class="mock-we-hero-text"></div>
+                      <div class="mock-we-hero-text" style="width:75%"></div>
+                      <div class="mock-we-hero-btn"></div>
+                    </div>
+                    <div class="mock-we-cols">
+                      <div class="mock-we-col">
+                        <div class="mock-we-col-img"></div>
+                        <div class="mock-we-col-line"></div>
+                        <div class="mock-we-col-line" style="width:60%"></div>
+                      </div>
+                      <div class="mock-we-col">
+                        <div class="mock-we-col-img"></div>
+                        <div class="mock-we-col-line"></div>
+                        <div class="mock-we-col-line" style="width:60%"></div>
+                      </div>
+                      <div class="mock-we-col">
+                        <div class="mock-we-col-img"></div>
+                        <div class="mock-we-col-line"></div>
+                        <div class="mock-we-col-line" style="width:60%"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="mockup-badge">Web Editor</div>
+            </div>
+            <!-- Image Editor mockup -->
+            <div class="hero-mockup hero-mockup-image">
+              <div class="mockup-titlebar">
+                <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+                <span class="title">JSImageEditor</span>
+              </div>
+              <div class="mock-ie-body">
+                <div class="mock-ie-tools">
+                  <div class="mock-ie-tool"></div>
+                  <div class="mock-ie-tool active"></div>
+                  <div class="mock-ie-tool"></div>
+                  <div class="mock-ie-tool"></div>
+                  <div class="mock-ie-tool"></div>
+                  <div class="mock-ie-tool"></div>
+                  <div class="mock-ie-tool"></div>
+                </div>
+                <div class="mock-ie-canvas">
+                  <div class="mock-ie-canvas-art">
+                    <div class="mock-ie-canvas-shape1"></div>
+                    <div class="mock-ie-canvas-shape2"></div>
+                    <div class="mock-ie-canvas-text">DESIGN</div>
+                  </div>
+                </div>
+                <div class="mock-ie-layers">
+                  <div class="mock-ie-layers-title">Layers</div>
+                  <div class="mock-ie-layer active">
+                    <div class="mock-ie-layer-thumb t">T</div>
+                    Text
+                  </div>
+                  <div class="mock-ie-layer">
+                    <div class="mock-ie-layer-thumb checker"></div>
+                    Shapes
+                  </div>
+                  <div class="mock-ie-layer">
+                    <div class="mock-ie-layer-thumb pink"></div>
+                    Background
+                  </div>
+                </div>
+              </div>
+              <div class="mockup-badge">Image Editor</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Shou Editor Features ═══ -->
+  <section id="features" class="section-dark">
+    <div class="container">
+      <div class="text-center mb-5">
+        <div class="section-label">Web Editor</div>
+        <h2 class="section-title">Everything you need to build<br>visual web editors</h2>
+        <p class="section-subtitle mx-auto">
+          A full-featured Bootstrap visual editor with drag-and-drop blocks, live preview,
+          responsive device switching, and a complete programmatic API.
+        </p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card">
+            <div class="feature-icon blue"><i class="bi bi-grid-3x3-gap-fill"></i></div>
+            <h5>Drag & Drop Blocks</h5>
+            <p>Pre-built Bootstrap 5 component blocks. Drag navbars, heroes, cards, forms, footers and more directly into your page.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card">
+            <div class="feature-icon purple"><i class="bi bi-code-slash"></i></div>
+            <h5>Visual + Code Editor</h5>
+            <p>Switch seamlessly between the visual canvas and a syntax-highlighted code editor for HTML, CSS and JavaScript.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card">
+            <div class="feature-icon green"><i class="bi bi-phone"></i></div>
+            <h5>Responsive Preview</h5>
+            <p>Instantly preview your designs on desktop, tablet and mobile viewports with a single click.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card">
+            <div class="feature-icon orange"><i class="bi bi-floppy"></i></div>
+            <h5>Flexible Save Options</h5>
+            <p>Save as a full HTML page or JSON. Export locally or POST to your API endpoint with built-in callbacks.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card">
+            <div class="feature-icon pink"><i class="bi bi-input-cursor-text"></i></div>
+            <h5>Form Binding</h5>
+            <p>Bind the editor output to any HTML form with a single method call. Perfect for CMS and admin panel integration.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card">
+            <div class="feature-icon cyan"><i class="bi bi-palette"></i></div>
+            <h5>Themes & i18n</h5>
+            <p>Built-in dark and light themes. Full internationalization support with English and Spanish out of the box.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Image Editor Section ═══ -->
+  <section id="image-editor">
+    <div class="container">
+      <div class="row align-items-center g-5">
+        <div class="col-lg-6 order-lg-2">
+          <div class="section-label">Image Editor</div>
+          <h2 class="section-title">Photoshop-like image editing<br>in the browser</h2>
+          <p class="section-subtitle">
+            A complete image editor with a real layer system, blend modes, drawing tools, text layers,
+            layer groups, filters and export. All in a single vanilla JS file.
+          </p>
+          <ul class="check-list">
+            <li><i class="bi bi-check-circle-fill"></i> Multi-layer compositing with blend modes</li>
+            <li><i class="bi bi-check-circle-fill"></i> Drawing: pencil, eraser, shapes, arrows, gradients</li>
+            <li><i class="bi bi-check-circle-fill"></i> Eyedropper, flood fill, move tool</li>
+            <li><i class="bi bi-check-circle-fill"></i> Re-editable text layers</li>
+            <li><i class="bi bi-check-circle-fill"></i> Layer groups with folders and expand/collapse</li>
+            <li><i class="bi bi-check-circle-fill"></i> Crop, resize, rotate, flip transforms</li>
+            <li><i class="bi bi-check-circle-fill"></i> Brightness, contrast, saturation, blur, sepia filters</li>
+            <li><i class="bi bi-check-circle-fill"></i> Full undo/redo history</li>
+          </ul>
+          <a href="test-image-editor.html" class="btn btn-accent mt-3">
+            <i class="bi bi-brush me-1"></i> Try Image Editor
+          </a>
+        </div>
+        <div class="col-lg-6 order-lg-1">
+          <div class="img-editor-preview">
+            <div class="img-editor-mockup">
+              <div class="img-mock-toolbox">
+                <div class="img-mock-tool"></div>
+                <div class="img-mock-tool active"></div>
+                <div class="img-mock-tool"></div>
+                <div class="img-mock-tool"></div>
+                <div class="img-mock-tool"></div>
+                <div class="img-mock-tool"></div>
+                <div class="img-mock-tool"></div>
+                <div class="img-mock-tool"></div>
+                <div class="img-mock-tool"></div>
+              </div>
+              <div class="img-mock-canvas">
+                <div class="img-mock-canvas-inner"></div>
+              </div>
+              <div class="img-mock-layers">
+                <div class="img-mock-layers-title">Layers</div>
+                <div class="img-mock-layer active">
+                  <div class="img-mock-layer-thumb bg-text">T</div>
+                  <span>Text Layer</span>
+                </div>
+                <div class="img-mock-layer">
+                  <div class="img-mock-layer-thumb bg-checker"></div>
+                  <span>Content</span>
+                </div>
+                <div class="img-mock-layer">
+                  <div class="img-mock-layer-thumb bg-pink"></div>
+                  <span>Background</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Image Editor Features Grid ═══ -->
+  <section class="section-dark">
+    <div class="container">
+      <div class="text-center mb-5">
+        <div class="section-label">Image Editor Features</div>
+        <h2 class="section-title">Professional tools,<br>zero dependencies</h2>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card">
+            <div class="feature-icon purple"><i class="bi bi-layers-fill"></i></div>
+            <h5>Layer System</h5>
+            <p>Full layer management with opacity, visibility, reorder via drag-and-drop, duplicate, and delete. Just like Photoshop.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card">
+            <div class="feature-icon blue"><i class="bi bi-stack"></i></div>
+            <h5>Blend Modes</h5>
+            <p>12 blend modes including Multiply, Screen, Overlay, Darken, Lighten, Color Dodge, Difference and more.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card">
+            <div class="feature-icon green"><i class="bi bi-fonts"></i></div>
+            <h5>Text Layers</h5>
+            <p>Create text as separate layers. Re-edit text, font, size, color and alignment anytime by double-clicking.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card">
+            <div class="feature-icon orange"><i class="bi bi-folder-fill"></i></div>
+            <h5>Layer Groups</h5>
+            <p>Organize layers into folders with expand/collapse. Groups have their own opacity and blend mode applied recursively.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card">
+            <div class="feature-icon pink"><i class="bi bi-brush-fill"></i></div>
+            <h5>Drawing Tools</h5>
+            <p>Pencil, eraser, rectangle, circle, line, arrow, gradient, flood fill, eyedropper and move tool with configurable options.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card">
+            <div class="feature-icon cyan"><i class="bi bi-sliders"></i></div>
+            <h5>Filters & Transforms</h5>
+            <p>Real-time brightness, contrast, saturation, blur, grayscale, sepia and hue filters. Crop, resize, rotate and flip.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Integration / Quick Start ═══ -->
+  <section id="integration">
+    <div class="container">
+      <div class="row align-items-center g-5">
+        <div class="col-lg-5">
+          <div class="section-label">Integration</div>
+          <h2 class="section-title">Drop in.<br>Start building.</h2>
+          <p class="section-subtitle">
+            No npm, no webpack, no build step. Include two script files and initialize with a single line.
+            Works with any framework or plain HTML.
+          </p>
+          <ul class="check-list mt-4">
+            <li><i class="bi bi-check-circle-fill"></i> Works with <code style="color:#79c0ff">file://</code> protocol</li>
+            <li><i class="bi bi-check-circle-fill"></i> No CORS issues with local images</li>
+            <li><i class="bi bi-check-circle-fill"></i> JSON configuration for everything</li>
+            <li><i class="bi bi-check-circle-fill"></i> Full programmatic API</li>
+            <li><i class="bi bi-check-circle-fill"></i> Embeddable or modal mode</li>
+            <li><i class="bi bi-check-circle-fill"></i> Custom save endpoints via POST</li>
+          </ul>
+        </div>
+        <div class="col-lg-7">
+          <div class="integration-block">
+            <div class="tab-nav">
+              <button class="tab-btn active" onclick="showTab(event,'tab-web')">Web Editor</button>
+              <button class="tab-btn" onclick="showTab(event,'tab-image')">Image Editor</button>
+              <button class="tab-btn" onclick="showTab(event,'tab-form')">Form Binding</button>
+            </div>
+            <div id="tab-web">
+<pre><span class="kw">const</span> <span class="fn">editor</span> = <span class="fn">ShouEditor</span>.<span class="fn">init</span>(<span class="str">'#editor'</span>, {
+  <span class="pr">theme</span>: <span class="str">'dark'</span>,
+  <span class="pr">width</span>: <span class="str">'100%'</span>,
+  <span class="pr">height</span>: <span class="str">'100vh'</span>,
+  <span class="pr">saveTarget</span>: <span class="str">'remote'</span>,
+  <span class="pr">saveEndpoint</span>: <span class="str">'https://api.example.com/save'</span>,
+  <span class="pr">onSaveSuccess</span>: (<span class="fn">res</span>) => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">'Saved!'</span>, <span class="fn">res</span>)
+});
+
+<span class="cm">// Get the generated code</span>
+<span class="kw">const</span> { <span class="fn">html</span>, <span class="fn">css</span>, <span class="fn">js</span> } = <span class="fn">editor</span>.<span class="fn">getCode</span>();</pre>
+            </div>
+            <div id="tab-image" style="display:none">
+<pre><span class="cm">// Embedded mode</span>
+<span class="kw">const</span> <span class="fn">imgEditor</span> = <span class="fn">JSImageEditor</span>.<span class="fn">init</span>(<span class="str">'#container'</span>, {
+  <span class="pr">theme</span>: <span class="str">'dark'</span>,
+  <span class="pr">lang</span>: <span class="str">'en'</span>,
+  <span class="pr">preset</span>: { <span class="pr">width</span>: <span class="num">800</span>, <span class="pr">height</span>: <span class="num">600</span> },
+  <span class="pr">onSave</span>: (<span class="fn">base64</span>) => <span class="fn">uploadImage</span>(<span class="fn">base64</span>)
+});
+
+<span class="cm">// Or open as a modal</span>
+<span class="fn">JSImageEditor</span>.<span class="fn">open</span>(<span class="fn">existingImageUrl</span>, {
+  <span class="pr">onSave</span>: (<span class="fn">base64</span>) => <span class="fn">updateAvatar</span>(<span class="fn">base64</span>)
+});</pre>
+            </div>
+            <div id="tab-form" style="display:none">
+<pre><span class="cm">// Bind editor output to a form</span>
+<span class="fn">editor</span>.<span class="fn">bindToForm</span>(<span class="str">'#my-form'</span>);
+<span class="cm">// Creates hidden fields: editor_html, editor_css, editor_js</span>
+
+<span class="cm">// Or use a single JSON field</span>
+<span class="fn">editor</span>.<span class="fn">bindToForm</span>(<span class="str">'#my-form'</span>, {
+  <span class="pr">field</span>: <span class="str">'page_content'</span>
+});
+
+<span class="cm">// Custom field names</span>
+<span class="fn">editor</span>.<span class="fn">bindToForm</span>(<span class="str">'#my-form'</span>, {
+  <span class="pr">htmlField</span>: <span class="str">'body_html'</span>,
+  <span class="pr">cssField</span>: <span class="str">'body_css'</span>,
+  <span class="pr">jsField</span>: <span class="str">'body_js'</span>
+});</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CTA ═══ -->
+  <section class="cta-section text-center">
+    <div class="container py-3">
+      <h2 class="section-title">Start building today</h2>
+      <p class="section-subtitle mx-auto mb-4">
+        No sign-up required. No dependencies to install. Just download and go.
+      </p>
+      <div class="d-flex gap-3 justify-content-center flex-wrap">
+        <a href="test-js-editor.html" class="btn btn-accent btn-lg">
+          <i class="bi bi-play-fill me-1"></i> Try Web Editor
+        </a>
+        <a href="test-image-editor.html" class="btn btn-outline-light-custom btn-lg">
+          <i class="bi bi-brush me-1"></i> Try Image Editor
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Footer ═══ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <h5 style="color:#fff;font-weight:700;display:flex;align-items:center;gap:0.4rem;"><span style="font-size:1.4rem;color:var(--accent);">手</span> Shou<span style="color:var(--accent)"> Editor</span></h5>
+          <p style="color:var(--text-muted-dark);font-size:0.88rem;line-height:1.7;max-width:300px;margin-top:0.75rem;">
+            A zero-dependency, vanilla JavaScript SDK for building embeddable web editors and image editors.
+          </p>
+        </div>
+        <div class="col-6 col-lg-2">
+          <h6>Product</h6>
+          <div class="d-flex flex-column gap-2">
+            <a href="#features">Web Editor</a>
+            <a href="#image-editor">Image Editor</a>
+            <a href="#integration">Integration</a>
+          </div>
+        </div>
+        <div class="col-6 col-lg-2">
+          <h6>Demos</h6>
+          <div class="d-flex flex-column gap-2">
+            <a href="test-js-editor.html">Shou Editor Demo</a>
+            <a href="test-image-editor.html">Image Editor Demo</a>
+          </div>
+        </div>
+        <div class="col-6 col-lg-2">
+          <h6>Resources</h6>
+          <div class="d-flex flex-column gap-2">
+            <a href="#">Documentation</a>
+            <a href="#">Changelog</a>
+            <a href="#">License</a>
+          </div>
+        </div>
+        <div class="col-6 col-lg-2">
+          <h6>Connect</h6>
+          <div class="d-flex flex-column gap-2">
+            <a href="#"><i class="bi bi-github me-2"></i>GitHub</a>
+          </div>
+        </div>
+      </div>
+      <hr style="border-color:rgba(255,255,255,0.06);margin:2rem 0 1rem">
+      <p class="text-center mb-0" style="color:var(--text-muted-dark);font-size:0.8rem;">
+        Shou Editor SDK &mdash; 100% Vanilla JavaScript. Zero dependencies. Open source.
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    function showTab(e, tabId) {
+      const block = e.target.closest('.integration-block');
+      block.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      e.target.classList.add('active');
+      block.querySelectorAll('[id^="tab-"]').forEach(t => t.style.display = 'none');
+      document.getElementById(tabId).style.display = 'block';
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

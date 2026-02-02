@@ -1,0 +1,14 @@
+{
+  "id": "file",
+  "label": "File",
+  "icon": "input",
+  "html": "<div class=\"mb-3\"><label class=\"form-label\">Archivo</label><input type=\"file\" class=\"form-control\" name=\"archivo\"></div>",
+  "settings": [
+    { "label": "setting.label", "prop": "textContent", "selector": "label", "type": "text" },
+    { "label": "setting.name", "attr": "name", "selector": "input", "type": "text" },
+    { "label": "setting.accept", "attr": "accept", "selector": "input", "type": "text" },
+    { "label": "setting.multiple", "attr": "multiple", "selector": "input", "type": "checkbox" },
+    { "label": "setting.required", "attr": "required", "selector": "input", "type": "checkbox" },
+    { "label": "setting.disabled", "attr": "disabled", "selector": "input", "type": "checkbox" }
+  ]
+}

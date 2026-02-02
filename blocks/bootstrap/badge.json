@@ -1,0 +1,9 @@
+{
+  "id": "badge",
+  "label": "Badge",
+  "icon": "badge",
+  "html": "<span class=\"badge bg-primary\">Badge</span>",
+  "settings": [
+    { "label": "setting.variant", "attr": "class", "type": "select", "options": ["badge bg-primary", "badge bg-secondary", "badge bg-success", "badge bg-danger", "badge bg-warning text-dark", "badge bg-info text-dark", "badge bg-light text-dark", "badge bg-dark", "badge rounded-pill bg-primary", "badge rounded-pill bg-secondary", "badge rounded-pill bg-success", "badge rounded-pill bg-danger"] }
+  ]
+}

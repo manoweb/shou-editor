@@ -1,0 +1,11 @@
+{
+  "id": "heading",
+  "label": "Título",
+  "icon": "heading",
+  "html": "<h2>Título de sección</h2>",
+  "settings": [
+    { "label": "setting.level", "prop": "tagName", "type": "select", "options": ["H1", "H2", "H3", "H4", "H5", "H6"] },
+    { "label": "setting.id", "attr": "id", "type": "text" },
+    { "label": "setting.classes", "attr": "class", "type": "text" }
+  ]
+}

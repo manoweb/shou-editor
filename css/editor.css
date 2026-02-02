@@ -1,0 +1,569 @@
+/* ============================================
+   Shou Editor - Estilos del Editor de Código
+   ============================================ */
+
+/* ============================================
+   Code Editor Tabs
+   ============================================ */
+.code-tabs {
+  display: flex;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+  padding: 0 8px;
+  gap: 2px;
+}
+
+.code-tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s ease;
+}
+
+.code-tab:hover {
+  color: var(--text-primary);
+  background: var(--bg-hover);
+}
+
+.code-tab.active {
+  color: var(--accent-color);
+  border-bottom-color: var(--accent-color);
+}
+
+.code-tab .icon {
+  width: 16px;
+  height: 16px;
+}
+
+/* ============================================
+   Contenedor del Editor
+   ============================================ */
+.editor-container {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.editor-wrapper {
+  display: none;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.editor-wrapper.active {
+  display: flex;
+}
+
+/* ============================================
+   Números de Línea
+   ============================================ */
+.line-numbers {
+  min-width: 50px;
+  padding: 12px 8px;
+  background: var(--bg-line-numbers);
+  border-right: 1px solid var(--border-color);
+  font-family: 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-line-numbers);
+  text-align: right;
+  user-select: none;
+  overflow: hidden;
+}
+
+.line-numbers .line-number {
+  display: block;
+  padding-right: 8px;
+}
+
+.line-numbers .line-number.active {
+  color: var(--text-primary);
+  background: var(--bg-line-active);
+}
+
+/* ============================================
+   Área de Código (Textarea + Highlight)
+   ============================================ */
+.code-input,
+.code-highlight {
+  position: absolute;
+  top: 0;
+  left: 50px;
+  right: 0;
+  bottom: 0;
+  padding: 12px 16px;
+  font-family: 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  tab-size: 2;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.code-input {
+  background: transparent;
+  color: transparent;
+  caret-color: var(--text-primary);
+  border: none;
+  outline: none;
+  resize: none;
+  z-index: 2;
+  overflow: auto;
+}
+
+.code-input::placeholder {
+  color: var(--text-muted);
+}
+
+.code-highlight {
+  background: var(--bg-editor);
+  color: var(--text-primary);
+  z-index: 1;
+  overflow: auto;
+  pointer-events: none;
+  margin: 0;
+}
+
+.code-highlight code {
+  display: block;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+/* Sincronizar scroll */
+.code-input::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+/* ============================================
+   Syntax Highlighting - Tokens
+   ============================================ */
+
+/* Comentarios */
+.token-comment {
+  color: var(--syntax-comment);
+  font-style: italic;
+}
+
+/* Strings */
+.token-string {
+  color: var(--syntax-string);
+}
+
+/* Números */
+.token-number {
+  color: var(--syntax-number);
+}
+
+/* Keywords */
+.token-keyword {
+  color: var(--syntax-keyword);
+  font-weight: 500;
+}
+
+/* Operadores */
+.token-operator {
+  color: var(--syntax-operator);
+}
+
+/* Funciones */
+.token-function {
+  color: var(--syntax-function);
+}
+
+/* Variables y propiedades */
+.token-variable {
+  color: var(--syntax-variable);
+}
+
+.token-property {
+  color: var(--syntax-property);
+}
+
+/* HTML específico */
+.token-tag {
+  color: var(--syntax-tag);
+}
+
+.token-tag-name {
+  color: var(--syntax-tag);
+}
+
+.token-attr-name {
+  color: var(--syntax-attribute);
+}
+
+.token-attr-value {
+  color: var(--syntax-string);
+}
+
+.token-punctuation {
+  color: var(--syntax-punctuation);
+}
+
+/* CSS específico */
+.token-selector {
+  color: var(--syntax-selector);
+}
+
+.token-property-name {
+  color: var(--syntax-property);
+}
+
+.token-value {
+  color: var(--syntax-value);
+}
+
+.token-unit {
+  color: var(--syntax-unit);
+}
+
+/* Especiales */
+.token-regex {
+  color: var(--syntax-regex);
+}
+
+.token-important {
+  color: var(--syntax-important);
+  font-weight: bold;
+}
+
+.token-boolean {
+  color: var(--syntax-boolean);
+}
+
+.token-null {
+  color: var(--syntax-null);
+}
+
+/* ============================================
+   Visual Canvas Styles
+   ============================================ */
+
+/* Canvas iframe para el editor visual */
+#visual-frame {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: white;
+}
+
+/* Elementos seleccionados en el canvas */
+.visual-canvas .element-selected {
+  outline: 2px solid var(--accent-color) !important;
+  outline-offset: 1px;
+}
+
+.visual-canvas .element-hover {
+  outline: 2px dashed var(--accent-color) !important;
+  outline-offset: 1px;
+}
+
+/* Drop zone indicators */
+.drop-zone {
+  position: relative;
+}
+
+.drop-zone::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 2px dashed var(--accent-color);
+  background: rgba(0, 122, 204, 0.1);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.drop-zone.drag-over::before {
+  opacity: 1;
+}
+
+/* Drop indicator line */
+.drop-indicator {
+  position: absolute;
+  height: 3px;
+  background: var(--accent-color);
+  border-radius: 2px;
+  pointer-events: none;
+  z-index: 1000;
+  box-shadow: 0 0 8px var(--accent-color);
+}
+
+/* ============================================
+   Element Selection Toolbar (floating)
+   ============================================ */
+.element-toolbar {
+  position: fixed;
+  display: flex;
+  gap: 4px;
+  padding: 6px;
+  background: var(--bg-toolbar);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-8px);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.element-toolbar.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.element-toolbar button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.element-toolbar button:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.element-toolbar button.danger:hover {
+  background: rgba(244, 67, 54, 0.1);
+  color: #f44336;
+}
+
+.element-toolbar .icon {
+  width: 16px;
+  height: 16px;
+}
+
+/* ============================================
+   Canvas Empty State
+   ============================================ */
+.canvas-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  color: var(--text-muted);
+  padding: 40px;
+}
+
+.canvas-empty .icon {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 20px;
+  opacity: 0.4;
+}
+
+.canvas-empty h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--text-secondary);
+}
+
+.canvas-empty p {
+  font-size: 14px;
+  max-width: 300px;
+}
+
+/* ============================================
+   Drag Ghost Element
+   ============================================ */
+.drag-ghost {
+  position: fixed;
+  padding: 8px 12px;
+  background: var(--accent-color);
+  color: white;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+  z-index: 10000;
+  transform: translate(-50%, -50%);
+}
+
+/* ============================================
+   Breadcrumb (Element Path)
+   ============================================ */
+.element-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border-color);
+  font-size: 11px;
+  font-family: 'Fira Code', monospace;
+  color: var(--text-muted);
+  overflow-x: auto;
+}
+
+.element-breadcrumb::-webkit-scrollbar {
+  height: 4px;
+}
+
+.breadcrumb-item {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.breadcrumb-item:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.breadcrumb-item.active {
+  background: var(--accent-color);
+  color: white;
+}
+
+.breadcrumb-separator {
+  color: var(--text-muted);
+  opacity: 0.5;
+}
+
+/* ============================================
+   Settings Panel
+   ============================================ */
+.settings-content {
+  padding: 12px;
+}
+
+.settings-group {
+  margin-bottom: 20px;
+}
+
+.settings-group-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.setting-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+}
+
+.setting-item label {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.setting-item input[type="text"],
+.setting-item input[type="number"],
+.setting-item select {
+  width: 120px;
+  padding: 6px 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 12px;
+}
+
+.setting-item input:focus,
+.setting-item select:focus {
+  outline: none;
+  border-color: var(--accent-color);
+}
+
+/* Toggle Switch */
+.toggle-switch {
+  position: relative;
+  width: 40px;
+  height: 22px;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-switch .slider {
+  position: absolute;
+  inset: 0;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 22px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.toggle-switch .slider::before {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  left: 2px;
+  top: 2px;
+  background: var(--text-muted);
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.toggle-switch input:checked + .slider {
+  background: var(--accent-color);
+  border-color: var(--accent-color);
+}
+
+.toggle-switch input:checked + .slider::before {
+  transform: translateX(18px);
+  background: white;
+}
+
+/* ============================================
+   Responsive
+   ============================================ */
+@media (max-width: 768px) {
+  .code-tabs {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+  }
+
+  .code-tab {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+
+  .code-tab span {
+    display: none;
+  }
+}

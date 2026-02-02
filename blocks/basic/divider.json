@@ -1,0 +1,9 @@
+{
+  "id": "divider",
+  "label": "Divisor",
+  "icon": "divider",
+  "html": "<hr class=\"my-4\">",
+  "settings": [
+    { "label": "setting.classes", "attr": "class", "type": "text" }
+  ]
+}

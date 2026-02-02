@@ -1,0 +1,11 @@
+{
+  "id": "modal",
+  "label": "Modal",
+  "icon": "modal",
+  "html": "<button type=\"button\" class=\"btn btn-primary\" data-bs-toggle=\"modal\" data-bs-target=\"#modal1\">Abrir modal</button><div class=\"modal fade\" id=\"modal1\" tabindex=\"-1\"><div class=\"modal-dialog\"><div class=\"modal-content\"><div class=\"modal-header\"><h5 class=\"modal-title\">Título del modal</h5><button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\"></button></div><div class=\"modal-body\"><p>Contenido del modal.</p></div><div class=\"modal-footer\"><button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">Cerrar</button><button type=\"button\" class=\"btn btn-primary\">Guardar</button></div></div></div></div>",
+  "settings": [
+    { "label": "setting.title", "prop": "textContent", "selector": ".modal-title", "type": "text" },
+    { "label": "setting.buttonText", "prop": "textContent", "selector": "[data-bs-toggle='modal']", "type": "text" },
+    { "label": "setting.classes", "attr": "class", "type": "text" }
+  ]
+}

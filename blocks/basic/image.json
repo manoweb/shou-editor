@@ -1,0 +1,14 @@
+{
+  "id": "image",
+  "label": "Imagen",
+  "icon": "image",
+  "html": "<img src=\"https://picsum.photos/1900/1000\" alt=\"Imagen\" class=\"img-fluid\">",
+  "settings": [
+    { "label": "setting.src", "attr": "src", "type": "text" },
+    { "label": "setting.alt", "attr": "alt", "type": "text" },
+    { "label": "setting.width", "attr": "width", "type": "text" },
+    { "label": "setting.height", "attr": "height", "type": "text" },
+    { "label": "setting.loading", "attr": "loading", "type": "select", "options": ["", "lazy", "eager"] },
+    { "label": "setting.classes", "attr": "class", "type": "text" }
+  ]
+}

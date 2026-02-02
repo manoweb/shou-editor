@@ -1,0 +1,15 @@
+{
+  "id": "range",
+  "label": "Range",
+  "icon": "input",
+  "html": "<div class=\"mb-3\"><label class=\"form-label\">Rango</label><input type=\"range\" class=\"form-range\" name=\"rango\" min=\"0\" max=\"100\" step=\"1\" value=\"50\"></div>",
+  "settings": [
+    { "label": "setting.label", "prop": "textContent", "selector": "label", "type": "text" },
+    { "label": "setting.name", "attr": "name", "selector": "input", "type": "text" },
+    { "label": "setting.min", "attr": "min", "selector": "input", "type": "text" },
+    { "label": "setting.max", "attr": "max", "selector": "input", "type": "text" },
+    { "label": "setting.step", "attr": "step", "selector": "input", "type": "text" },
+    { "label": "setting.value", "attr": "value", "selector": "input", "type": "text" },
+    { "label": "setting.disabled", "attr": "disabled", "selector": "input", "type": "checkbox" }
+  ]
+}

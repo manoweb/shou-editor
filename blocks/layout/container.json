@@ -1,0 +1,10 @@
+{
+  "id": "container",
+  "label": "Container",
+  "icon": "container",
+  "html": "<div class=\"container py-4\"><p>Contenido...</p></div>",
+  "settings": [
+    { "label": "setting.type", "attr": "class", "type": "select", "options": ["container py-4", "container-fluid py-4", "container-sm py-4", "container-md py-4", "container-lg py-4", "container-xl py-4"] },
+    { "label": "setting.id", "attr": "id", "type": "text" }
+  ]
+}

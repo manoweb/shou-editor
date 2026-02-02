@@ -1,0 +1,137 @@
+{
+  "sections": [
+    {
+      "id": "dimensions",
+      "label": "styles.dimensions",
+      "props": [
+        { "label": "Width", "style": "width", "type": "text" },
+        { "label": "Height", "style": "height", "type": "text" },
+        { "label": "Min Width", "style": "minWidth", "type": "text" },
+        { "label": "Max Width", "style": "maxWidth", "type": "text" },
+        { "label": "Min Height", "style": "minHeight", "type": "text" },
+        { "label": "Max Height", "style": "maxHeight", "type": "text" },
+        { "label": "Overflow", "style": "overflow", "type": "select", "options": ["", "visible", "hidden", "scroll", "auto"] }
+      ]
+    },
+    {
+      "id": "spacing",
+      "label": "styles.spacing",
+      "props": [
+        { "label": "Margin", "style": "margin", "type": "text" },
+        { "label": "Margin Top", "style": "marginTop", "type": "text" },
+        { "label": "Margin Right", "style": "marginRight", "type": "text" },
+        { "label": "Margin Bottom", "style": "marginBottom", "type": "text" },
+        { "label": "Margin Left", "style": "marginLeft", "type": "text" },
+        { "label": "Padding", "style": "padding", "type": "text" },
+        { "label": "Padding Top", "style": "paddingTop", "type": "text" },
+        { "label": "Padding Right", "style": "paddingRight", "type": "text" },
+        { "label": "Padding Bottom", "style": "paddingBottom", "type": "text" },
+        { "label": "Padding Left", "style": "paddingLeft", "type": "text" }
+      ]
+    },
+    {
+      "id": "typography",
+      "label": "styles.typography",
+      "props": [
+        { "label": "Font Family", "style": "fontFamily", "type": "text" },
+        { "label": "Font Size", "style": "fontSize", "type": "text" },
+        { "label": "Font Weight", "style": "fontWeight", "type": "select", "options": ["", "100", "200", "300", "400", "500", "600", "700", "800", "900", "bold", "normal"] },
+        { "label": "Font Style", "style": "fontStyle", "type": "select", "options": ["", "normal", "italic"] },
+        { "label": "Line Height", "style": "lineHeight", "type": "text" },
+        { "label": "Letter Spacing", "style": "letterSpacing", "type": "text" },
+        { "label": "Text Align", "style": "textAlign", "type": "select", "options": ["", "left", "center", "right", "justify"] },
+        { "label": "Text Decoration", "style": "textDecoration", "type": "select", "options": ["", "none", "underline", "line-through", "overline"] },
+        { "label": "Text Transform", "style": "textTransform", "type": "select", "options": ["", "none", "uppercase", "lowercase", "capitalize"] },
+        { "label": "White Space", "style": "whiteSpace", "type": "select", "options": ["", "normal", "nowrap", "pre", "pre-wrap", "pre-line"] },
+        { "label": "Word Break", "style": "wordBreak", "type": "select", "options": ["", "normal", "break-all", "keep-all", "break-word"] },
+        { "label": "Color", "style": "color", "type": "color" }
+      ]
+    },
+    {
+      "id": "background",
+      "label": "styles.background",
+      "props": [
+        { "label": "BG Color", "style": "backgroundColor", "type": "color" },
+        { "label": "BG Image", "style": "backgroundImage", "type": "text", "placeholder": "url(...)" },
+        { "label": "BG Size", "style": "backgroundSize", "type": "select", "options": ["", "cover", "contain", "auto", "100% 100%"] },
+        { "label": "BG Position", "style": "backgroundPosition", "type": "select", "options": ["", "center", "top", "bottom", "left", "right", "center center", "top center", "bottom center"] },
+        { "label": "BG Repeat", "style": "backgroundRepeat", "type": "select", "options": ["", "repeat", "no-repeat", "repeat-x", "repeat-y"] },
+        { "label": "Opacity", "style": "opacity", "type": "text", "placeholder": "0-1" }
+      ]
+    },
+    {
+      "id": "borders",
+      "label": "styles.borders",
+      "props": [
+        { "label": "Border", "style": "border", "type": "text" },
+        { "label": "Border Top", "style": "borderTop", "type": "text" },
+        { "label": "Border Right", "style": "borderRight", "type": "text" },
+        { "label": "Border Bottom", "style": "borderBottom", "type": "text" },
+        { "label": "Border Left", "style": "borderLeft", "type": "text" },
+        { "label": "Border Color", "style": "borderColor", "type": "color" },
+        { "label": "Radius", "style": "borderRadius", "type": "text" },
+        { "label": "Outline", "style": "outline", "type": "text" },
+        { "label": "Box Shadow", "style": "boxShadow", "type": "text", "placeholder": "0 2px 4px rgba(0,0,0,.2)" }
+      ]
+    },
+    {
+      "id": "layout",
+      "label": "styles.layout",
+      "props": [
+        { "label": "Display", "style": "display", "type": "select", "options": ["", "block", "inline", "inline-block", "flex", "inline-flex", "grid", "inline-grid", "none"] },
+        { "label": "Position", "style": "position", "type": "select", "options": ["", "static", "relative", "absolute", "fixed", "sticky"] },
+        { "label": "Top", "style": "top", "type": "text" },
+        { "label": "Right", "style": "right", "type": "text" },
+        { "label": "Bottom", "style": "bottom", "type": "text" },
+        { "label": "Left", "style": "left", "type": "text" },
+        { "label": "Z-Index", "style": "zIndex", "type": "text" },
+        { "label": "Float", "style": "float", "type": "select", "options": ["", "none", "left", "right"] },
+        { "label": "Clear", "style": "clear", "type": "select", "options": ["", "none", "left", "right", "both"] },
+        { "label": "Visibility", "style": "visibility", "type": "select", "options": ["", "visible", "hidden", "collapse"] },
+        { "label": "Cursor", "style": "cursor", "type": "select", "options": ["", "auto", "default", "pointer", "move", "text", "wait", "crosshair", "not-allowed", "grab", "grabbing"] }
+      ]
+    },
+    {
+      "id": "flexbox",
+      "label": "styles.flexbox",
+      "props": [
+        { "label": "Flex Direction", "style": "flexDirection", "type": "select", "options": ["", "row", "row-reverse", "column", "column-reverse"] },
+        { "label": "Flex Wrap", "style": "flexWrap", "type": "select", "options": ["", "nowrap", "wrap", "wrap-reverse"] },
+        { "label": "Justify Content", "style": "justifyContent", "type": "select", "options": ["", "flex-start", "flex-end", "center", "space-between", "space-around", "space-evenly"] },
+        { "label": "Align Items", "style": "alignItems", "type": "select", "options": ["", "stretch", "flex-start", "flex-end", "center", "baseline"] },
+        { "label": "Align Content", "style": "alignContent", "type": "select", "options": ["", "stretch", "flex-start", "flex-end", "center", "space-between", "space-around"] },
+        { "label": "Gap", "style": "gap", "type": "text" },
+        { "label": "Flex", "style": "flex", "type": "text" },
+        { "label": "Flex Grow", "style": "flexGrow", "type": "text" },
+        { "label": "Flex Shrink", "style": "flexShrink", "type": "text" },
+        { "label": "Flex Basis", "style": "flexBasis", "type": "text" },
+        { "label": "Align Self", "style": "alignSelf", "type": "select", "options": ["", "auto", "flex-start", "flex-end", "center", "baseline", "stretch"] },
+        { "label": "Order", "style": "order", "type": "text" }
+      ]
+    },
+    {
+      "id": "grid",
+      "label": "styles.grid",
+      "props": [
+        { "label": "Grid Columns", "style": "gridTemplateColumns", "type": "text", "placeholder": "1fr 1fr 1fr" },
+        { "label": "Grid Rows", "style": "gridTemplateRows", "type": "text" },
+        { "label": "Grid Column", "style": "gridColumn", "type": "text" },
+        { "label": "Grid Row", "style": "gridRow", "type": "text" },
+        { "label": "Grid Gap", "style": "gap", "type": "text" },
+        { "label": "Place Items", "style": "placeItems", "type": "text" },
+        { "label": "Place Content", "style": "placeContent", "type": "text" }
+      ]
+    },
+    {
+      "id": "transform",
+      "label": "styles.transform",
+      "props": [
+        { "label": "Transform", "style": "transform", "type": "text", "placeholder": "rotate(0deg) scale(1)" },
+        { "label": "Transform Origin", "style": "transformOrigin", "type": "text" },
+        { "label": "Transition", "style": "transition", "type": "text", "placeholder": "all 0.3s ease" },
+        { "label": "Animation", "style": "animation", "type": "text" },
+        { "label": "Filter", "style": "filter", "type": "text", "placeholder": "blur(0px) brightness(100%)" }
+      ]
+    }
+  ]
+}

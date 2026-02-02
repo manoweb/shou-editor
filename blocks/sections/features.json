@@ -1,0 +1,11 @@
+{
+  "id": "features",
+  "label": "Features",
+  "icon": "features",
+  "html": "<section class=\"py-5\"><div class=\"container\"><h2 class=\"text-center mb-5\">Características</h2><div class=\"row g-4\"><div class=\"col-md-4 text-center\"><h5>Rápido</h5><p>Descripción</p></div><div class=\"col-md-4 text-center\"><h5>Seguro</h5><p>Descripción</p></div><div class=\"col-md-4 text-center\"><h5>Simple</h5><p>Descripción</p></div></div></div></section>",
+  "settings": [
+    { "label": "setting.title", "prop": "textContent", "selector": "h2", "type": "text" },
+    { "label": "setting.classes", "attr": "class", "type": "text" },
+    { "label": "setting.id", "attr": "id", "type": "text" }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "id": "text",
+  "label": "Texto",
+  "icon": "text",
+  "html": "<p>Escribe tu texto aquí...</p>",
+  "settings": [
+    { "label": "setting.id", "attr": "id", "type": "text" },
+    { "label": "setting.classes", "attr": "class", "type": "text" }
+  ]
+}

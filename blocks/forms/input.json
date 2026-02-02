@@ -1,0 +1,16 @@
+{
+  "id": "input",
+  "label": "Input",
+  "icon": "input",
+  "html": "<div class=\"mb-3\"><label class=\"form-label\">Campo</label><input type=\"text\" class=\"form-control\" name=\"campo\"></div>",
+  "settings": [
+    { "label": "setting.label", "prop": "textContent", "selector": "label", "type": "text" },
+    { "label": "setting.type", "attr": "type", "selector": "input", "type": "select", "options": ["text", "email", "password", "number", "tel", "url", "date", "time", "datetime-local", "month", "week", "color", "hidden"] },
+    { "label": "setting.name", "attr": "name", "selector": "input", "type": "text" },
+    { "label": "setting.placeholder", "attr": "placeholder", "selector": "input", "type": "text" },
+    { "label": "setting.value", "attr": "value", "selector": "input", "type": "text" },
+    { "label": "setting.required", "attr": "required", "selector": "input", "type": "checkbox" },
+    { "label": "setting.readonly", "attr": "readonly", "selector": "input", "type": "checkbox" },
+    { "label": "setting.disabled", "attr": "disabled", "selector": "input", "type": "checkbox" }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "id": "checkbox",
+  "label": "Checkbox",
+  "icon": "input",
+  "html": "<div class=\"mb-3 form-check\"><input type=\"checkbox\" class=\"form-check-input\" id=\"check1\" name=\"check1\"><label class=\"form-check-label\" for=\"check1\">Opción</label></div>",
+  "settings": [
+    { "label": "setting.name", "attr": "name", "selector": "input", "type": "text" },
+    { "label": "setting.id", "attr": "id", "selector": "input", "type": "text" },
+    { "label": "setting.text", "prop": "textContent", "selector": "label", "type": "text" },
+    { "label": "setting.checked", "attr": "checked", "selector": "input", "type": "checkbox" },
+    { "label": "setting.required", "attr": "required", "selector": "input", "type": "checkbox" },
+    { "label": "setting.disabled", "attr": "disabled", "selector": "input", "type": "checkbox" }
+  ]
+}

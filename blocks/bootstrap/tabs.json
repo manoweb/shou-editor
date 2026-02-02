@@ -1,0 +1,10 @@
+{
+  "id": "tabs",
+  "label": "Tabs",
+  "icon": "tabs",
+  "html": "<ul class=\"nav nav-tabs\" id=\"tabs1\" role=\"tablist\"><li class=\"nav-item\" role=\"presentation\"><button class=\"nav-link active\" data-bs-toggle=\"tab\" data-bs-target=\"#tabs1-1\" type=\"button\" role=\"tab\">Pestaña 1</button></li><li class=\"nav-item\" role=\"presentation\"><button class=\"nav-link\" data-bs-toggle=\"tab\" data-bs-target=\"#tabs1-2\" type=\"button\" role=\"tab\">Pestaña 2</button></li><li class=\"nav-item\" role=\"presentation\"><button class=\"nav-link\" data-bs-toggle=\"tab\" data-bs-target=\"#tabs1-3\" type=\"button\" role=\"tab\">Pestaña 3</button></li></ul><div class=\"tab-content p-3 border border-top-0 rounded-bottom\"><div class=\"tab-pane fade show active\" id=\"tabs1-1\" role=\"tabpanel\">Contenido de la pestaña 1.</div><div class=\"tab-pane fade\" id=\"tabs1-2\" role=\"tabpanel\">Contenido de la pestaña 2.</div><div class=\"tab-pane fade\" id=\"tabs1-3\" role=\"tabpanel\">Contenido de la pestaña 3.</div></div>",
+  "settings": [
+    { "label": "setting.id", "attr": "id", "type": "text" },
+    { "label": "setting.classes", "attr": "class", "type": "text" }
+  ]
+}

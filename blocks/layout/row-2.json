@@ -1,0 +1,10 @@
+{
+  "id": "row-2",
+  "label": "2 Columnas",
+  "icon": "columns2",
+  "html": "<div class=\"row\"><div class=\"col-6\"><div class=\"p-3 bg-light\">Col 1</div></div><div class=\"col-6\"><div class=\"p-3 bg-light\">Col 2</div></div></div>",
+  "settings": [
+    { "label": "setting.classes", "attr": "class", "type": "text" },
+    { "label": "setting.id", "attr": "id", "type": "text" }
+  ]
+}

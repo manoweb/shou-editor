@@ -1,0 +1,10 @@
+{
+  "id": "row-3",
+  "label": "3 Columnas",
+  "icon": "columns3",
+  "html": "<div class=\"row\"><div class=\"col-4\"><div class=\"p-3 bg-light\">1</div></div><div class=\"col-4\"><div class=\"p-3 bg-light\">2</div></div><div class=\"col-4\"><div class=\"p-3 bg-light\">3</div></div></div>",
+  "settings": [
+    { "label": "setting.classes", "attr": "class", "type": "text" },
+    { "label": "setting.id", "attr": "id", "type": "text" }
+  ]
+}

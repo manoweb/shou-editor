@@ -1,0 +1,11 @@
+{
+  "id": "button",
+  "label": "Botón",
+  "icon": "button",
+  "html": "<button class=\"btn btn-primary\">Botón</button>",
+  "settings": [
+    { "label": "setting.variant", "attr": "class", "type": "select", "options": ["btn btn-primary", "btn btn-secondary", "btn btn-success", "btn btn-danger", "btn btn-warning", "btn btn-info", "btn btn-light", "btn btn-dark", "btn btn-outline-primary", "btn btn-outline-secondary", "btn btn-outline-success", "btn btn-outline-danger"] },
+    { "label": "setting.type", "attr": "type", "type": "select", "options": ["button", "submit", "reset"] },
+    { "label": "setting.disabled", "attr": "disabled", "type": "checkbox" }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "progress",
+  "label": "Progress",
+  "icon": "progress",
+  "html": "<div class=\"progress\" role=\"progressbar\" style=\"height:20px\"><div class=\"progress-bar\" style=\"width:50%\">50%</div></div>",
+  "settings": [
+    { "label": "setting.value", "attr": "style", "selector": ".progress-bar", "type": "text" },
+    { "label": "setting.text", "prop": "textContent", "selector": ".progress-bar", "type": "text" },
+    { "label": "setting.variant", "attr": "class", "selector": ".progress-bar", "type": "select", "options": ["progress-bar", "progress-bar bg-success", "progress-bar bg-info", "progress-bar bg-warning", "progress-bar bg-danger", "progress-bar progress-bar-striped", "progress-bar progress-bar-striped progress-bar-animated"] },
+    { "label": "setting.classes", "attr": "class", "type": "text" }
+  ]
+}

@@ -1,0 +1,89 @@
+/* ============================================
+   Shou Editor - Tema Oscuro
+   ============================================ */
+
+:root,
+.theme-dark {
+  /* Fondos */
+  --bg-primary: #1e1e1e;
+  --bg-secondary: #252526;
+  --bg-toolbar: #323233;
+  --bg-button: #3c3c3c;
+  --bg-button-hover: #4a4a4a;
+  --bg-hover: #2a2d2e;
+  --bg-editor: #1e1e1e;
+  --bg-line-numbers: #1e1e1e;
+  --bg-line-active: #264f78;
+  --bg-console: #1e1e1e;
+  --bg-canvas: #1e1e1e;
+  --bg-canvas-outer: #141414;
+  --bg-canvas-grid: #1a1a1a;
+
+  /* Texto */
+  --text-primary: #d4d4d4;
+  --text-secondary: #b4b4b4;
+  --text-muted: #858585;
+  --text-line-numbers: #858585;
+
+  /* Bordes */
+  --border-color: #3c3c3c;
+  --border-subtle: #2d2d2d;
+
+  /* Acentos */
+  --accent-color: #0078d4;
+  --accent-hover: #106ebe;
+
+  /* Scrollbar */
+  --scrollbar-thumb: #424242;
+  --scrollbar-thumb-hover: #4f4f4f;
+
+  /* Selección */
+  --selection-bg: #264f78;
+  --selection-color: #ffffff;
+
+  /* ==========================================
+     Syntax Highlighting (VS Code Dark+ Theme)
+     ========================================== */
+
+  /* Comentarios */
+  --syntax-comment: #6a9955;
+
+  /* Strings */
+  --syntax-string: #ce9178;
+
+  /* Números */
+  --syntax-number: #b5cea8;
+
+  /* Keywords (if, else, function, const, let, var, etc.) */
+  --syntax-keyword: #569cd6;
+
+  /* Operadores (+, -, =, etc.) */
+  --syntax-operator: #d4d4d4;
+
+  /* Funciones */
+  --syntax-function: #dcdcaa;
+
+  /* Variables */
+  --syntax-variable: #9cdcfe;
+
+  /* Propiedades */
+  --syntax-property: #9cdcfe;
+
+  /* Puntuación ({, }, [, ], etc.) */
+  --syntax-punctuation: #d4d4d4;
+
+  /* HTML */
+  --syntax-tag: #569cd6;
+  --syntax-attribute: #9cdcfe;
+
+  /* CSS */
+  --syntax-selector: #d7ba7d;
+  --syntax-value: #ce9178;
+  --syntax-unit: #b5cea8;
+
+  /* Especiales */
+  --syntax-regex: #d16969;
+  --syntax-important: #569cd6;
+  --syntax-boolean: #569cd6;
+  --syntax-null: #569cd6;
+}

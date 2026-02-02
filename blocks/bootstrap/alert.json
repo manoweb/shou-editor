@@ -1,0 +1,10 @@
+{
+  "id": "alert",
+  "label": "Alerta",
+  "icon": "alert",
+  "html": "<div class=\"alert alert-primary\">Mensaje de alerta</div>",
+  "settings": [
+    { "label": "setting.type", "attr": "class", "type": "select", "options": ["alert alert-primary", "alert alert-secondary", "alert alert-success", "alert alert-danger", "alert alert-warning", "alert alert-info", "alert alert-light", "alert alert-dark"] },
+    { "label": "setting.id", "attr": "id", "type": "text" }
+  ]
+}

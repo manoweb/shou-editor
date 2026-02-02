@@ -1,0 +1,11 @@
+{
+  "id": "navbar",
+  "label": "Navbar",
+  "icon": "navbar",
+  "html": "<nav class=\"navbar navbar-expand-lg navbar-dark bg-dark\"><div class=\"container\"><a class=\"navbar-brand\" href=\"#\">Logo</a><ul class=\"navbar-nav ms-auto\"><li class=\"nav-item\"><a class=\"nav-link\" href=\"#\">Inicio</a></li><li class=\"nav-item\"><a class=\"nav-link\" href=\"#\">Contacto</a></li></ul></div></nav>",
+  "settings": [
+    { "label": "setting.brand", "prop": "textContent", "selector": ".navbar-brand", "type": "text" },
+    { "label": "setting.url", "attr": "href", "selector": ".navbar-brand", "type": "text" },
+    { "label": "setting.classes", "attr": "class", "type": "text" }
+  ]
+}

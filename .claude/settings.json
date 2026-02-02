@@ -1,0 +1,20 @@
+{
+  "project": {
+    "name": "shou-editor",
+    "type": "vanilla-javascript",
+    "description": "Editor JavaScript puro para HTML, CSS y JS"
+  },
+  "preferences": {
+    "language": "es",
+    "codeStyle": {
+      "indent": 2,
+      "quotes": "single",
+      "semicolons": true
+    }
+  },
+  "build": {
+    "noCompilers": true,
+    "noFrameworks": true,
+    "pureVanilla": true
+  }
+}

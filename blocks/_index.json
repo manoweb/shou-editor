@@ -1,0 +1,29 @@
+{
+  "categories": [
+    {
+      "id": "basic",
+      "label": "Basic",
+      "blocks": ["text", "heading", "image", "link", "divider"]
+    },
+    {
+      "id": "layout",
+      "label": "Layout",
+      "blocks": ["container", "row-2", "row-3"]
+    },
+    {
+      "id": "bootstrap",
+      "label": "Bootstrap",
+      "blocks": ["card", "alert", "button", "table", "accordion", "carousel", "modal", "tabs", "badge", "progress", "list-group", "breadcrumb", "pagination", "spinner", "toast"]
+    },
+    {
+      "id": "forms",
+      "label": "Forms",
+      "blocks": ["form", "input", "textarea", "select", "checkbox", "radio", "file", "range", "switch"]
+    },
+    {
+      "id": "sections",
+      "label": "Sections",
+      "blocks": ["navbar", "hero", "features", "footer"]
+    }
+  ]
+}

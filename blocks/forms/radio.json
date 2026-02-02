@@ -1,0 +1,11 @@
+{
+  "id": "radio",
+  "label": "Radio",
+  "icon": "input",
+  "html": "<div class=\"mb-3\"><div class=\"form-check\"><input class=\"form-check-input\" type=\"radio\" name=\"radio1\" id=\"radio1\" value=\"1\"><label class=\"form-check-label\" for=\"radio1\">Opción 1</label></div><div class=\"form-check\"><input class=\"form-check-input\" type=\"radio\" name=\"radio1\" id=\"radio2\" value=\"2\"><label class=\"form-check-label\" for=\"radio2\">Opción 2</label></div><div class=\"form-check\"><input class=\"form-check-input\" type=\"radio\" name=\"radio1\" id=\"radio3\" value=\"3\"><label class=\"form-check-label\" for=\"radio3\">Opción 3</label></div></div>",
+  "settings": [
+    { "label": "setting.name", "attr": "name", "selector": "input", "type": "text", "all": true },
+    { "label": "setting.disabled", "attr": "disabled", "selector": "input", "type": "checkbox", "all": true },
+    { "label": "setting.required", "attr": "required", "selector": "input", "type": "checkbox" }
+  ]
+}
