@@ -101,6 +101,8 @@
       'setting.url': 'URL', 'setting.target': 'Target',
       'setting.action': 'Action', 'setting.method': 'Method',
       'setting.footerText': 'Footer text',
+      'setting.slides': 'Slides', 'setting.addSlide': '+ Add slide',
+      'setting.slideUrl': 'Image URL', 'setting.slideAlt': 'Alt text',
     },
     es: {
       'btn.new': 'Nuevo', 'btn.open': 'Abrir', 'btn.save': 'Guardar',
@@ -142,6 +144,8 @@
       'setting.url': 'URL', 'setting.target': 'Target',
       'setting.action': 'Acción', 'setting.method': 'Método',
       'setting.footerText': 'Texto pie',
+      'setting.slides': 'Slides', 'setting.addSlide': '+ Añadir slide',
+      'setting.slideUrl': 'URL imagen', 'setting.slideAlt': 'Texto alt',
     }
   };
 
@@ -399,7 +403,7 @@
       { id: 'accordion', label: 'Accordion', icon: Icons.accordion, html: '<div class="accordion" id="acc1"><div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#acc1-c1">Sección 1</button></h2><div id="acc1-c1" class="accordion-collapse collapse show" data-bs-parent="#acc1"><div class="accordion-body">Contenido de la primera sección.</div></div></div><div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#acc1-c2">Sección 2</button></h2><div id="acc1-c2" class="accordion-collapse collapse" data-bs-parent="#acc1"><div class="accordion-body">Contenido de la segunda sección.</div></div></div><div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#acc1-c3">Sección 3</button></h2><div id="acc1-c3" class="accordion-collapse collapse" data-bs-parent="#acc1"><div class="accordion-body">Contenido de la tercera sección.</div></div></div></div>',
         settings: [{label:'setting.id',attr:'id',type:'text'},{label:'setting.classes',attr:'class',type:'text'}] },
       { id: 'carousel', label: 'Carousel', icon: Icons.carousel, html: '<div id="carousel1" class="carousel slide" data-bs-ride="carousel"><div class="carousel-indicators"><button type="button" data-bs-target="#carousel1" data-bs-slide-to="0" class="active"></button><button type="button" data-bs-target="#carousel1" data-bs-slide-to="1"></button><button type="button" data-bs-target="#carousel1" data-bs-slide-to="2"></button></div><div class="carousel-inner"><div class="carousel-item active"><img src="https://picsum.photos/1200/500?random=1" class="d-block w-100" alt="Slide 1"></div><div class="carousel-item"><img src="https://picsum.photos/1200/500?random=2" class="d-block w-100" alt="Slide 2"></div><div class="carousel-item"><img src="https://picsum.photos/1200/500?random=3" class="d-block w-100" alt="Slide 3"></div></div><button class="carousel-control-prev" type="button" data-bs-target="#carousel1" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span></button><button class="carousel-control-next" type="button" data-bs-target="#carousel1" data-bs-slide="next"><span class="carousel-control-next-icon"></span></button></div>',
-        settings: [{label:'setting.id',attr:'id',type:'text'},{label:'setting.classes',attr:'class',type:'text'}] },
+        settings: [{label:'setting.slides',type:'slides'},{label:'setting.id',attr:'id',type:'text'},{label:'setting.classes',attr:'class',type:'text'}] },
       { id: 'modal', label: 'Modal', icon: Icons.modal, html: '<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal1">Abrir modal</button><div class="modal fade" id="modal1" tabindex="-1"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Título del modal</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><p>Contenido del modal.</p></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button><button type="button" class="btn btn-primary">Guardar</button></div></div></div></div>',
         settings: [{label:'setting.title',prop:'textContent',selector:'.modal-title',type:'text'},{label:'setting.buttonText',prop:'textContent',selector:'[data-bs-toggle="modal"]',type:'text'},{label:'setting.classes',attr:'class',type:'text'}] },
       { id: 'tabs', label: 'Tabs', icon: Icons.tabs, html: '<ul class="nav nav-tabs" id="tabs1" role="tablist"><li class="nav-item" role="presentation"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tabs1-1" type="button" role="tab">Pestaña 1</button></li><li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabs1-2" type="button" role="tab">Pestaña 2</button></li><li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabs1-3" type="button" role="tab">Pestaña 3</button></li></ul><div class="tab-content p-3 border border-top-0 rounded-bottom"><div class="tab-pane fade show active" id="tabs1-1" role="tabpanel">Contenido de la pestaña 1.</div><div class="tab-pane fade" id="tabs1-2" role="tabpanel">Contenido de la pestaña 2.</div><div class="tab-pane fade" id="tabs1-3" role="tabpanel">Contenido de la pestaña 3.</div></div>',
@@ -1297,6 +1301,96 @@ input[type="checkbox"]:checked+.jse-toggle::after{transform:translateX(12px);bac
           newRow.innerHTML = `<input type="text" data-opt-val="${count}" value="${count + 1}" placeholder="${t('options.valuePlaceholder')}" style="flex:1;padding:4px 6px;border:1px solid var(--jse-border);border-radius:3px;background:var(--jse-bg);color:var(--jse-text);font-size:11px"><input type="text" data-opt-txt="${count}" value="Option ${count + 1}" placeholder="${t('options.textPlaceholder')}" style="flex:2;padding:4px 6px;border:1px solid var(--jse-border);border-radius:3px;background:var(--jse-bg);color:var(--jse-text);font-size:11px"><button data-opt-del="${count}" style="padding:2px 6px;border:1px solid var(--jse-border);border-radius:3px;background:var(--jse-bg);color:var(--jse-text);cursor:pointer;font-size:11px;line-height:1" title="${t('toolbar.delete')}">&times;</button>`;
           addBtn.before(newRow);
           syncOptionsToSelect(editor);
+        }
+      });
+
+      // ============================================
+      // CAROUSEL SLIDES HANDLERS
+      // ============================================
+
+      const syncSlidesToCarousel = () => {
+        if (!this.selectedElement) return;
+        const blockRoot = this._findBlockRoot(this.selectedElement);
+        if (!blockRoot) return;
+        const carouselId = blockRoot.getAttribute('id') || 'carousel1';
+        const carouselInner = blockRoot.querySelector('.carousel-inner');
+        const indicators = blockRoot.querySelector('.carousel-indicators');
+        if (!carouselInner) return;
+
+        const slideRows = settingsEl.querySelectorAll('.jse-slide-row');
+        const slidesData = Array.from(slideRows).map(row => {
+          const srcInp = row.querySelector('[data-slide-src]');
+          const altInp = row.querySelector('[data-slide-alt]');
+          return {
+            src: srcInp ? srcInp.value : '',
+            alt: altInp ? altInp.value : ''
+          };
+        });
+
+        // Rebuild carousel-inner
+        carouselInner.innerHTML = slidesData.map((s, i) =>
+          `<div class="carousel-item${i === 0 ? ' active' : ''}"><img src="${s.src}" class="d-block w-100" alt="${s.alt}"></div>`
+        ).join('');
+
+        // Rebuild indicators
+        if (indicators) {
+          indicators.innerHTML = slidesData.map((_, i) =>
+            `<button type="button" data-bs-target="#${carouselId}" data-bs-slide-to="${i}"${i === 0 ? ' class="active"' : ''}></button>`
+          ).join('');
+        }
+
+        this.syncToCode();
+      };
+
+      // Edit slide src/alt
+      settingsEl.addEventListener('input', e => {
+        if (e.target.dataset.slideSrc !== undefined || e.target.dataset.slideAlt !== undefined) {
+          syncSlidesToCarousel();
+        }
+      });
+
+      // Delete/Add slide
+      settingsEl.addEventListener('click', e => {
+        const delBtn = e.target.closest('[data-slide-del]');
+        if (delBtn) {
+          const row = delBtn.closest('.jse-slide-row');
+          if (row) {
+            row.remove();
+            // Reindex remaining rows
+            settingsEl.querySelectorAll('.jse-slide-row').forEach((r, i) => {
+              r.dataset.slideIdx = i;
+              r.querySelector('strong').textContent = `Slide ${i + 1}`;
+              const srcInp = r.querySelector('[data-slide-src]');
+              const altInp = r.querySelector('[data-slide-alt]');
+              const delB = r.querySelector('[data-slide-del]');
+              if (srcInp) srcInp.dataset.slideSrc = i;
+              if (altInp) altInp.dataset.slideAlt = i;
+              if (delB) delB.dataset.slideDel = i;
+            });
+            syncSlidesToCarousel();
+          }
+          return;
+        }
+
+        const addBtn = e.target.closest('[data-slide-add]');
+        if (addBtn) {
+          const editor = addBtn.closest('[data-slides-editor]');
+          if (!editor) return;
+          const count = editor.querySelectorAll('.jse-slide-row').length;
+          const newRow = document.createElement('div');
+          newRow.className = 'jse-slide-row';
+          newRow.dataset.slideIdx = count;
+          newRow.style.cssText = 'display:flex;flex-direction:column;gap:4px;margin-bottom:8px;padding:8px;border:1px solid var(--jse-border);border-radius:4px;background:var(--jse-bg-alt)';
+          newRow.innerHTML = `
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+              <strong style="font-size:11px;color:var(--jse-text-muted)">Slide ${count + 1}</strong>
+              <button data-slide-del="${count}" style="padding:2px 6px;border:1px solid var(--jse-border);border-radius:3px;background:var(--jse-bg);color:var(--jse-text);cursor:pointer;font-size:11px;line-height:1" title="${t('toolbar.delete')}">&times;</button>
+            </div>
+            <input type="text" data-slide-src="${count}" value="https://picsum.photos/1200/500?random=${count + 10}" placeholder="${t('setting.slideUrl')}" style="width:100%;padding:4px 6px;border:1px solid var(--jse-border);border-radius:3px;background:var(--jse-bg);color:var(--jse-text);font-size:11px">
+            <input type="text" data-slide-alt="${count}" value="Slide ${count + 1}" placeholder="${t('setting.slideAlt')}" style="width:100%;padding:4px 6px;border:1px solid var(--jse-border);border-radius:3px;background:var(--jse-bg);color:var(--jse-text);font-size:11px">
+          `;
+          addBtn.before(newRow);
+          syncSlidesToCarousel();
         }
       });
     }
@@ -2419,6 +2513,25 @@ body{min-height:100vh;padding:10px}
               return `<div class="jse-opt-row" style="display:flex;gap:4px;margin-bottom:4px;align-items:center"><input type="text" data-opt-val="${oi}" value="${v}" placeholder="${t('options.valuePlaceholder')}" style="flex:1;padding:4px 6px;border:1px solid var(--jse-border);border-radius:3px;background:var(--jse-bg);color:var(--jse-text);font-size:11px"><input type="text" data-opt-txt="${oi}" value="${tx}" placeholder="${t('options.textPlaceholder')}" style="flex:2;padding:4px 6px;border:1px solid var(--jse-border);border-radius:3px;background:var(--jse-bg);color:var(--jse-text);font-size:11px"><button data-opt-del="${oi}" style="padding:2px 6px;border:1px solid var(--jse-border);border-radius:3px;background:var(--jse-bg);color:var(--jse-text);cursor:pointer;font-size:11px;line-height:1" title="${t('toolbar.delete')}">&times;</button></div>`;
             }).join('');
             return `<div class="jse-row" style="flex-direction:column;align-items:stretch"><label>${t(s.label)}</label><div data-sidx="${idx}" data-opt-editor="true" style="margin-top:4px">${rows}<button data-opt-add style="width:100%;padding:4px;border:1px dashed var(--jse-border);border-radius:3px;background:transparent;color:var(--jse-accent);cursor:pointer;font-size:11px;margin-top:2px"${t('options.add')}</button></div></div>`;
+          }
+          if (s.type === 'slides') {
+            // Carousel slides editor
+            const carouselInner = blockRoot.querySelector('.carousel-inner');
+            const slides = carouselInner ? Array.from(carouselInner.querySelectorAll('.carousel-item')) : [];
+            const rows = slides.map((slide, si) => {
+              const img = slide.querySelector('img');
+              const src = img ? (img.getAttribute('src') || '').replace(/"/g, '&quot;') : '';
+              const alt = img ? (img.getAttribute('alt') || '').replace(/"/g, '&quot;') : '';
+              return `<div class="jse-slide-row" data-slide-idx="${si}" style="display:flex;flex-direction:column;gap:4px;margin-bottom:8px;padding:8px;border:1px solid var(--jse-border);border-radius:4px;background:var(--jse-bg-alt)">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+                  <strong style="font-size:11px;color:var(--jse-text-muted)">Slide ${si + 1}</strong>
+                  <button data-slide-del="${si}" style="padding:2px 6px;border:1px solid var(--jse-border);border-radius:3px;background:var(--jse-bg);color:var(--jse-text);cursor:pointer;font-size:11px;line-height:1" title="${t('toolbar.delete')}">&times;</button>
+                </div>
+                <input type="text" data-slide-src="${si}" value="${src}" placeholder="${t('setting.slideUrl')}" style="width:100%;padding:4px 6px;border:1px solid var(--jse-border);border-radius:3px;background:var(--jse-bg);color:var(--jse-text);font-size:11px">
+                <input type="text" data-slide-alt="${si}" value="${alt}" placeholder="${t('setting.slideAlt')}" style="width:100%;padding:4px 6px;border:1px solid var(--jse-border);border-radius:3px;background:var(--jse-bg);color:var(--jse-text);font-size:11px">
+              </div>`;
+            }).join('');
+            return `<div class="jse-row" style="flex-direction:column;align-items:stretch"><label>${t(s.label)}</label><div data-sidx="${idx}" data-slides-editor="true" style="margin-top:4px">${rows}<button data-slide-add style="width:100%;padding:6px;border:1px dashed var(--jse-border);border-radius:3px;background:transparent;color:var(--jse-accent);cursor:pointer;font-size:11px;margin-top:2px">${t('setting.addSlide')}</button></div></div>`;
           }
 
           // Default: text input
