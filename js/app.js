@@ -103,6 +103,8 @@
       'setting.footerText': 'Footer text',
       'setting.slides': 'Slides', 'setting.addSlide': '+ Add slide',
       'setting.slideUrl': 'Image URL', 'setting.slideAlt': 'Alt text',
+      'setting.tabs': 'Tabs', 'setting.addTab': '+ Add tab',
+      'setting.tabTitle': 'Tab title', 'setting.tabContent': 'Content',
     },
     es: {
       'btn.new': 'Nuevo', 'btn.open': 'Abrir', 'btn.save': 'Guardar',
@@ -146,6 +148,8 @@
       'setting.footerText': 'Texto pie',
       'setting.slides': 'Slides', 'setting.addSlide': '+ Añadir slide',
       'setting.slideUrl': 'URL imagen', 'setting.slideAlt': 'Texto alt',
+      'setting.tabs': 'Pestañas', 'setting.addTab': '+ Añadir pestaña',
+      'setting.tabTitle': 'Título', 'setting.tabContent': 'Contenido',
     }
   };
 
@@ -406,8 +410,8 @@
         settings: [{label:'setting.slides',type:'slides'},{label:'setting.id',attr:'id',type:'text'},{label:'setting.classes',attr:'class',type:'text'}] },
       { id: 'modal', label: 'Modal', icon: Icons.modal, html: '<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal1">Abrir modal</button><div class="modal fade" id="modal1" tabindex="-1"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Título del modal</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><p>Contenido del modal.</p></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button><button type="button" class="btn btn-primary">Guardar</button></div></div></div></div>',
         settings: [{label:'setting.title',prop:'textContent',selector:'.modal-title',type:'text'},{label:'setting.buttonText',prop:'textContent',selector:'[data-bs-toggle="modal"]',type:'text'},{label:'setting.classes',attr:'class',type:'text'}] },
-      { id: 'tabs', label: 'Tabs', icon: Icons.tabs, html: '<ul class="nav nav-tabs" id="tabs1" role="tablist"><li class="nav-item" role="presentation"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tabs1-1" type="button" role="tab">Pestaña 1</button></li><li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabs1-2" type="button" role="tab">Pestaña 2</button></li><li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabs1-3" type="button" role="tab">Pestaña 3</button></li></ul><div class="tab-content p-3 border border-top-0 rounded-bottom"><div class="tab-pane fade show active" id="tabs1-1" role="tabpanel">Contenido de la pestaña 1.</div><div class="tab-pane fade" id="tabs1-2" role="tabpanel">Contenido de la pestaña 2.</div><div class="tab-pane fade" id="tabs1-3" role="tabpanel">Contenido de la pestaña 3.</div></div>',
-        settings: [{label:'setting.id',attr:'id',type:'text'},{label:'setting.classes',attr:'class',type:'text'}] },
+      { id: 'tabs', label: 'Tabs', icon: Icons.tabs, html: '<div class="shou-tabs-wrapper"><ul class="nav nav-tabs" id="tabs1" role="tablist"><li class="nav-item" role="presentation"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tabs1-1" type="button" role="tab">Pestaña 1</button></li><li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabs1-2" type="button" role="tab">Pestaña 2</button></li><li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabs1-3" type="button" role="tab">Pestaña 3</button></li></ul><div class="tab-content p-3 border border-top-0 rounded-bottom"><div class="tab-pane fade show active" id="tabs1-1" role="tabpanel">Contenido de la pestaña 1.</div><div class="tab-pane fade" id="tabs1-2" role="tabpanel">Contenido de la pestaña 2.</div><div class="tab-pane fade" id="tabs1-3" role="tabpanel">Contenido de la pestaña 3.</div></div></div>',
+        settings: [{label:'setting.tabs',type:'tabs'},{label:'setting.id',attr:'id',selector:'.nav-tabs',type:'text'},{label:'setting.classes',attr:'class',type:'text'}] },
       { id: 'badge', label: 'Badge', icon: Icons.badge, html: '<span class="badge bg-primary">Badge</span>',
         settings: [{label:'setting.variant',attr:'class',type:'select',options:['badge bg-primary','badge bg-secondary','badge bg-success','badge bg-danger','badge bg-warning text-dark','badge bg-info text-dark','badge bg-light text-dark','badge bg-dark','badge rounded-pill bg-primary','badge rounded-pill bg-secondary','badge rounded-pill bg-success','badge rounded-pill bg-danger']}] },
       { id: 'progress', label: 'Progress', icon: Icons.progress, html: '<div class="progress" role="progressbar" style="height:20px"><div class="progress-bar" style="width:50%">50%</div></div>',
@@ -1309,8 +1313,8 @@ input[type="checkbox"]:checked+.jse-toggle::after{transform:translateX(12px);bac
       // ============================================
 
       const syncSlidesToCarousel = () => {
-        if (!this.selectedElement) return;
-        const blockRoot = this._findBlockRoot(this.selectedElement);
+        // Use stored reference to current block being edited
+        const blockRoot = this._currentBlockRoot;
         if (!blockRoot) return;
         const carouselId = blockRoot.getAttribute('id') || 'carousel1';
         const carouselInner = blockRoot.querySelector('.carousel-inner');
@@ -1342,14 +1346,56 @@ input[type="checkbox"]:checked+.jse-toggle::after{transform:translateX(12px);bac
         this.syncToCode();
       };
 
-      // Edit slide src/alt
+      // ============================================
+      // BOOTSTRAP TABS SYNC FUNCTION
+      // ============================================
+      const syncTabsToComponent = () => {
+        // Use stored reference to current block being edited
+        const blockRoot = this._currentBlockRoot;
+        if (!blockRoot) return;
+
+        const navTabs = blockRoot.querySelector('.nav-tabs');
+        const tabContent = blockRoot.querySelector('.tab-content');
+        if (!navTabs || !tabContent) return;
+        const tabsId = navTabs.getAttribute('id') || 'tabs1';
+
+        // Get current panes to preserve their HTML content
+        const existingPanes = Array.from(tabContent.querySelectorAll('.tab-pane'));
+
+        const tabRows = settingsEl.querySelectorAll('.jse-tab-row');
+        const tabsData = Array.from(tabRows).map((row, i) => {
+          const titleInp = row.querySelector('[data-tab-title]');
+          // Preserve existing pane content if it exists
+          const existingPane = existingPanes[i];
+          return {
+            title: titleInp ? titleInp.value : `Tab ${i + 1}`,
+            content: existingPane ? existingPane.innerHTML : ''
+          };
+        });
+
+        // Rebuild nav-tabs (only titles change)
+        navTabs.innerHTML = tabsData.map((tab, i) =>
+          `<li class="nav-item" role="presentation"><button class="nav-link${i === 0 ? ' active' : ''}" data-bs-toggle="tab" data-bs-target="#${tabsId}-${i + 1}" type="button" role="tab">${tab.title}</button></li>`
+        ).join('');
+
+        // Rebuild tab-content preserving HTML content
+        tabContent.innerHTML = tabsData.map((tab, i) =>
+          `<div class="tab-pane fade${i === 0 ? ' show active' : ''}" id="${tabsId}-${i + 1}" role="tabpanel">${tab.content}</div>`
+        ).join('');
+
+        this.syncToCode();
+      };
+
+      // Edit slide src/alt OR tab title
       settingsEl.addEventListener('input', e => {
         if (e.target.dataset.slideSrc !== undefined || e.target.dataset.slideAlt !== undefined) {
           syncSlidesToCarousel();
+        } else if (e.target.dataset.tabTitle !== undefined) {
+          syncTabsToComponent();
         }
       });
 
-      // Delete/Add slide
+      // Delete/Add slide OR tab
       settingsEl.addEventListener('click', e => {
         const delBtn = e.target.closest('[data-slide-del]');
         if (delBtn) {
@@ -1391,8 +1437,64 @@ input[type="checkbox"]:checked+.jse-toggle::after{transform:translateX(12px);bac
           `;
           addBtn.before(newRow);
           syncSlidesToCarousel();
+          return;
+        }
+
+        // Tab delete button
+        const tabDelBtn = e.target.closest('[data-tab-del]');
+        if (tabDelBtn) {
+          const row = tabDelBtn.closest('.jse-tab-row');
+          if (row) {
+            row.remove();
+            // Reindex remaining rows
+            settingsEl.querySelectorAll('.jse-tab-row').forEach((r, i) => {
+              r.dataset.tabIdx = i;
+              const titleInp = r.querySelector('[data-tab-title]');
+              const delB = r.querySelector('[data-tab-del]');
+              if (titleInp) titleInp.dataset.tabTitle = i;
+              if (delB) delB.dataset.tabDel = i;
+            });
+            syncTabsToComponent();
+            // Refresh settings panel to show updated tab list
+            this.updateAttrInputs();
+          }
+          return;
+        }
+
+        // Tab add button
+        const tabAddBtn = e.target.closest('[data-tab-add]');
+        if (tabAddBtn) {
+          // Add new tab directly to the component
+          const blockRoot = this._currentBlockRoot;
+          if (!blockRoot) return;
+          const navTabs = blockRoot.querySelector('.nav-tabs');
+          const tabContent = blockRoot.querySelector('.tab-content');
+          if (!navTabs || !tabContent) return;
+
+          const tabsId = navTabs.getAttribute('id') || 'tabs1';
+          const count = navTabs.querySelectorAll('.nav-link').length;
+
+          // Add new nav item
+          const newNavItem = document.createElement('li');
+          newNavItem.className = 'nav-item';
+          newNavItem.setAttribute('role', 'presentation');
+          newNavItem.innerHTML = `<button class="nav-link" data-bs-toggle="tab" data-bs-target="#${tabsId}-${count + 1}" type="button" role="tab">Tab ${count + 1}</button>`;
+          navTabs.appendChild(newNavItem);
+
+          // Add new pane with placeholder
+          const newPane = document.createElement('div');
+          newPane.className = 'tab-pane fade';
+          newPane.id = `${tabsId}-${count + 1}`;
+          newPane.setAttribute('role', 'tabpanel');
+          newPane.innerHTML = '<p class="text-muted">Arrastra bloques aquí</p>';
+          tabContent.appendChild(newPane);
+
+          this.syncToCode();
+          // Refresh settings panel to show new tab
+          this.updateAttrInputs();
         }
       });
+
     }
 
     initFrame() {
@@ -1443,6 +1545,29 @@ body{min-height:100vh;padding:10px}
       body.addEventListener('click', e => {
         e.preventDefault();
         e.stopPropagation();
+
+        // Handle Bootstrap tabs click - switch active tab/pane
+        const tabBtn = e.target.closest('[data-bs-toggle="tab"]');
+        if (tabBtn) {
+          const targetSelector = tabBtn.getAttribute('data-bs-target');
+          if (targetSelector) {
+            const tabsWrapper = tabBtn.closest('.shou-tabs-wrapper');
+            if (tabsWrapper) {
+              // Remove active from all tabs and panes
+              tabsWrapper.querySelectorAll('.nav-link').forEach(t => t.classList.remove('active'));
+              tabsWrapper.querySelectorAll('.tab-pane').forEach(p => {
+                p.classList.remove('show', 'active');
+              });
+              // Activate clicked tab and its pane
+              tabBtn.classList.add('active');
+              const pane = tabsWrapper.querySelector(targetSelector);
+              if (pane) {
+                pane.classList.add('show', 'active');
+              }
+            }
+          }
+        }
+
         this.selectElement(e.target === body ? null : e.target);
       });
       // Double-click selects the parent element (to reach table, div, etc.)
@@ -2491,6 +2616,9 @@ body{min-height:100vh;padding:10px}
       const blockId = blockRoot ? blockRoot.getAttribute('data-jse-block') : null;
       const block = blockId ? this.getBlockById(blockId) : null;
 
+      // Store reference to current block being edited (for tabs/slides sync)
+      this._currentBlockRoot = blockRoot;
+
       if (block && block.settings?.length) {
         container.innerHTML = block.settings.map((s, idx) => {
           const target = s.selector ? blockRoot.querySelector(s.selector) : blockRoot;
@@ -2532,6 +2660,19 @@ body{min-height:100vh;padding:10px}
               </div>`;
             }).join('');
             return `<div class="jse-row" style="flex-direction:column;align-items:stretch"><label>${t(s.label)}</label><div data-sidx="${idx}" data-slides-editor="true" style="margin-top:4px">${rows}<button data-slide-add style="width:100%;padding:6px;border:1px dashed var(--jse-border);border-radius:3px;background:transparent;color:var(--jse-accent);cursor:pointer;font-size:11px;margin-top:2px">${t('setting.addSlide')}</button></div></div>`;
+          }
+          if (s.type === 'tabs') {
+            // Bootstrap Tabs editor - only titles, content is edited visually in canvas
+            const navTabs = blockRoot.querySelector('.nav-tabs');
+            const tabButtons = navTabs ? Array.from(navTabs.querySelectorAll('.nav-link')) : [];
+            const rows = tabButtons.map((btn, ti) => {
+              const title = (btn.textContent || '').replace(/"/g, '&quot;');
+              return `<div class="jse-tab-row" data-tab-idx="${ti}" style="display:flex;gap:8px;align-items:center;margin-bottom:6px">
+                <input type="text" data-tab-title="${ti}" value="${title}" placeholder="${t('setting.tabTitle')}" style="flex:1;padding:6px 8px;border:1px solid var(--jse-border);border-radius:3px;background:var(--jse-bg);color:var(--jse-text);font-size:12px">
+                <button data-tab-del="${ti}" style="padding:4px 8px;border:1px solid var(--jse-border);border-radius:3px;background:var(--jse-bg);color:var(--jse-text);cursor:pointer;font-size:12px;line-height:1" title="${t('toolbar.delete')}">&times;</button>
+              </div>`;
+            }).join('');
+            return `<div class="jse-row" style="flex-direction:column;align-items:stretch"><label>${t(s.label)}</label><div data-sidx="${idx}" data-tabs-editor="true" style="margin-top:6px">${rows}<button data-tab-add style="width:100%;padding:8px;border:1px dashed var(--jse-border);border-radius:3px;background:transparent;color:var(--jse-accent);cursor:pointer;font-size:12px;margin-top:4px">${t('setting.addTab')}</button></div><p style="font-size:10px;color:var(--jse-text-muted);margin-top:6px;margin-bottom:0">Edita el contenido de cada pestaña directamente en el canvas</p></div>`;
           }
 
           // Default: text input
