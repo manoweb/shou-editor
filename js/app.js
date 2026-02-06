@@ -564,16 +564,16 @@
     </div>
     <div class="jse-toolbar-center">
       <div class="jse-device-switcher">
-        <button class="jse-device-btn active" data-device="desktop" title="Desktop">${Icons.desktop}</button>
-        <button class="jse-device-btn" data-device="tablet" title="Tablet">${Icons.tablet}</button>
-        <button class="jse-device-btn" data-device="mobile" title="Mobile">${Icons.mobile}</button>
+        <button type="button" class="jse-device-btn active" data-device="desktop" title="Desktop">${Icons.desktop}</button>
+        <button type="button" class="jse-device-btn" data-device="tablet" title="Tablet">${Icons.tablet}</button>
+        <button type="button" class="jse-device-btn" data-device="mobile" title="Mobile">${Icons.mobile}</button>
       </div>
       <div class="jse-view-switcher">
-        <button class="jse-view-btn ${config.defaultView === 'visual' ? 'active' : ''}" data-view="visual">Visual</button>
-        <button class="jse-view-btn ${config.defaultView === 'code' ? 'active' : ''}" data-view="code">${t('view.code')}</button>
+        <button type="button" class="jse-view-btn ${config.defaultView === 'visual' ? 'active' : ''}" data-view="visual">Visual</button>
+        <button type="button" class="jse-view-btn ${config.defaultView === 'code' ? 'active' : ''}" data-view="code">${t('view.code')}</button>
       </div>
       <div class="jse-toolbar-toggle">
-        <button class="jse-toggle-btn" data-toggle="outlines" title="${t('btn.toggleOutlines')}">${Icons.outlines} Outlines</button>
+        <button type="button" class="jse-toggle-btn" data-toggle="outlines" title="${t('btn.toggleOutlines')}">${Icons.outlines} Outlines</button>
       </div>
     </div>
     <div class="jse-toolbar-right">
@@ -588,8 +588,8 @@
     <!-- LEFT PANEL: Blocks -->
     <aside class="jse-panel jse-panel-left">
       <div class="jse-panel-tabs">
-        <button class="jse-panel-tab active" data-panel="blocks">${t('panel.blocks')}</button>
-        <button class="jse-panel-tab" data-panel="layers">${t('panel.layers')}</button>
+        <button type="button" class="jse-panel-tab active" data-panel="blocks">${t('panel.blocks')}</button>
+        <button type="button" class="jse-panel-tab" data-panel="layers">${t('panel.layers')}</button>
       </div>
       <div class="jse-panel-body active" id="jse-blocks">${cats}</div>
       <div class="jse-panel-body" id="jse-layers"><div class="jse-empty">${t('empty.dragElements')}</div></div>
@@ -603,9 +603,9 @@
       </div>
       <div class="jse-code-canvas ${config.defaultView === 'code' ? 'active' : ''}">
         <div class="jse-code-tabs">
-          <button class="jse-code-tab active" data-lang="html">HTML</button>
-          <button class="jse-code-tab" data-lang="css">CSS</button>
-          <button class="jse-code-tab" data-lang="js">JS</button>
+          <button type="button" class="jse-code-tab active" data-lang="html">HTML</button>
+          <button type="button" class="jse-code-tab" data-lang="css">CSS</button>
+          <button type="button" class="jse-code-tab" data-lang="js">JS</button>
         </div>
         <div class="jse-code-editors">
           <div class="jse-code-editor active" data-lang="html">
@@ -631,8 +631,8 @@
     <!-- RIGHT PANEL: Styles -->
     <aside class="jse-panel jse-panel-right">
       <div class="jse-panel-tabs">
-        <button class="jse-panel-tab active" data-panel="styles">${t('panel.styles')}</button>
-        <button class="jse-panel-tab" data-panel="settings">${t('panel.settings')}</button>
+        <button type="button" class="jse-panel-tab active" data-panel="styles">${t('panel.styles')}</button>
+        <button type="button" class="jse-panel-tab" data-panel="settings">${t('panel.settings')}</button>
       </div>
       <div class="jse-panel-body active" id="jse-styles">
         <div class="jse-selected-info"><span class="jse-no-sel">${t('empty.selectElement')}</span></div>
@@ -971,6 +971,11 @@ input[type="checkbox"]:checked+.jse-toggle::after{transform:translateX(12px);bac
 
     bindEvents() {
       const r = this.root;
+
+      // Prevent all button clicks from bubbling to parent forms/page (AJAX compat)
+      r.addEventListener('click', e => {
+        if (e.target.closest('button')) e.preventDefault();
+      });
 
       // Toolbar actions
       on(r, 'click', '.jse-btn', (e, btn) => {
@@ -1586,7 +1591,7 @@ input[type="checkbox"]:checked+.jse-toggle::after{transform:translateX(12px);bac
           newRow.innerHTML = `
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
               <strong style="font-size:11px;color:var(--jse-text-muted)">Slide ${count + 1}</strong>
-              <button data-slide-del="${count}" style="padding:2px 6px;border:1px solid var(--jse-border);border-radius:3px;background:var(--jse-bg);color:var(--jse-text);cursor:pointer;font-size:11px;line-height:1" title="${t('toolbar.delete')}">&times;</button>
+              <button type="button" data-slide-del="${count}" style="padding:2px 6px;border:1px solid var(--jse-border);border-radius:3px;background:var(--jse-bg);color:var(--jse-text);cursor:pointer;font-size:11px;line-height:1" title="${t('toolbar.delete')}">&times;</button>
             </div>
             <input type="text" data-slide-src="${count}" value="https://picsum.photos/1200/500?random=${count + 10}" placeholder="${t('setting.slideUrl')}" style="width:100%;padding:4px 6px;border:1px solid var(--jse-border);border-radius:3px;background:var(--jse-bg);color:var(--jse-text);font-size:11px">
             <input type="text" data-slide-alt="${count}" value="Slide ${count + 1}" placeholder="${t('setting.slideAlt')}" style="width:100%;padding:4px 6px;border:1px solid var(--jse-border);border-radius:3px;background:var(--jse-bg);color:var(--jse-text);font-size:11px">
@@ -2290,11 +2295,11 @@ body{min-height:100vh;padding:10px}
       toolbar.className = 'jse-element-toolbar';
       const isImg = this.selectedElement && this.selectedElement.tagName === 'IMG';
       toolbar.innerHTML = `
-        <button class="jse-drag-handle" title="${t('toolbar.drag')}">${Icons.drag}</button>
+        <button type="button" class="jse-drag-handle" title="${t('toolbar.drag')}">${Icons.drag}</button>
         <span class="jse-tb-sep"></span>
-        ${isImg ? `<button data-action="edit-image" title="${t('toolbar.editImage')}">${Icons.editImage}</button>` : ''}
-        <button data-action="duplicate" title="${t('toolbar.duplicate')}">${Icons.duplicate}</button>
-        <button data-action="delete" title="${t('toolbar.delete')}">${Icons.delete}</button>
+        ${isImg ? `<button type="button" data-action="edit-image" title="${t('toolbar.editImage')}">${Icons.editImage}</button>` : ''}
+        <button type="button" data-action="duplicate" title="${t('toolbar.duplicate')}">${Icons.duplicate}</button>
+        <button type="button" data-action="delete" title="${t('toolbar.delete')}">${Icons.delete}</button>
       `;
 
       // Drag handle for moving elements
@@ -3017,7 +3022,7 @@ body{min-height:100vh;padding:10px}
               return `<div class="jse-slide-row" data-slide-idx="${si}" style="display:flex;flex-direction:column;gap:4px;margin-bottom:8px;padding:8px;border:1px solid var(--jse-border);border-radius:4px;background:var(--jse-bg-alt)">
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
                   <strong style="font-size:11px;color:var(--jse-text-muted)">Slide ${si + 1}</strong>
-                  <button data-slide-del="${si}" style="padding:2px 6px;border:1px solid var(--jse-border);border-radius:3px;background:var(--jse-bg);color:var(--jse-text);cursor:pointer;font-size:11px;line-height:1" title="${t('toolbar.delete')}">&times;</button>
+                  <button type="button" data-slide-del="${si}" style="padding:2px 6px;border:1px solid var(--jse-border);border-radius:3px;background:var(--jse-bg);color:var(--jse-text);cursor:pointer;font-size:11px;line-height:1" title="${t('toolbar.delete')}">&times;</button>
                 </div>
                 <input type="text" data-slide-src="${si}" value="${src}" placeholder="${t('setting.slideUrl')}" style="width:100%;padding:4px 6px;border:1px solid var(--jse-border);border-radius:3px;background:var(--jse-bg);color:var(--jse-text);font-size:11px">
                 <input type="text" data-slide-alt="${si}" value="${alt}" placeholder="${t('setting.slideAlt')}" style="width:100%;padding:4px 6px;border:1px solid var(--jse-border);border-radius:3px;background:var(--jse-bg);color:var(--jse-text);font-size:11px">
@@ -3033,7 +3038,7 @@ body{min-height:100vh;padding:10px}
               const title = (btn.textContent || '').replace(/"/g, '&quot;');
               return `<div class="jse-tab-row" data-tab-idx="${ti}" style="display:flex;gap:8px;align-items:center;margin-bottom:6px">
                 <input type="text" data-tab-title="${ti}" value="${title}" placeholder="${t('setting.tabTitle')}" style="flex:1;padding:6px 8px;border:1px solid var(--jse-border);border-radius:3px;background:var(--jse-bg);color:var(--jse-text);font-size:12px">
-                <button data-tab-del="${ti}" style="padding:4px 8px;border:1px solid var(--jse-border);border-radius:3px;background:var(--jse-bg);color:var(--jse-text);cursor:pointer;font-size:12px;line-height:1" title="${t('toolbar.delete')}">&times;</button>
+                <button type="button" data-tab-del="${ti}" style="padding:4px 8px;border:1px solid var(--jse-border);border-radius:3px;background:var(--jse-bg);color:var(--jse-text);cursor:pointer;font-size:12px;line-height:1" title="${t('toolbar.delete')}">&times;</button>
               </div>`;
             }).join('');
             return `<div class="jse-row" style="flex-direction:column;align-items:stretch"><label>${t(s.label)}</label><div data-sidx="${idx}" data-tabs-editor="true" style="margin-top:6px">${rows}<button data-tab-add style="width:100%;padding:8px;border:1px dashed var(--jse-border);border-radius:3px;background:transparent;color:var(--jse-accent);cursor:pointer;font-size:12px;margin-top:4px">${t('setting.addTab')}</button></div><p style="font-size:10px;color:var(--jse-text-muted);margin-top:6px;margin-bottom:0">Edita el contenido de cada pestaña directamente en el canvas</p></div>`;
@@ -3047,7 +3052,7 @@ body{min-height:100vh;padding:10px}
               const title = (btn?.textContent || '').replace(/"/g, '&quot;');
               return `<div class="jse-accordion-row" data-acc-idx="${ai}" style="display:flex;gap:8px;align-items:center;margin-bottom:6px">
                 <input type="text" data-acc-title="${ai}" value="${title}" placeholder="${t('setting.sectionTitle')}" style="flex:1;padding:6px 8px;border:1px solid var(--jse-border);border-radius:3px;background:var(--jse-bg);color:var(--jse-text);font-size:12px">
-                <button data-acc-del="${ai}" style="padding:4px 8px;border:1px solid var(--jse-border);border-radius:3px;background:var(--jse-bg);color:var(--jse-text);cursor:pointer;font-size:12px;line-height:1" title="${t('toolbar.delete')}">&times;</button>
+                <button type="button" data-acc-del="${ai}" style="padding:4px 8px;border:1px solid var(--jse-border);border-radius:3px;background:var(--jse-bg);color:var(--jse-text);cursor:pointer;font-size:12px;line-height:1" title="${t('toolbar.delete')}">&times;</button>
               </div>`;
             }).join('');
             return `<div class="jse-row" style="flex-direction:column;align-items:stretch"><label>${t(s.label)}</label><div data-sidx="${idx}" data-accordion-editor="true" style="margin-top:6px">${rows}<button data-acc-add style="width:100%;padding:8px;border:1px dashed var(--jse-border);border-radius:3px;background:transparent;color:var(--jse-accent);cursor:pointer;font-size:12px;margin-top:4px">${t('setting.addSection')}</button></div><p style="font-size:10px;color:var(--jse-text-muted);margin-top:6px;margin-bottom:0">Haz click en una sección para editarla en el canvas</p></div>`;
@@ -3060,7 +3065,7 @@ body{min-height:100vh;padding:10px}
               const text = (item.textContent || '').replace(/"/g, '&quot;');
               return `<div class="jse-listitem-row" data-listitem-idx="${li}" style="display:flex;gap:8px;align-items:center;margin-bottom:6px">
                 <input type="text" data-listitem-text="${li}" value="${text}" placeholder="${t('setting.itemText')}" style="flex:1;padding:6px 8px;border:1px solid var(--jse-border);border-radius:3px;background:var(--jse-bg);color:var(--jse-text);font-size:12px">
-                <button data-listitem-del="${li}" style="padding:4px 8px;border:1px solid var(--jse-border);border-radius:3px;background:var(--jse-bg);color:var(--jse-text);cursor:pointer;font-size:12px;line-height:1" title="${t('toolbar.delete')}">&times;</button>
+                <button type="button" data-listitem-del="${li}" style="padding:4px 8px;border:1px solid var(--jse-border);border-radius:3px;background:var(--jse-bg);color:var(--jse-text);cursor:pointer;font-size:12px;line-height:1" title="${t('toolbar.delete')}">&times;</button>
               </div>`;
             }).join('');
             return `<div class="jse-row" style="flex-direction:column;align-items:stretch"><label>${t(s.label)}</label><div data-sidx="${idx}" data-listgroup-editor="true" style="margin-top:6px">${rows}<button data-listitem-add style="width:100%;padding:8px;border:1px dashed var(--jse-border);border-radius:3px;background:transparent;color:var(--jse-accent);cursor:pointer;font-size:12px;margin-top:4px">${t('setting.addItem')}</button></div></div>`;
@@ -3077,7 +3082,7 @@ body{min-height:100vh;padding:10px}
               return `<div class="jse-breadcrumb-row" data-bc-idx="${bi}" style="display:flex;flex-direction:column;gap:4px;margin-bottom:8px;padding:8px;border:1px solid var(--jse-border);border-radius:4px;background:var(--jse-bg-alt)">
                 <div style="display:flex;gap:6px;align-items:center">
                   <input type="text" data-bc-text="${bi}" value="${text}" placeholder="${t('setting.linkText')}" style="flex:1;padding:5px 8px;border:1px solid var(--jse-border);border-radius:3px;background:var(--jse-bg);color:var(--jse-text);font-size:12px">
-                  <button data-bc-del="${bi}" style="padding:4px 8px;border:1px solid var(--jse-border);border-radius:3px;background:var(--jse-bg);color:var(--jse-text);cursor:pointer;font-size:12px;line-height:1" title="${t('toolbar.delete')}">&times;</button>
+                  <button type="button" data-bc-del="${bi}" style="padding:4px 8px;border:1px solid var(--jse-border);border-radius:3px;background:var(--jse-bg);color:var(--jse-text);cursor:pointer;font-size:12px;line-height:1" title="${t('toolbar.delete')}">&times;</button>
                 </div>
                 ${!isActive ? `<input type="text" data-bc-url="${bi}" value="${href}" placeholder="${t('setting.linkUrl')}" style="width:100%;padding:5px 8px;border:1px solid var(--jse-border);border-radius:3px;background:var(--jse-bg);color:var(--jse-text);font-size:11px">` : `<span style="font-size:10px;color:var(--jse-text-muted);padding:2px 0">Página actual (sin enlace)</span>`}
               </div>`;
