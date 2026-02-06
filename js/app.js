@@ -558,9 +558,9 @@
   <header class="jse-toolbar">
     <div class="jse-toolbar-left">
       <span class="jse-logo">Shou Editor</span>
-      <button class="jse-btn" data-action="new" title="${t('btn.new')}">${Icons.fileNew}</button>
-      <button class="jse-btn" data-action="open" title="${t('btn.open')}">${Icons.folderOpen}</button>
-      <button class="jse-btn" data-action="save" title="${t('btn.save')}">${Icons.save}</button>
+      <button type="button" class="jse-btn" data-action="new" title="${t('btn.new')}">${Icons.fileNew}</button>
+      <button type="button" class="jse-btn" data-action="open" title="${t('btn.open')}">${Icons.folderOpen}</button>
+      <button type="button" class="jse-btn" data-action="save" title="${t('btn.save')}">${Icons.save}</button>
     </div>
     <div class="jse-toolbar-center">
       <div class="jse-device-switcher">
@@ -577,9 +577,9 @@
       </div>
     </div>
     <div class="jse-toolbar-right">
-      <button class="jse-btn" data-action="preview" title="Preview">${Icons.preview}</button>
-      <button class="jse-btn" data-action="export" title="${t('btn.export')}">${Icons.download}</button>
-      <button class="jse-btn" data-action="theme" title="${t('btn.theme')}">${Icons.theme}</button>
+      <button type="button" class="jse-btn" data-action="preview" title="Preview">${Icons.preview}</button>
+      <button type="button" class="jse-btn" data-action="export" title="${t('btn.export')}">${Icons.download}</button>
+      <button type="button" class="jse-btn" data-action="theme" title="${t('btn.theme')}">${Icons.theme}</button>
     </div>
   </header>
 
