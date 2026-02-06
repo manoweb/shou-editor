@@ -63,7 +63,7 @@
   const Lang = {
     en: {
       'btn.new': 'New', 'btn.open': 'Open', 'btn.save': 'Save',
-      'btn.export': 'Export', 'btn.theme': 'Theme',
+      'btn.export': 'Export', 'btn.theme': 'Theme', 'btn.fullscreen': 'Fullscreen',
       'btn.toggleOutlines': 'Show container outlines',
       'view.code': 'Code',
       'panel.blocks': 'Blocks', 'panel.layers': 'Layers',
@@ -118,7 +118,7 @@
     },
     es: {
       'btn.new': 'Nuevo', 'btn.open': 'Abrir', 'btn.save': 'Guardar',
-      'btn.export': 'Exportar', 'btn.theme': 'Tema',
+      'btn.export': 'Exportar', 'btn.theme': 'Tema', 'btn.fullscreen': 'Pantalla completa',
       'btn.toggleOutlines': 'Mostrar contornos de contenedores',
       'view.code': 'Código',
       'panel.blocks': 'Bloques', 'panel.layers': 'Capas',
@@ -195,6 +195,8 @@
     download:   svg('<path d="M19 9h-4V3H9v6H5l7 7 7-7zm-14 9v2h14v-2H5z"/>'),
     theme:      svg('<path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zm0 16V5a7 7 0 0 1 0 14z"/>'),
     outlines:   svg('<path d="M3 3h18v18H3V3zm2 2v14h14V5H5z" fill-rule="evenodd"/><path d="M7 7h4v4H7zm6 0h4v4h-4zm-6 6h4v4H7zm6 0h4v4h-4z" opacity=".3"/>'),
+    fullscreen: svg('<path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>'),
+    exitFullscreen: svg('<path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/>'),
 
     // Blocks - Basic
     text:       svg('<path d="M5 4v3h5.5v12h3V7H19V4H5z"/>'),
@@ -580,6 +582,7 @@
       <button type="button" class="jse-btn" data-action="preview" title="Preview">${Icons.preview}</button>
       <button type="button" class="jse-btn" data-action="export" title="${t('btn.export')}">${Icons.download}</button>
       <button type="button" class="jse-btn" data-action="theme" title="${t('btn.theme')}">${Icons.theme}</button>
+      <button type="button" class="jse-btn jse-fullscreen-btn" data-action="fullscreen" title="${t('btn.fullscreen')}">${Icons.fullscreen}</button>
     </div>
   </header>
 
@@ -594,6 +597,7 @@
       <div class="jse-panel-body active" id="jse-blocks">${cats}</div>
       <div class="jse-panel-body" id="jse-layers"><div class="jse-empty">${t('empty.dragElements')}</div></div>
     </aside>
+    <div class="jse-resize-handle jse-resize-left" title="Resize"></div>
 
     <!-- CANVAS -->
     <section class="jse-canvas-wrap">
@@ -627,6 +631,7 @@
         <div class="jse-canvas-breadcrumb jse-code-breadcrumb"></div>
       </div>
     </section>
+    <div class="jse-resize-handle jse-resize-right" title="Resize"></div>
 
     <!-- RIGHT PANEL: Styles -->
     <aside class="jse-panel jse-panel-right">
@@ -771,9 +776,15 @@ input[type="checkbox"]:checked+.jse-toggle::after{transform:translateX(12px);bac
 .jse-editor *::-webkit-scrollbar-corner{background:var(--jse-bg)}
 .jse-editor{scrollbar-color:var(--jse-bg3) var(--jse-bg)}
 .jse-editor *{scrollbar-color:var(--jse-bg3) var(--jse-bg);scrollbar-width:thin}
-@media(max-width:992px){.jse-panel{display:none}.jse-canvas-wrap{min-width:0}}
+@media(max-width:992px){.jse-panel,.jse-resize-handle{display:none}.jse-canvas-wrap{min-width:0}}
 .jse-image-modal{position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.8);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
 .jse-image-modal-content{width:90vw;height:90vh;border-radius:8px;overflow:hidden}
+/* Fullscreen mode */
+.jse-editor.jse-fullscreen{position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;z-index:99999!important;border-radius:0!important;box-shadow:none!important}
+/* Resize handles */
+.jse-resize-handle{width:5px;cursor:col-resize;background:transparent;flex-shrink:0;position:relative;z-index:10;transition:background .15s}
+.jse-resize-handle:hover,.jse-resize-handle.dragging{background:var(--jse-accent)}
+.jse-resize-handle::after{content:'';position:absolute;inset:-2px -4px;z-index:1}
     `;
   }
 
@@ -977,6 +988,13 @@ input[type="checkbox"]:checked+.jse-toggle::after{transform:translateX(12px);bac
         if (e.target.closest('button')) e.preventDefault();
       });
 
+      // Escape to exit fullscreen
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && this.root.classList.contains('jse-fullscreen')) {
+          this.toggleFullscreen();
+        }
+      });
+
       // Toolbar actions
       on(r, 'click', '.jse-btn', (e, btn) => {
         const action = btn.dataset.action;
@@ -986,6 +1004,7 @@ input[type="checkbox"]:checked+.jse-toggle::after{transform:translateX(12px);bac
         if (action === 'preview') this.preview();
         if (action === 'export') this.exportHtml();
         if (action === 'theme') this.toggleTheme();
+        if (action === 'fullscreen') this.toggleFullscreen();
       });
 
       // Device switcher
@@ -1025,6 +1044,9 @@ input[type="checkbox"]:checked+.jse-toggle::after{transform:translateX(12px);bac
       on(r, 'click', '.jse-section-header', (e, h) => {
         h.closest('.jse-style-section')?.classList.toggle('open');
       });
+
+      // Panel resize handles
+      this._initPanelResize();
 
       // Block drag & drop
       on(this.blocksPanel, 'dragstart', '.jse-block', (e, block) => {
@@ -1793,6 +1815,64 @@ input[type="checkbox"]:checked+.jse-toggle::after{transform:translateX(12px);bac
         }
       });
 
+    }
+
+    toggleFullscreen() {
+      const isFs = this.root.classList.toggle('jse-fullscreen');
+      const btn = this.root.querySelector('.jse-fullscreen-btn');
+      if (btn) btn.innerHTML = isFs ? Icons.exitFullscreen : Icons.fullscreen;
+      if (btn) btn.title = isFs ? 'Exit fullscreen' : t('btn.fullscreen');
+      // Store original inline dimensions to restore later
+      if (isFs) {
+        this._origWidth = this.root.style.width;
+        this._origHeight = this.root.style.height;
+      } else {
+        this.root.style.width = this._origWidth || '';
+        this.root.style.height = this._origHeight || '';
+      }
+    }
+
+    _initPanelResize() {
+      const leftHandle = this.root.querySelector('.jse-resize-left');
+      const rightHandle = this.root.querySelector('.jse-resize-right');
+      const leftPanel = this.root.querySelector('.jse-panel-left');
+      const rightPanel = this.root.querySelector('.jse-panel-right');
+
+      const startResize = (handle, panel, direction) => {
+        if (!handle || !panel) return;
+        handle.addEventListener('mousedown', e => {
+          e.preventDefault();
+          const startX = e.clientX;
+          const startW = panel.offsetWidth;
+          handle.classList.add('dragging');
+          document.body.style.cursor = 'col-resize';
+          document.body.style.userSelect = 'none';
+          // Cover iframe so mousemove doesn't get swallowed
+          const overlay = document.createElement('div');
+          overlay.style.cssText = 'position:fixed;inset:0;z-index:99999;cursor:col-resize';
+          document.body.appendChild(overlay);
+
+          const onMove = ev => {
+            const delta = direction === 'left' ? ev.clientX - startX : startX - ev.clientX;
+            const newW = Math.max(150, Math.min(500, startW + delta));
+            panel.style.width = newW + 'px';
+            panel.style.minWidth = newW + 'px';
+          };
+          const onUp = () => {
+            handle.classList.remove('dragging');
+            document.body.style.cursor = '';
+            document.body.style.userSelect = '';
+            overlay.remove();
+            document.removeEventListener('mousemove', onMove);
+            document.removeEventListener('mouseup', onUp);
+          };
+          document.addEventListener('mousemove', onMove);
+          document.addEventListener('mouseup', onUp);
+        });
+      };
+
+      startResize(leftHandle, leftPanel, 'left');
+      startResize(rightHandle, rightPanel, 'right');
     }
 
     initFrame() {
