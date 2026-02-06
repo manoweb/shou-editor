@@ -77,6 +77,15 @@
       'opt.color1': 'Color 1',
       'opt.color2': 'Color 2',
       'opt.align': 'Align',
+      'tool.selectRect': 'Rectangle select',
+      'tool.selectEllipse': 'Ellipse select',
+      'tool.selectPoly': 'Polygon select',
+      'tool.selectFree': 'Free select',
+      'sel.all': 'Select all',
+      'sel.deselect': 'Deselect',
+      'sel.invert': 'Invert',
+      'sel.cropToSel': 'Crop to selection',
+      'sel.delete': 'Delete',
     },
     es: {
       'tool.undo': 'Deshacer',
@@ -131,6 +140,15 @@
       'opt.color1': 'Color 1',
       'opt.color2': 'Color 2',
       'opt.align': 'Alinear',
+      'tool.selectRect': 'Selección rectangular',
+      'tool.selectEllipse': 'Selección elíptica',
+      'tool.selectPoly': 'Selección poligonal',
+      'tool.selectFree': 'Selección libre',
+      'sel.all': 'Seleccionar todo',
+      'sel.deselect': 'Deseleccionar',
+      'sel.invert': 'Invertir',
+      'sel.cropToSel': 'Recortar a selección',
+      'sel.delete': 'Eliminar',
     }
   };
 
@@ -173,6 +191,10 @@
     folderOpen:  '<svg viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z"/></svg>',
     chevronRight:'<svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>',
     chevronDown: '<svg viewBox="0 0 24 24"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/></svg>',
+    selectRect:  '<svg viewBox="0 0 24 24"><path d="M3 3h4v2H5v2H3V3zm8 0h2v2h-2V3zm6 0h4v4h-2V5h-2V3zM3 11h2v2H3v-2zm16 0h2v2h-2v-2zM3 17h2v2h2v2H3v-4zm8 2h2v2h-2v-2zm6 0h2v2h2v-2h-2zm2-2h2v-2h-2v2z"/></svg>',
+    selectEllipse:'<svg viewBox="0 0 24 24"><path d="M12 4c4.42 0 8 3.58 8 8s-3.58 8-8 8-8-3.58-8-8 3.58-8 8-8zm0 2c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6z"/><path d="M12 2c-.6 0-1.19.05-1.76.16l.35 1.97A8.1 8.1 0 0112 4c.47 0 .94.04 1.39.13l.37-1.97C13.19 2.05 12.6 2 12 2z" opacity=".5"/></svg>',
+    selectPoly:  '<svg viewBox="0 0 24 24"><path d="M2 4l5 16h10l5-12-8-7L2 4zm3.09 1.63L12 3.2l6.18 5.41L14.27 18H7.73L3.09 5.63z"/></svg>',
+    selectFree:  '<svg viewBox="0 0 24 24"><path d="M15.5 2C13 2 10.7 3.2 9.3 5.1c-.8-.1-1.5-.1-2.3-.1C3.6 5 1 7.6 1 11c0 2.9 2 5.4 4.8 5.9l.4-2C4.3 14.5 3 13 3 11c0-2.2 1.8-4 4-4 .3 0 .5 0 .8.1C8.6 9.4 10.8 11 13.5 11c.5 0 1-.1 1.5-.2l-.5-2c-.3.1-.7.2-1 .2-1.9 0-3.5-1.1-4.2-2.7C10.4 4.3 12.7 3 15.5 3 18.5 3 21 5.5 21 8.5S18.5 14 15.5 14v2c3.6 0 6.5-2.9 6.5-6.5S19.1 2 15.5 2z"/></svg>',
   };
 
   // ── Layer Class ─────────────────────────────────────
@@ -613,6 +635,12 @@
 .jsie-tool-btn.active{background:var(--jsie-accent);color:#fff}
 .jsie-tool-btn svg{width:18px;height:18px;fill:currentColor}
 .jsie-tool-sep{width:24px;height:1px;background:var(--jsie-border);margin:3px 0}
+.jsie-tool-group{position:relative}
+.jsie-group-arrow{position:absolute;bottom:0;right:0;width:12px;height:12px;cursor:pointer;display:flex;align-items:flex-end;justify-content:flex-end;padding:2px}
+.jsie-group-arrow::after{content:'';width:0;height:0;border-left:4px solid transparent;border-top:4px solid currentColor}
+.jsie-group-submenu{position:absolute;left:calc(100% + 2px);top:0;background:var(--jsie-bg2);border:1px solid var(--jsie-border);border-radius:4px;padding:4px;display:flex;flex-direction:column;gap:2px;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.jsie-group-submenu .jsie-tool-btn{width:32px;height:32px}
+.jsie-group-submenu .jsie-tool-btn.active{background:var(--jsie-accent);color:#fff}
 
 /* Center canvas */
 .jsie-canvas-area{flex:1;display:flex;align-items:center;justify-content:center;overflow:auto;background:var(--jsie-bg3);position:relative}
@@ -724,10 +752,19 @@
       hue: { min: 0, max: 360, value: 0 },
     };
 
-    // Drawing tool buttons
-    const drawBtns = drawingTools.map(tool =>
-      `<button class="jsie-tool-btn" data-tool="${tool}" title="${t('tool.' + tool)}">${Icons[tool] || ''}</button>`
-    ).join('');
+    // Drawing tool buttons (supports tool groups)
+    const drawBtns = drawingTools.map(tool => {
+      if (typeof tool === 'object' && tool.group) {
+        const defaultTool = tool.tools[0];
+        return `<div class="jsie-tool-group" data-group="${tool.group}">
+          <button class="jsie-tool-btn" data-tool="${defaultTool}" data-group="${tool.group}" title="${t('tool.' + defaultTool)}">
+            ${Icons[defaultTool] || ''}
+            <span class="jsie-group-arrow"></span>
+          </button>
+        </div>`;
+      }
+      return `<button class="jsie-tool-btn" data-tool="${tool}" title="${t('tool.' + tool)}">${Icons[tool] || ''}</button>`;
+    }).join('');
 
     // Transform tool buttons (some are actions, some are tools)
     const actionTools = ['resize', 'rotateLeft', 'rotateRight', 'flipH', 'flipV'];
@@ -846,32 +883,51 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
       this.gradientColor2 = '#0000ff';
       this._moveSnapshot = null;
       this._moveStart = null;
+      // Selection state
+      this.selection = null;
+      this._selectionPath = null;
+      this._selectionPoints = [];
+      this._selectionAnimFrame = null;
+      this._selectionAntsOffset = 0;
+      this._selectionStart = null;
+      this._selectionPreview = null;
+      this._clipboard = null;
+      this._toolGroupSelection = {};
       this._init();
     }
 
     getDefaultConfig() {
-      return {
+      // Use cached external config if loaded, with fallback inline defaults
+      const base = ImageEditor._externalConfig || {
         theme: 'dark',
         width: '100%',
         height: '100%',
         maxHistory: 20,
         outputFormat: 'png',
         outputQuality: 0.92,
-        onSave: null,
-        onCancel: null,
         lang: 'en',
         tools: {
-          drawing: ['move', 'pencil', 'eraser', 'eyedropper', 'fill', 'gradient', 'rect', 'circle', 'line', 'arrow', 'text'],
+          drawing: ['move', { group: 'select', tools: ['selectRect', 'selectEllipse', 'selectPoly', 'selectFree'] }, 'pencil', 'eraser', 'eyedropper', 'fill', 'gradient', 'rect', 'circle', 'line', 'arrow', 'text'],
           transform: ['crop', 'resize', 'rotateLeft', 'rotateRight', 'flipH', 'flipV'],
         },
-        panels: {
-          layers: true,
-          filters: true,
-          statusBar: true,
-        },
+        panels: { layers: true, filters: true, statusBar: true },
         filters: ['brightness', 'contrast', 'saturation', 'blur', 'grayscale', 'sepia', 'hue'],
         preset: null,
       };
+      // Callbacks can't come from JSON, always set to null as defaults
+      return { ...base, onSave: null, onCancel: null };
+    }
+
+    // Load config from external JSON file
+    static async loadConfig(url) {
+      try {
+        const res = await fetch(url);
+        if (res.ok) {
+          ImageEditor._externalConfig = await res.json();
+        }
+      } catch (e) {
+        console.warn('JSImageEditor: Could not load config from', url, '- using defaults');
+      }
     }
 
     _init() {
@@ -944,11 +1000,28 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
         else if (action === 'save') this._onSave();
       });
 
-      // Tool selection
+      // Tool selection (ignore clicks on group arrow)
       on(r, 'click', '.jsie-tool-btn[data-tool]', (e, btn) => {
+        if (e.target.closest('.jsie-group-arrow')) return;
         const tool = btn.dataset.tool;
         this.setTool(tool === this.currentTool ? null : tool);
       });
+
+      // Tool group submenu arrow
+      on(r, 'click', '.jsie-group-arrow', (e, arrow) => {
+        e.stopPropagation();
+        const groupDiv = arrow.closest('.jsie-tool-group');
+        if (!groupDiv) return;
+        this._toggleGroupSubmenu(groupDiv.dataset.group, groupDiv);
+      });
+
+      // Close submenu on click outside
+      this._closeGroupSubmenu = (e) => {
+        if (!e.target.closest('.jsie-group-submenu') && !e.target.closest('.jsie-group-arrow')) {
+          $$('.jsie-group-submenu', this.root).forEach(m => m.remove());
+        }
+      };
+      document.addEventListener('click', this._closeGroupSubmenu);
 
       // Filter sliders
       on(r, 'input', 'input[data-filter]', (e, inp) => {
@@ -977,6 +1050,38 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
 
       // Canvas drawing events
       this._bindCanvasEvents();
+
+      // Keyboard shortcuts
+      this._keyHandler = (e) => {
+        if (!this.layerManager) return;
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+
+        const ctrl = e.ctrlKey || e.metaKey;
+
+        if (ctrl && e.key === 'z' && !e.shiftKey) {
+          e.preventDefault(); this.undo();
+        } else if (ctrl && (e.key === 'y' || (e.key === 'z' && e.shiftKey))) {
+          e.preventDefault(); this.redo();
+        } else if (ctrl && e.key === 'a') {
+          e.preventDefault(); this._selectAll();
+        } else if (ctrl && e.key === 'd') {
+          e.preventDefault(); this._clearSelection();
+        } else if (ctrl && e.shiftKey && (e.key === 'I' || e.key === 'i')) {
+          e.preventDefault(); this._invertSelection();
+        } else if (ctrl && e.key === 'c') {
+          if (this.selection) { e.preventDefault(); this._copySelection(); }
+        } else if (ctrl && e.key === 'x') {
+          if (this.selection) { e.preventDefault(); this._cutSelection(); }
+        } else if (ctrl && e.key === 'v') {
+          if (this._clipboard) { e.preventDefault(); this._pasteSelection(); }
+        } else if (e.key === 'Delete' || e.key === 'Backspace') {
+          if (this.selection) { e.preventDefault(); this._deleteSelection(); }
+        } else if (e.key === 'Escape') {
+          if (this.selection) { this._clearSelection(); }
+          else if (this._selectionPoints.length > 0) { this._selectionPoints = []; this._stopMarchingAnts(); }
+        }
+      };
+      document.addEventListener('keydown', this._keyHandler);
     }
 
     // ── Layer Panel Events ─────────────────────────
@@ -1176,7 +1281,29 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
         const pos = this._canvasPos(e);
         const ctx = active.ctx;
 
-        if (this.currentTool === 'move') {
+        if (this.currentTool === 'selectRect' || this.currentTool === 'selectEllipse') {
+          this.drawing = true;
+          this._selectionStart = pos;
+          this._selectionPreview = null;
+          return;
+        } else if (this.currentTool === 'selectPoly') {
+          this.drawing = false;
+          if (this._selectionPoints.length > 2) {
+            const first = this._selectionPoints[0];
+            const dist = Math.hypot(pos.x - first.x, pos.y - first.y);
+            if (dist < 8) {
+              this._finalizePolySelection();
+              return;
+            }
+          }
+          this._selectionPoints.push({ x: pos.x, y: pos.y });
+          this._drawPolyPreview(pos);
+          return;
+        } else if (this.currentTool === 'selectFree') {
+          this.drawing = true;
+          this._selectionPoints = [{ x: pos.x, y: pos.y }];
+          return;
+        } else if (this.currentTool === 'move') {
           this._moveStart = pos;
           this._moveSnapshot = ctx.getImageData(0, 0, active.width, active.height);
         } else if (this.currentTool === 'eyedropper') {
@@ -1215,7 +1342,50 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
         const pos = this._canvasPos(e);
         this._updateStatusCursor(pos);
 
+        // Polygon tool: rubber-band preview even when not dragging
+        if (this.currentTool === 'selectPoly' && this._selectionPoints.length > 0) {
+          this._drawPolyPreview(pos);
+          return;
+        }
+
         if (!this.drawing || !this.currentTool) return;
+
+        // Selection tools: preview on interaction canvas
+        if (this.currentTool === 'selectRect' && this._selectionStart) {
+          const x = Math.min(this._selectionStart.x, pos.x);
+          const y = Math.min(this._selectionStart.y, pos.y);
+          const w = Math.abs(pos.x - this._selectionStart.x);
+          const h = Math.abs(pos.y - this._selectionStart.y);
+          if (e.shiftKey) { const sz = Math.max(w, h); this._selectionPreview = { type: 'rect', x, y, width: sz, height: sz }; }
+          else { this._selectionPreview = { type: 'rect', x, y, width: w, height: h }; }
+          const path = new Path2D();
+          path.rect(this._selectionPreview.x, this._selectionPreview.y, this._selectionPreview.width, this._selectionPreview.height);
+          this._drawSelectionPreview(path);
+          return;
+        }
+        if (this.currentTool === 'selectEllipse' && this._selectionStart) {
+          const cx = (this._selectionStart.x + pos.x) / 2;
+          const cy = (this._selectionStart.y + pos.y) / 2;
+          let rx = Math.abs(pos.x - this._selectionStart.x) / 2;
+          let ry = Math.abs(pos.y - this._selectionStart.y) / 2;
+          if (e.shiftKey) { const r = Math.max(rx, ry); rx = r; ry = r; }
+          this._selectionPreview = { type: 'ellipse', cx, cy, rx, ry };
+          const path = new Path2D();
+          path.ellipse(cx, cy, Math.max(1, rx), Math.max(1, ry), 0, 0, Math.PI * 2);
+          this._drawSelectionPreview(path);
+          return;
+        }
+        if (this.currentTool === 'selectFree') {
+          this._selectionPoints.push({ x: pos.x, y: pos.y });
+          const path = new Path2D();
+          path.moveTo(this._selectionPoints[0].x, this._selectionPoints[0].y);
+          for (let i = 1; i < this._selectionPoints.length; i++) {
+            path.lineTo(this._selectionPoints[i].x, this._selectionPoints[i].y);
+          }
+          this._drawSelectionPreview(path);
+          return;
+        }
+
         const active = this.layerManager.activeLayer;
         if (!active) return;
         const ctx = active.ctx;
@@ -1246,6 +1416,43 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
       });
 
       ic.addEventListener('mouseup', e => {
+        // Selection tools: finalize
+        if (this.currentTool === 'selectRect' && this.drawing && this._selectionPreview) {
+          this.drawing = false;
+          if (this._selectionPreview.width > 1 && this._selectionPreview.height > 1) {
+            this.selection = this._selectionPreview;
+            this._buildSelectionPath();
+            this._startMarchingAnts();
+          }
+          this._selectionPreview = null;
+          this._selectionStart = null;
+          return;
+        }
+        if (this.currentTool === 'selectEllipse' && this.drawing && this._selectionPreview) {
+          this.drawing = false;
+          if (this._selectionPreview.rx > 1 && this._selectionPreview.ry > 1) {
+            this.selection = this._selectionPreview;
+            this._buildSelectionPath();
+            this._startMarchingAnts();
+          }
+          this._selectionPreview = null;
+          this._selectionStart = null;
+          return;
+        }
+        if (this.currentTool === 'selectFree' && this.drawing) {
+          this.drawing = false;
+          if (this._selectionPoints.length > 2) {
+            this.selection = { type: 'free', points: [...this._selectionPoints] };
+            this._selectionPoints = [];
+            this._buildSelectionPath();
+            this._startMarchingAnts();
+          } else {
+            this._selectionPoints = [];
+            this._stopMarchingAnts();
+          }
+          return;
+        }
+
         if (!this.drawing) return;
         this.drawing = false;
         const active = this.layerManager ? this.layerManager.activeLayer : null;
@@ -1301,6 +1508,13 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
           this.pushHistory();
           this._redraw();
           this._scheduleThumbnailUpdate();
+        }
+      });
+
+      // Double-click closes polygon selection
+      ic.addEventListener('dblclick', e => {
+        if (this.currentTool === 'selectPoly' && this._selectionPoints.length > 2) {
+          this._finalizePolySelection();
         }
       });
     }
@@ -1408,10 +1622,25 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
 
     // ── Tools ─────────────────────────────────────
     setTool(tool) {
+      const prevTool = this.currentTool;
       this.currentTool = tool;
-      // Update toolbox UI
-      $$('.jsie-tool-btn[data-tool]', this.root).forEach(btn => {
+      // Update toolbox UI — standalone buttons
+      $$('.jsie-tool-btn[data-tool]:not([data-group])', this.root).forEach(btn => {
         btn.classList.toggle('active', btn.dataset.tool === tool);
+      });
+      // Update toolbox UI — group buttons
+      $$('.jsie-tool-group .jsie-tool-btn[data-group]', this.root).forEach(btn => {
+        const group = btn.dataset.group;
+        const groupTools = this._getGroupTools(group);
+        if (groupTools && groupTools.includes(tool)) {
+          btn.dataset.tool = tool;
+          btn.innerHTML = (Icons[tool] || '') + '<span class="jsie-group-arrow"></span>';
+          btn.title = t('tool.' + tool);
+          btn.classList.add('active');
+          this._toolGroupSelection[group] = tool;
+        } else {
+          btn.classList.remove('active');
+        }
       });
       // Options bar
       this._renderToolOptions();
@@ -1421,11 +1650,60 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
       } else {
         this._hideCropOverlay();
       }
+      // Selection: clear poly points when switching away, manage marching ants
+      const selTools = ['selectRect', 'selectEllipse', 'selectPoly', 'selectFree'];
+      if (!selTools.includes(tool)) {
+        this._selectionPoints = [];
+        if (this.selection && this._selectionPath) {
+          this._stopMarchingAnts();
+          this._drawMarchingAnts();
+        }
+      } else if (this.selection && this._selectionPath) {
+        this._startMarchingAnts();
+      }
       // Cursor
-      const cursors = { move: 'move', eyedropper: 'crosshair', fill: 'crosshair', gradient: 'crosshair', pencil: 'crosshair', eraser: 'crosshair', text: 'text', crop: 'default' };
+      const cursors = { move: 'move', eyedropper: 'crosshair', fill: 'crosshair', gradient: 'crosshair', pencil: 'crosshair', eraser: 'crosshair', text: 'text', crop: 'default', selectRect: 'crosshair', selectEllipse: 'crosshair', selectPoly: 'crosshair', selectFree: 'crosshair' };
       this.interactionCanvas.style.cursor = tool ? (cursors[tool] || 'crosshair') : 'default';
       // Status
       this._updateStatusTool();
+    }
+
+    _getGroupTools(groupName) {
+      const drawing = this.config.tools.drawing;
+      for (const item of drawing) {
+        if (typeof item === 'object' && item.group === groupName) {
+          return item.tools;
+        }
+      }
+      return null;
+    }
+
+    _toggleGroupSubmenu(groupName, groupDiv) {
+      // Close existing submenu
+      const existing = groupDiv.querySelector('.jsie-group-submenu');
+      if (existing) { existing.remove(); return; }
+      // Close all other submenus
+      $$('.jsie-group-submenu', this.root).forEach(m => m.remove());
+      // Get tools for this group
+      const tools = this._getGroupTools(groupName);
+      if (!tools) return;
+      // Create submenu
+      const submenu = document.createElement('div');
+      submenu.className = 'jsie-group-submenu';
+      submenu.innerHTML = tools.map(toolId => {
+        const isActive = this.currentTool === toolId;
+        return `<button class="jsie-tool-btn${isActive ? ' active' : ''}" data-subtool="${toolId}" title="${t('tool.' + toolId)}">${Icons[toolId] || ''}</button>`;
+      }).join('');
+      groupDiv.appendChild(submenu);
+      // Bind submenu clicks
+      submenu.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-subtool]');
+        if (!btn) return;
+        const toolId = btn.dataset.subtool;
+        this._toolGroupSelection[groupName] = toolId;
+        this.setTool(toolId);
+        submenu.remove();
+      });
     }
 
     _renderToolOptions() {
@@ -1454,6 +1732,13 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
         html += `<label>${t('opt.color2')}</label><input type="color" id="jsie-opt-grad2" value="${this.gradientColor2}">`;
       } else if (tool === 'eyedropper') {
         html += `<label>${t('opt.color')}</label><input type="color" id="jsie-opt-color" value="${this.drawColor}" disabled>`;
+      } else if (['selectRect', 'selectEllipse', 'selectPoly', 'selectFree'].includes(tool)) {
+        html += `<button class="jsie-btn-text secondary" id="jsie-sel-all">${t('sel.all')}</button>`;
+        html += `<button class="jsie-btn-text secondary" id="jsie-sel-deselect">${t('sel.deselect')}</button>`;
+        html += `<button class="jsie-btn-text secondary" id="jsie-sel-invert">${t('sel.invert')}</button>`;
+        html += `<span style="width:1px;height:16px;background:var(--jsie-border);margin:0 4px;display:inline-block"></span>`;
+        html += `<button class="jsie-btn-text secondary" id="jsie-sel-crop">${t('sel.cropToSel')}</button>`;
+        html += `<button class="jsie-btn-text secondary" id="jsie-sel-delete">${t('sel.delete')}</button>`;
       }
 
       this.toolOptions.innerHTML = html;
@@ -1483,6 +1768,18 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
       if (optTolerance) on(optTolerance, 'input', () => { this.fillTolerance = parseInt(optTolerance.value); });
       if (optGrad1) on(optGrad1, 'input', () => { this.gradientColor1 = optGrad1.value; });
       if (optGrad2) on(optGrad2, 'input', () => { this.gradientColor2 = optGrad2.value; });
+
+      // Selection buttons
+      const selAll = $('#jsie-sel-all', this.root);
+      const selDeselect = $('#jsie-sel-deselect', this.root);
+      const selInvert = $('#jsie-sel-invert', this.root);
+      const selCrop = $('#jsie-sel-crop', this.root);
+      const selDelete = $('#jsie-sel-delete', this.root);
+      if (selAll) on(selAll, 'click', () => this._selectAll());
+      if (selDeselect) on(selDeselect, 'click', () => this._clearSelection());
+      if (selInvert) on(selInvert, 'click', () => this._invertSelection());
+      if (selCrop) on(selCrop, 'click', () => this._cropToSelection());
+      if (selDelete) on(selDelete, 'click', () => this._deleteSelection());
     }
 
     // ── Shapes ────────────────────────────────────
@@ -1533,6 +1830,265 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
         ctx.lineTo(end.x - headLen * Math.cos(angle + Math.PI / 6), end.y - headLen * Math.sin(angle + Math.PI / 6));
         ctx.stroke();
       }
+    }
+
+    // ── Selection helpers ─────────────────────────────
+    _buildSelectionPath() {
+      if (!this.selection) { this._selectionPath = null; return; }
+      const s = this.selection;
+      const path = new Path2D();
+      if (s.type === 'rect') {
+        path.rect(s.x, s.y, s.width, s.height);
+      } else if (s.type === 'ellipse') {
+        path.ellipse(s.cx, s.cy, Math.max(1, s.rx), Math.max(1, s.ry), 0, 0, Math.PI * 2);
+      } else if (s.type === 'poly' || s.type === 'free') {
+        if (s.points.length > 2) {
+          path.moveTo(s.points[0].x, s.points[0].y);
+          for (let i = 1; i < s.points.length; i++) {
+            path.lineTo(s.points[i].x, s.points[i].y);
+          }
+          path.closePath();
+        }
+      }
+      this._selectionPath = path;
+    }
+
+    _clearSelection() {
+      this.selection = null;
+      this._selectionPath = null;
+      this._selectionPoints = [];
+      this._selectionPreview = null;
+      this._selectionStart = null;
+      this._stopMarchingAnts();
+    }
+
+    _getSelectionBounds() {
+      if (!this.selection) return null;
+      const s = this.selection;
+      if (s.type === 'rect') {
+        return { x: Math.round(Math.min(s.x, s.x + s.width)), y: Math.round(Math.min(s.y, s.y + s.height)), width: Math.round(Math.abs(s.width)), height: Math.round(Math.abs(s.height)) };
+      } else if (s.type === 'ellipse') {
+        return { x: Math.round(s.cx - s.rx), y: Math.round(s.cy - s.ry), width: Math.round(s.rx * 2), height: Math.round(s.ry * 2) };
+      } else if (s.type === 'poly' || s.type === 'free') {
+        let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+        for (const p of s.points) {
+          minX = Math.min(minX, p.x); minY = Math.min(minY, p.y);
+          maxX = Math.max(maxX, p.x); maxY = Math.max(maxY, p.y);
+        }
+        return { x: Math.round(minX), y: Math.round(minY), width: Math.round(maxX - minX), height: Math.round(maxY - minY) };
+      } else if (s.type === 'inverted') {
+        return { x: 0, y: 0, width: s.docWidth, height: s.docHeight };
+      }
+      return null;
+    }
+
+    _selectAll() {
+      if (!this.layerManager) return;
+      this.selection = { type: 'rect', x: 0, y: 0, width: this.layerManager.docWidth, height: this.layerManager.docHeight };
+      this._buildSelectionPath();
+      this._startMarchingAnts();
+    }
+
+    _invertSelection() {
+      if (!this.selection || !this._selectionPath || !this.layerManager) return;
+      const lm = this.layerManager;
+      const fullPath = new Path2D();
+      fullPath.rect(0, 0, lm.docWidth, lm.docHeight);
+      fullPath.addPath(this._selectionPath);
+      this._selectionPath = fullPath;
+      this.selection = { type: 'inverted', original: this.selection, docWidth: lm.docWidth, docHeight: lm.docHeight };
+      this._startMarchingAnts();
+    }
+
+    // ── Marching ants ────────────────────────────────
+    _startMarchingAnts() {
+      this._stopMarchingAnts();
+      const animate = () => {
+        this._selectionAntsOffset = (this._selectionAntsOffset + 1) % 16;
+        this._drawMarchingAnts();
+        this._selectionAnimFrame = requestAnimationFrame(animate);
+      };
+      this._selectionAnimFrame = requestAnimationFrame(animate);
+    }
+
+    _stopMarchingAnts() {
+      if (this._selectionAnimFrame) {
+        cancelAnimationFrame(this._selectionAnimFrame);
+        this._selectionAnimFrame = null;
+      }
+      if (this.interactionCanvas) {
+        const ictx = this.interactionCanvas.getContext('2d');
+        ictx.clearRect(0, 0, this.interactionCanvas.width, this.interactionCanvas.height);
+      }
+    }
+
+    _drawMarchingAnts() {
+      if (!this._selectionPath || !this.interactionCanvas) return;
+      const ic = this.interactionCanvas;
+      const ictx = ic.getContext('2d');
+      ictx.clearRect(0, 0, ic.width, ic.height);
+      ictx.save();
+      ictx.strokeStyle = '#ffffff';
+      ictx.lineWidth = 1;
+      ictx.setLineDash([4, 4]);
+      ictx.lineDashOffset = -this._selectionAntsOffset;
+      ictx.stroke(this._selectionPath);
+      ictx.strokeStyle = '#000000';
+      ictx.lineDashOffset = -(this._selectionAntsOffset + 4);
+      ictx.stroke(this._selectionPath);
+      ictx.restore();
+    }
+
+    _drawSelectionPreview(path) {
+      if (!this.interactionCanvas) return;
+      const ic = this.interactionCanvas;
+      const ictx = ic.getContext('2d');
+      ictx.clearRect(0, 0, ic.width, ic.height);
+      ictx.save();
+      ictx.strokeStyle = '#ffffff';
+      ictx.lineWidth = 1;
+      ictx.setLineDash([4, 4]);
+      ictx.lineDashOffset = 0;
+      ictx.stroke(path);
+      ictx.strokeStyle = '#000000';
+      ictx.lineDashOffset = -4;
+      ictx.stroke(path);
+      ictx.restore();
+    }
+
+    _finalizePolySelection() {
+      if (this._selectionPoints.length < 3) {
+        this._selectionPoints = [];
+        this._stopMarchingAnts();
+        return;
+      }
+      this.selection = { type: 'poly', points: [...this._selectionPoints] };
+      this._selectionPoints = [];
+      this._buildSelectionPath();
+      this._startMarchingAnts();
+    }
+
+    _drawPolyPreview(cursorPos) {
+      if (!this.interactionCanvas || this._selectionPoints.length === 0) return;
+      const ic = this.interactionCanvas;
+      const ictx = ic.getContext('2d');
+      ictx.clearRect(0, 0, ic.width, ic.height);
+      ictx.save();
+      ictx.setLineDash([4, 4]);
+      ictx.lineWidth = 1;
+      // White pass
+      ictx.strokeStyle = '#ffffff';
+      ictx.lineDashOffset = 0;
+      ictx.beginPath();
+      ictx.moveTo(this._selectionPoints[0].x, this._selectionPoints[0].y);
+      for (let i = 1; i < this._selectionPoints.length; i++) {
+        ictx.lineTo(this._selectionPoints[i].x, this._selectionPoints[i].y);
+      }
+      if (cursorPos) ictx.lineTo(cursorPos.x, cursorPos.y);
+      ictx.stroke();
+      // Black pass
+      ictx.strokeStyle = '#000000';
+      ictx.lineDashOffset = -4;
+      ictx.beginPath();
+      ictx.moveTo(this._selectionPoints[0].x, this._selectionPoints[0].y);
+      for (let i = 1; i < this._selectionPoints.length; i++) {
+        ictx.lineTo(this._selectionPoints[i].x, this._selectionPoints[i].y);
+      }
+      if (cursorPos) ictx.lineTo(cursorPos.x, cursorPos.y);
+      ictx.stroke();
+      // Draw closing indicator - small circle on first point
+      if (this._selectionPoints.length > 2 && cursorPos) {
+        const first = this._selectionPoints[0];
+        const dist = Math.hypot(cursorPos.x - first.x, cursorPos.y - first.y);
+        if (dist < 8) {
+          ictx.setLineDash([]);
+          ictx.strokeStyle = '#ff6600';
+          ictx.lineWidth = 2;
+          ictx.beginPath();
+          ictx.arc(first.x, first.y, 6, 0, Math.PI * 2);
+          ictx.stroke();
+        }
+      }
+      ictx.restore();
+    }
+
+    // ── Selection operations ─────────────────────────
+    _copySelection() {
+      if (!this.selection || !this._selectionPath || !this.layerManager) return;
+      const lm = this.layerManager;
+      const temp = document.createElement('canvas');
+      temp.width = lm.docWidth;
+      temp.height = lm.docHeight;
+      const tctx = temp.getContext('2d');
+      tctx.save();
+      tctx.clip(this._selectionPath, 'evenodd');
+      lm.composite(tctx);
+      tctx.restore();
+      this._clipboard = { canvas: temp, bounds: this._getSelectionBounds() };
+    }
+
+    _cutSelection() {
+      this._copySelection();
+      this._deleteSelection();
+    }
+
+    _deleteSelection() {
+      if (!this.selection || !this._selectionPath || !this.layerManager) return;
+      const active = this.layerManager.activeLayer;
+      if (!active || active.locked) return;
+      active.ctx.save();
+      active.ctx.clip(this._selectionPath, 'evenodd');
+      active.ctx.clearRect(0, 0, active.width, active.height);
+      active.ctx.restore();
+      this.pushHistory();
+      this._redraw();
+      this._scheduleThumbnailUpdate();
+    }
+
+    _pasteSelection() {
+      if (!this._clipboard || !this.layerManager) return;
+      const lm = this.layerManager;
+      const layer = lm.addLayer('Pasted');
+      layer.ctx.drawImage(this._clipboard.canvas, 0, 0);
+      this.pushHistory();
+      this._redraw();
+      this._renderLayersList();
+      this._updateLayerOpacityUI();
+      this.setTool('move');
+    }
+
+    _cropToSelection() {
+      if (!this.selection || !this.layerManager) return;
+      const bounds = this._getSelectionBounds();
+      if (!bounds || bounds.width < 1 || bounds.height < 1) return;
+      const { x, y, width, height } = bounds;
+      const lm = this.layerManager;
+      for (const layer of lm.layers) {
+        if (layer.type === 'group') continue;
+        const temp = document.createElement('canvas');
+        temp.width = width;
+        temp.height = height;
+        const tctx = temp.getContext('2d');
+        tctx.drawImage(layer.canvas, x, y, width, height, 0, 0, width, height);
+        layer.canvas.width = width;
+        layer.canvas.height = height;
+        layer.width = width;
+        layer.height = height;
+        layer.ctx.drawImage(temp, 0, 0);
+      }
+      lm.docWidth = width;
+      lm.docHeight = height;
+      this._clearSelection();
+      this.mainCanvas.width = width;
+      this.mainCanvas.height = height;
+      this.interactionCanvas.width = width;
+      this.interactionCanvas.height = height;
+      this._redraw();
+      this.pushHistory();
+      this._renderLayersList();
+      // Update status bar dims
+      const dimEl = $('#jsie-status-dims', this.root);
+      if (dimEl) dimEl.textContent = `${width} × ${height}`;
     }
 
     // ── Eyedropper ─────────────────────────────────
@@ -2234,11 +2790,21 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
     }
 
     destroy() {
+      if (this._keyHandler) {
+        document.removeEventListener('keydown', this._keyHandler);
+        this._keyHandler = null;
+      }
+      if (this._closeGroupSubmenu) {
+        document.removeEventListener('click', this._closeGroupSubmenu);
+        this._closeGroupSubmenu = null;
+      }
+      this._stopMarchingAnts();
       if (this.root && this.root.parentNode) {
         this.root.remove();
       }
       this.layerManager = null;
       this.history = [];
+      this._clipboard = null;
     }
   }
 
@@ -2246,6 +2812,11 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
   const JSImageEditor = {
     version: '3.0.0',
     ImageEditor,
+
+    // Pre-load config from JSON before creating editors
+    async loadConfig(url = 'js/image-editor-config.json') {
+      return ImageEditor.loadConfig(url);
+    },
 
     init(containerOrConfig, config) {
       return new ImageEditor(containerOrConfig, config);

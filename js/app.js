@@ -105,6 +105,16 @@
       'setting.slideUrl': 'Image URL', 'setting.slideAlt': 'Alt text',
       'setting.tabs': 'Tabs', 'setting.addTab': '+ Add tab',
       'setting.tabTitle': 'Tab title', 'setting.tabContent': 'Content',
+      'setting.modalSize': 'Size', 'setting.modalCentered': 'Vertically centered',
+      'setting.modalScrollable': 'Scrollable', 'setting.modalStaticBackdrop': 'Static backdrop',
+      'setting.closeButton': 'Close button', 'setting.saveButton': 'Save button',
+      'setting.showCloseBtn': 'Show close', 'setting.showSaveBtn': 'Show save',
+      'setting.accordion': 'Sections', 'setting.addSection': '+ Add section',
+      'setting.sectionTitle': 'Section title',
+      'setting.listItems': 'Items', 'setting.addItem': '+ Add item',
+      'setting.itemText': 'Text',
+      'setting.breadcrumbLinks': 'Links', 'setting.addLink': '+ Add link',
+      'setting.linkText': 'Text', 'setting.linkUrl': 'URL',
     },
     es: {
       'btn.new': 'Nuevo', 'btn.open': 'Abrir', 'btn.save': 'Guardar',
@@ -150,6 +160,16 @@
       'setting.slideUrl': 'URL imagen', 'setting.slideAlt': 'Texto alt',
       'setting.tabs': 'Pestañas', 'setting.addTab': '+ Añadir pestaña',
       'setting.tabTitle': 'Título', 'setting.tabContent': 'Contenido',
+      'setting.modalSize': 'Tamaño', 'setting.modalCentered': 'Centrado vertical',
+      'setting.modalScrollable': 'Scrollable', 'setting.modalStaticBackdrop': 'Fondo estático',
+      'setting.closeButton': 'Botón cerrar', 'setting.saveButton': 'Botón guardar',
+      'setting.showCloseBtn': 'Mostrar cerrar', 'setting.showSaveBtn': 'Mostrar guardar',
+      'setting.accordion': 'Secciones', 'setting.addSection': '+ Añadir sección',
+      'setting.sectionTitle': 'Título sección',
+      'setting.listItems': 'Elementos', 'setting.addItem': '+ Añadir elemento',
+      'setting.itemText': 'Texto',
+      'setting.breadcrumbLinks': 'Enlaces', 'setting.addLink': '+ Añadir enlace',
+      'setting.linkText': 'Texto', 'setting.linkUrl': 'URL',
     }
   };
 
@@ -404,22 +424,22 @@
         settings: [{label:'setting.variant',attr:'class',type:'select',options:['btn btn-primary','btn btn-secondary','btn btn-success','btn btn-danger','btn btn-warning','btn btn-info','btn btn-light','btn btn-dark','btn btn-outline-primary','btn btn-outline-secondary','btn btn-outline-success','btn btn-outline-danger']},{label:'setting.type',attr:'type',type:'select',options:['button','submit','reset']},{label:'setting.disabled',attr:'disabled',type:'checkbox'}] },
       { id: 'table', label: 'Tabla', icon: Icons.table, html: '<table class="table"><thead><tr><th>#</th><th>Nombre</th></tr></thead><tbody><tr><td>1</td><td>Ejemplo</td></tr></tbody></table>',
         settings: [{label:'setting.classes',attr:'class',type:'text'},{label:'setting.id',attr:'id',type:'text'}] },
-      { id: 'accordion', label: 'Accordion', icon: Icons.accordion, html: '<div class="accordion" id="acc1"><div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#acc1-c1">Sección 1</button></h2><div id="acc1-c1" class="accordion-collapse collapse show" data-bs-parent="#acc1"><div class="accordion-body">Contenido de la primera sección.</div></div></div><div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#acc1-c2">Sección 2</button></h2><div id="acc1-c2" class="accordion-collapse collapse" data-bs-parent="#acc1"><div class="accordion-body">Contenido de la segunda sección.</div></div></div><div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#acc1-c3">Sección 3</button></h2><div id="acc1-c3" class="accordion-collapse collapse" data-bs-parent="#acc1"><div class="accordion-body">Contenido de la tercera sección.</div></div></div></div>',
-        settings: [{label:'setting.id',attr:'id',type:'text'},{label:'setting.classes',attr:'class',type:'text'}] },
+      { id: 'accordion', label: 'Accordion', icon: Icons.accordion, html: '<div class="shou-accordion-wrapper"><div class="accordion" id="acc1"><div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#acc1-c1">Sección 1</button></h2><div id="acc1-c1" class="accordion-collapse collapse show" data-bs-parent="#acc1"><div class="accordion-body">Contenido de la primera sección.</div></div></div><div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#acc1-c2">Sección 2</button></h2><div id="acc1-c2" class="accordion-collapse collapse" data-bs-parent="#acc1"><div class="accordion-body">Contenido de la segunda sección.</div></div></div><div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#acc1-c3">Sección 3</button></h2><div id="acc1-c3" class="accordion-collapse collapse" data-bs-parent="#acc1"><div class="accordion-body">Contenido de la tercera sección.</div></div></div></div></div>',
+        settings: [{label:'setting.accordion',type:'accordion'},{label:'setting.id',attr:'id',selector:'.accordion',type:'text'},{label:'setting.classes',attr:'class',type:'text'}] },
       { id: 'carousel', label: 'Carousel', icon: Icons.carousel, html: '<div id="carousel1" class="carousel slide" data-bs-ride="carousel"><div class="carousel-indicators"><button type="button" data-bs-target="#carousel1" data-bs-slide-to="0" class="active"></button><button type="button" data-bs-target="#carousel1" data-bs-slide-to="1"></button><button type="button" data-bs-target="#carousel1" data-bs-slide-to="2"></button></div><div class="carousel-inner"><div class="carousel-item active"><img src="https://picsum.photos/1200/500?random=1" class="d-block w-100" alt="Slide 1"></div><div class="carousel-item"><img src="https://picsum.photos/1200/500?random=2" class="d-block w-100" alt="Slide 2"></div><div class="carousel-item"><img src="https://picsum.photos/1200/500?random=3" class="d-block w-100" alt="Slide 3"></div></div><button class="carousel-control-prev" type="button" data-bs-target="#carousel1" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span></button><button class="carousel-control-next" type="button" data-bs-target="#carousel1" data-bs-slide="next"><span class="carousel-control-next-icon"></span></button></div>',
         settings: [{label:'setting.slides',type:'slides'},{label:'setting.id',attr:'id',type:'text'},{label:'setting.classes',attr:'class',type:'text'}] },
-      { id: 'modal', label: 'Modal', icon: Icons.modal, html: '<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal1">Abrir modal</button><div class="modal fade" id="modal1" tabindex="-1"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Título del modal</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><p>Contenido del modal.</p></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button><button type="button" class="btn btn-primary">Guardar</button></div></div></div></div>',
-        settings: [{label:'setting.title',prop:'textContent',selector:'.modal-title',type:'text'},{label:'setting.buttonText',prop:'textContent',selector:'[data-bs-toggle="modal"]',type:'text'},{label:'setting.classes',attr:'class',type:'text'}] },
+      { id: 'modal', label: 'Modal', icon: Icons.modal, html: '<div class="shou-modal-wrapper"><button type="button" class="btn btn-primary shou-modal-trigger">Abrir modal</button><div class="modal fade show shou-modal-overlay" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:1050;background:rgba(0,0,0,0.5)"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Título del modal</h5><button type="button" class="btn-close shou-modal-close-x"></button></div><div class="modal-body" style="min-height:100px"><p class="text-muted">Arrastra bloques aquí</p></div><div class="modal-footer"><button type="button" class="btn btn-secondary shou-modal-close">Cerrar</button><button type="button" class="btn btn-primary shou-modal-save">Guardar</button></div></div></div></div></div>',
+        settings: [{label:'setting.title',prop:'textContent',selector:'.modal-title',type:'text'},{label:'setting.buttonText',prop:'textContent',selector:'.shou-modal-trigger',type:'text'},{label:'setting.modalSize',attr:'class',selector:'.modal-dialog',type:'select',options:['modal-dialog','modal-dialog modal-sm','modal-dialog modal-lg','modal-dialog modal-xl','modal-dialog modal-fullscreen']},{label:'setting.modalCentered',type:'modal-toggle',prop:'centered'},{label:'setting.modalScrollable',type:'modal-toggle',prop:'scrollable'},{label:'setting.closeButton',prop:'textContent',selector:'.shou-modal-close',type:'text'},{label:'setting.showCloseBtn',type:'modal-toggle',prop:'showClose'},{label:'setting.saveButton',prop:'textContent',selector:'.shou-modal-save',type:'text'},{label:'setting.showSaveBtn',type:'modal-toggle',prop:'showSave'},{label:'setting.id',attr:'id',type:'text'}] },
       { id: 'tabs', label: 'Tabs', icon: Icons.tabs, html: '<div class="shou-tabs-wrapper"><ul class="nav nav-tabs" id="tabs1" role="tablist"><li class="nav-item" role="presentation"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tabs1-1" type="button" role="tab">Pestaña 1</button></li><li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabs1-2" type="button" role="tab">Pestaña 2</button></li><li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabs1-3" type="button" role="tab">Pestaña 3</button></li></ul><div class="tab-content p-3 border border-top-0 rounded-bottom"><div class="tab-pane fade show active" id="tabs1-1" role="tabpanel">Contenido de la pestaña 1.</div><div class="tab-pane fade" id="tabs1-2" role="tabpanel">Contenido de la pestaña 2.</div><div class="tab-pane fade" id="tabs1-3" role="tabpanel">Contenido de la pestaña 3.</div></div></div>',
         settings: [{label:'setting.tabs',type:'tabs'},{label:'setting.id',attr:'id',selector:'.nav-tabs',type:'text'},{label:'setting.classes',attr:'class',type:'text'}] },
       { id: 'badge', label: 'Badge', icon: Icons.badge, html: '<span class="badge bg-primary">Badge</span>',
         settings: [{label:'setting.variant',attr:'class',type:'select',options:['badge bg-primary','badge bg-secondary','badge bg-success','badge bg-danger','badge bg-warning text-dark','badge bg-info text-dark','badge bg-light text-dark','badge bg-dark','badge rounded-pill bg-primary','badge rounded-pill bg-secondary','badge rounded-pill bg-success','badge rounded-pill bg-danger']}] },
       { id: 'progress', label: 'Progress', icon: Icons.progress, html: '<div class="progress" role="progressbar" style="height:20px"><div class="progress-bar" style="width:50%">50%</div></div>',
         settings: [{label:'setting.value',attr:'style',selector:'.progress-bar',type:'text'},{label:'setting.text',prop:'textContent',selector:'.progress-bar',type:'text'},{label:'setting.variant',attr:'class',selector:'.progress-bar',type:'select',options:['progress-bar','progress-bar bg-success','progress-bar bg-info','progress-bar bg-warning','progress-bar bg-danger','progress-bar progress-bar-striped','progress-bar progress-bar-striped progress-bar-animated']},{label:'setting.classes',attr:'class',type:'text'}] },
-      { id: 'list-group', label: 'List Group', icon: Icons.listGroup, html: '<ul class="list-group"><li class="list-group-item">Elemento 1</li><li class="list-group-item">Elemento 2</li><li class="list-group-item">Elemento 3</li><li class="list-group-item">Elemento 4</li><li class="list-group-item">Elemento 5</li></ul>',
-        settings: [{label:'setting.variant',attr:'class',type:'select',options:['list-group','list-group list-group-flush','list-group list-group-numbered']},{label:'setting.id',attr:'id',type:'text'},{label:'setting.classes',attr:'class',type:'text'}] },
-      { id: 'breadcrumb', label: 'Breadcrumb', icon: Icons.breadcrumb, html: '<nav aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="#">Inicio</a></li><li class="breadcrumb-item"><a href="#">Sección</a></li><li class="breadcrumb-item active" aria-current="page">Página actual</li></ol></nav>',
-        settings: [{label:'setting.classes',attr:'class',selector:'.breadcrumb',type:'text'},{label:'setting.id',attr:'id',type:'text'}] },
+      { id: 'list-group', label: 'List Group', icon: Icons.listGroup, html: '<div class="shou-listgroup-wrapper"><ul class="list-group"><li class="list-group-item">Elemento 1</li><li class="list-group-item">Elemento 2</li><li class="list-group-item">Elemento 3</li></ul></div>',
+        settings: [{label:'setting.listItems',type:'listgroup'},{label:'setting.variant',attr:'class',selector:'.list-group',type:'select',options:['list-group','list-group list-group-flush','list-group list-group-numbered']},{label:'setting.id',attr:'id',selector:'.list-group',type:'text'},{label:'setting.classes',attr:'class',type:'text'}] },
+      { id: 'breadcrumb', label: 'Breadcrumb', icon: Icons.breadcrumb, html: '<div class="shou-breadcrumb-wrapper"><nav aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="#">Inicio</a></li><li class="breadcrumb-item"><a href="#">Sección</a></li><li class="breadcrumb-item active" aria-current="page">Página actual</li></ol></nav></div>',
+        settings: [{label:'setting.breadcrumbLinks',type:'breadcrumb'},{label:'setting.classes',attr:'class',selector:'.breadcrumb',type:'text'},{label:'setting.id',attr:'id',type:'text'}] },
       { id: 'pagination', label: 'Pagination', icon: Icons.pagination, html: '<nav aria-label="Paginación"><ul class="pagination"><li class="page-item"><a class="page-link" href="#">&laquo;</a></li><li class="page-item active"><a class="page-link" href="#">1</a></li><li class="page-item"><a class="page-link" href="#">2</a></li><li class="page-item"><a class="page-link" href="#">3</a></li><li class="page-item"><a class="page-link" href="#">&raquo;</a></li></ul></nav>',
         settings: [{label:'setting.variant',attr:'class',selector:'.pagination',type:'select',options:['pagination','pagination pagination-sm','pagination pagination-lg','pagination justify-content-center','pagination justify-content-end']},{label:'setting.classes',attr:'class',type:'text'}] },
       { id: 'spinner', label: 'Spinner', icon: Icons.spinner, html: '<div class="text-center p-3"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div></div>',
@@ -1251,6 +1271,33 @@ input[type="checkbox"]:checked+.jse-toggle::after{transform:translateX(12px);bac
         }
       });
 
+      // Modal toggle handlers
+      settingsEl.addEventListener('change', e => {
+        const cb = e.target;
+        if (!cb.dataset.modalProp) return;
+        const blockRoot = this._currentBlockRoot;
+        if (!blockRoot) return;
+        const dialog = blockRoot.querySelector('.modal-dialog');
+        const closeBtn = blockRoot.querySelector('.shou-modal-close');
+        const saveBtn = blockRoot.querySelector('.shou-modal-save');
+
+        switch (cb.dataset.modalProp) {
+          case 'centered':
+            dialog?.classList.toggle('modal-dialog-centered', cb.checked);
+            break;
+          case 'scrollable':
+            dialog?.classList.toggle('modal-dialog-scrollable', cb.checked);
+            break;
+          case 'showClose':
+            if (closeBtn) closeBtn.style.display = cb.checked ? '' : 'none';
+            break;
+          case 'showSave':
+            if (saveBtn) saveBtn.style.display = cb.checked ? '' : 'none';
+            break;
+        }
+        this.syncToCode();
+      });
+
       // Visual options editor for <select> elements
       const syncOptionsToSelect = (editorEl) => {
         if (!this.selectedElement) return;
@@ -1386,12 +1433,117 @@ input[type="checkbox"]:checked+.jse-toggle::after{transform:translateX(12px);bac
         this.syncToCode();
       };
 
-      // Edit slide src/alt OR tab title
+      // ============================================
+      // BOOTSTRAP ACCORDION SYNC FUNCTION
+      // ============================================
+      const syncAccordionToComponent = () => {
+        const blockRoot = this._currentBlockRoot;
+        if (!blockRoot) return;
+
+        const accordion = blockRoot.querySelector('.accordion');
+        if (!accordion) return;
+        const accId = accordion.getAttribute('id') || 'acc1';
+
+        // Get existing items to preserve their body content
+        const existingItems = Array.from(accordion.querySelectorAll('.accordion-item'));
+
+        const accRows = settingsEl.querySelectorAll('.jse-accordion-row');
+        const accData = Array.from(accRows).map((row, i) => {
+          const titleInp = row.querySelector('[data-acc-title]');
+          const existingItem = existingItems[i];
+          const existingBody = existingItem?.querySelector('.accordion-body');
+          return {
+            title: titleInp ? titleInp.value : `Sección ${i + 1}`,
+            content: existingBody ? existingBody.innerHTML : `Contenido de la sección ${i + 1}.`,
+            isOpen: existingItem?.querySelector('.accordion-collapse.show') !== null
+          };
+        });
+
+        // Rebuild accordion preserving content
+        accordion.innerHTML = accData.map((item, i) => {
+          const isFirst = i === 0;
+          const isOpen = item.isOpen || (accData.every(d => !d.isOpen) && isFirst);
+          return `<div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button${isOpen ? '' : ' collapsed'}" type="button" data-bs-toggle="collapse" data-bs-target="#${accId}-c${i + 1}">${item.title}</button>
+            </h2>
+            <div id="${accId}-c${i + 1}" class="accordion-collapse collapse${isOpen ? ' show' : ''}" data-bs-parent="#${accId}">
+              <div class="accordion-body">${item.content}</div>
+            </div>
+          </div>`;
+        }).join('');
+
+        this.syncToCode();
+      };
+
+      // ============================================
+      // BOOTSTRAP LIST GROUP SYNC FUNCTION
+      // ============================================
+      const syncListGroupToComponent = () => {
+        const blockRoot = this._currentBlockRoot;
+        if (!blockRoot) return;
+
+        const listGroup = blockRoot.querySelector('.list-group');
+        if (!listGroup) return;
+
+        const itemRows = settingsEl.querySelectorAll('.jse-listitem-row');
+        const itemsData = Array.from(itemRows).map((row, i) => {
+          const textInp = row.querySelector('[data-listitem-text]');
+          return textInp ? textInp.value : `Elemento ${i + 1}`;
+        });
+
+        // Rebuild list group
+        listGroup.innerHTML = itemsData.map(text =>
+          `<li class="list-group-item">${text}</li>`
+        ).join('');
+
+        this.syncToCode();
+      };
+
+      // ============================================
+      // BOOTSTRAP BREADCRUMB SYNC FUNCTION
+      // ============================================
+      const syncBreadcrumbToComponent = () => {
+        const blockRoot = this._currentBlockRoot;
+        if (!blockRoot) return;
+
+        const breadcrumbOl = blockRoot.querySelector('.breadcrumb');
+        if (!breadcrumbOl) return;
+
+        const bcRows = settingsEl.querySelectorAll('.jse-breadcrumb-row');
+        const bcData = Array.from(bcRows).map((row, i) => {
+          const textInp = row.querySelector('[data-bc-text]');
+          const urlInp = row.querySelector('[data-bc-url]');
+          return {
+            text: textInp ? textInp.value : `Link ${i + 1}`,
+            url: urlInp ? urlInp.value : '#'
+          };
+        });
+
+        // Rebuild breadcrumb - last item is always active (no link)
+        breadcrumbOl.innerHTML = bcData.map((item, i) => {
+          const isLast = i === bcData.length - 1;
+          if (isLast) {
+            return `<li class="breadcrumb-item active" aria-current="page">${item.text}</li>`;
+          }
+          return `<li class="breadcrumb-item"><a href="${item.url}">${item.text}</a></li>`;
+        }).join('');
+
+        this.syncToCode();
+      };
+
+      // Edit slide src/alt OR tab title OR accordion title OR listgroup item OR breadcrumb
       settingsEl.addEventListener('input', e => {
         if (e.target.dataset.slideSrc !== undefined || e.target.dataset.slideAlt !== undefined) {
           syncSlidesToCarousel();
         } else if (e.target.dataset.tabTitle !== undefined) {
           syncTabsToComponent();
+        } else if (e.target.dataset.accTitle !== undefined) {
+          syncAccordionToComponent();
+        } else if (e.target.dataset.listitemText !== undefined) {
+          syncListGroupToComponent();
+        } else if (e.target.dataset.bcText !== undefined || e.target.dataset.bcUrl !== undefined) {
+          syncBreadcrumbToComponent();
         }
       });
 
@@ -1493,6 +1645,143 @@ input[type="checkbox"]:checked+.jse-toggle::after{transform:translateX(12px);bac
           // Refresh settings panel to show new tab
           this.updateAttrInputs();
         }
+
+        // Accordion delete button
+        const accDelBtn = e.target.closest('[data-acc-del]');
+        if (accDelBtn) {
+          const row = accDelBtn.closest('.jse-accordion-row');
+          if (row) {
+            row.remove();
+            // Reindex remaining rows
+            settingsEl.querySelectorAll('.jse-accordion-row').forEach((r, i) => {
+              r.dataset.accIdx = i;
+              const titleInp = r.querySelector('[data-acc-title]');
+              const delB = r.querySelector('[data-acc-del]');
+              if (titleInp) titleInp.dataset.accTitle = i;
+              if (delB) delB.dataset.accDel = i;
+            });
+            syncAccordionToComponent();
+            this.updateAttrInputs();
+          }
+          return;
+        }
+
+        // Accordion add button
+        const accAddBtn = e.target.closest('[data-acc-add]');
+        if (accAddBtn) {
+          const blockRoot = this._currentBlockRoot;
+          if (!blockRoot) return;
+          const accordion = blockRoot.querySelector('.accordion');
+          if (!accordion) return;
+
+          const accId = accordion.getAttribute('id') || 'acc1';
+          const count = accordion.querySelectorAll('.accordion-item').length;
+
+          // Add new accordion item (collapsed by default)
+          const newItem = document.createElement('div');
+          newItem.className = 'accordion-item';
+          newItem.innerHTML = `
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#${accId}-c${count + 1}">Sección ${count + 1}</button>
+            </h2>
+            <div id="${accId}-c${count + 1}" class="accordion-collapse collapse" data-bs-parent="#${accId}">
+              <div class="accordion-body"><p class="text-muted">Arrastra bloques aquí</p></div>
+            </div>
+          `;
+          accordion.appendChild(newItem);
+
+          this.syncToCode();
+          this.updateAttrInputs();
+        }
+
+        // List Group delete button
+        const listitemDelBtn = e.target.closest('[data-listitem-del]');
+        if (listitemDelBtn) {
+          const row = listitemDelBtn.closest('.jse-listitem-row');
+          if (row) {
+            row.remove();
+            // Reindex remaining rows
+            settingsEl.querySelectorAll('.jse-listitem-row').forEach((r, i) => {
+              r.dataset.listitemIdx = i;
+              const textInp = r.querySelector('[data-listitem-text]');
+              const delB = r.querySelector('[data-listitem-del]');
+              if (textInp) textInp.dataset.listitemText = i;
+              if (delB) delB.dataset.listitemDel = i;
+            });
+            syncListGroupToComponent();
+            this.updateAttrInputs();
+          }
+          return;
+        }
+
+        // List Group add button
+        const listitemAddBtn = e.target.closest('[data-listitem-add]');
+        if (listitemAddBtn) {
+          const blockRoot = this._currentBlockRoot;
+          if (!blockRoot) return;
+          const listGroup = blockRoot.querySelector('.list-group');
+          if (!listGroup) return;
+
+          const count = listGroup.querySelectorAll('.list-group-item').length;
+
+          // Add new list item
+          const newItem = document.createElement('li');
+          newItem.className = 'list-group-item';
+          newItem.textContent = `Elemento ${count + 1}`;
+          listGroup.appendChild(newItem);
+
+          this.syncToCode();
+          this.updateAttrInputs();
+        }
+
+        // Breadcrumb delete button
+        const bcDelBtn = e.target.closest('[data-bc-del]');
+        if (bcDelBtn) {
+          const row = bcDelBtn.closest('.jse-breadcrumb-row');
+          if (row) {
+            row.remove();
+            // Reindex remaining rows
+            settingsEl.querySelectorAll('.jse-breadcrumb-row').forEach((r, i) => {
+              r.dataset.bcIdx = i;
+              const textInp = r.querySelector('[data-bc-text]');
+              const urlInp = r.querySelector('[data-bc-url]');
+              const delB = r.querySelector('[data-bc-del]');
+              if (textInp) textInp.dataset.bcText = i;
+              if (urlInp) urlInp.dataset.bcUrl = i;
+              if (delB) delB.dataset.bcDel = i;
+            });
+            syncBreadcrumbToComponent();
+            this.updateAttrInputs();
+          }
+          return;
+        }
+
+        // Breadcrumb add button
+        const bcAddBtn = e.target.closest('[data-bc-add]');
+        if (bcAddBtn) {
+          const blockRoot = this._currentBlockRoot;
+          if (!blockRoot) return;
+          const breadcrumbOl = blockRoot.querySelector('.breadcrumb');
+          if (!breadcrumbOl) return;
+
+          // Insert new link BEFORE the last (active) item
+          const items = breadcrumbOl.querySelectorAll('.breadcrumb-item');
+          const count = items.length;
+          const newItem = document.createElement('li');
+          newItem.className = 'breadcrumb-item';
+          newItem.innerHTML = `<a href="#">Enlace ${count}</a>`;
+
+          // The last item is active - convert it back if needed, and insert before it
+          const lastItem = items[items.length - 1];
+          if (lastItem) {
+            breadcrumbOl.insertBefore(newItem, lastItem);
+          } else {
+            breadcrumbOl.appendChild(newItem);
+          }
+
+          this.syncToCode();
+          this.updateAttrInputs();
+        }
       });
 
     }
@@ -1564,6 +1853,65 @@ body{min-height:100vh;padding:10px}
               if (pane) {
                 pane.classList.add('show', 'active');
               }
+            }
+          }
+        }
+
+        // Handle Modal open/close
+        const modalTrigger = e.target.closest('.shou-modal-trigger');
+        if (modalTrigger) {
+          const wrapper = modalTrigger.closest('.shou-modal-wrapper');
+          if (wrapper) {
+            const modal = wrapper.querySelector('.shou-modal-overlay');
+            if (modal) {
+              modal.style.display = 'block';
+            }
+          }
+        }
+
+        // Close modal when clicking close buttons or backdrop (but not modal content)
+        const modalCloseBtn = e.target.closest('.shou-modal-close, .shou-modal-close-x');
+        const clickedOnBackdrop = e.target.classList.contains('shou-modal-overlay');
+        if (modalCloseBtn || clickedOnBackdrop) {
+          const modal = modalCloseBtn ? modalCloseBtn.closest('.shou-modal-overlay') : e.target;
+          if (modal) {
+            modal.style.display = 'none';
+          }
+        }
+
+        // Handle Bootstrap accordion click - toggle sections
+        const accordionBtn = e.target.closest('[data-bs-toggle="collapse"]');
+        if (accordionBtn) {
+          const accordionWrapper = accordionBtn.closest('.shou-accordion-wrapper');
+          if (accordionWrapper) {
+            const targetId = accordionBtn.getAttribute('data-bs-target');
+            const collapseEl = targetId ? accordionWrapper.querySelector(targetId) : null;
+            if (collapseEl) {
+              const isOpen = collapseEl.classList.contains('show');
+              const accordion = accordionBtn.closest('.accordion');
+              const parentSelector = collapseEl.getAttribute('data-bs-parent');
+
+              // If accordion parent is set, close other sections first
+              if (parentSelector && accordion) {
+                accordion.querySelectorAll('.accordion-collapse.show').forEach(c => {
+                  if (c !== collapseEl) {
+                    c.classList.remove('show');
+                    const btn = accordion.querySelector(`[data-bs-target="#${c.id}"]`);
+                    if (btn) btn.classList.add('collapsed');
+                  }
+                });
+              }
+
+              // Toggle current section
+              if (isOpen) {
+                collapseEl.classList.remove('show');
+                accordionBtn.classList.add('collapsed');
+              } else {
+                collapseEl.classList.add('show');
+                accordionBtn.classList.remove('collapsed');
+              }
+
+              this.syncToCode();
             }
           }
         }
@@ -2633,6 +2981,18 @@ body{min-height:100vh;padding:10px}
             const opts = (s.options || []).map(o => `<option value="${o}" ${o === val ? 'selected' : ''}>${o || '(none)'}</option>`).join('');
             return `<div class="jse-row"><label>${t(s.label)}</label><select data-sidx="${idx}">${opts}</select></div>`;
           }
+          if (s.type === 'modal-toggle') {
+            // Special toggles for modal settings
+            const dialog = blockRoot.querySelector('.modal-dialog');
+            const closeBtn = blockRoot.querySelector('.shou-modal-close');
+            const saveBtn = blockRoot.querySelector('.shou-modal-save');
+            let checked = false;
+            if (s.prop === 'centered') checked = dialog?.classList.contains('modal-dialog-centered');
+            else if (s.prop === 'scrollable') checked = dialog?.classList.contains('modal-dialog-scrollable');
+            else if (s.prop === 'showClose') checked = !closeBtn || closeBtn.style.display !== 'none';
+            else if (s.prop === 'showSave') checked = !saveBtn || saveBtn.style.display !== 'none';
+            return `<div class="jse-row"><label>${t(s.label)}</label><input type="checkbox" data-sidx="${idx}" data-modal-prop="${s.prop}" ${checked ? 'checked' : ''}><label class="jse-toggle" data-for-sidx="${idx}"></label></div>`;
+          }
           if (s.type === 'options') {
             const opts = Array.from(target.querySelectorAll('option'));
             const rows = opts.map((o, oi) => {
@@ -2673,6 +3033,52 @@ body{min-height:100vh;padding:10px}
               </div>`;
             }).join('');
             return `<div class="jse-row" style="flex-direction:column;align-items:stretch"><label>${t(s.label)}</label><div data-sidx="${idx}" data-tabs-editor="true" style="margin-top:6px">${rows}<button data-tab-add style="width:100%;padding:8px;border:1px dashed var(--jse-border);border-radius:3px;background:transparent;color:var(--jse-accent);cursor:pointer;font-size:12px;margin-top:4px">${t('setting.addTab')}</button></div><p style="font-size:10px;color:var(--jse-text-muted);margin-top:6px;margin-bottom:0">Edita el contenido de cada pestaña directamente en el canvas</p></div>`;
+          }
+          if (s.type === 'accordion') {
+            // Bootstrap Accordion editor - only titles, content is edited visually in canvas
+            const accordion = blockRoot.querySelector('.accordion');
+            const items = accordion ? Array.from(accordion.querySelectorAll('.accordion-item')) : [];
+            const rows = items.map((item, ai) => {
+              const btn = item.querySelector('.accordion-button');
+              const title = (btn?.textContent || '').replace(/"/g, '&quot;');
+              return `<div class="jse-accordion-row" data-acc-idx="${ai}" style="display:flex;gap:8px;align-items:center;margin-bottom:6px">
+                <input type="text" data-acc-title="${ai}" value="${title}" placeholder="${t('setting.sectionTitle')}" style="flex:1;padding:6px 8px;border:1px solid var(--jse-border);border-radius:3px;background:var(--jse-bg);color:var(--jse-text);font-size:12px">
+                <button data-acc-del="${ai}" style="padding:4px 8px;border:1px solid var(--jse-border);border-radius:3px;background:var(--jse-bg);color:var(--jse-text);cursor:pointer;font-size:12px;line-height:1" title="${t('toolbar.delete')}">&times;</button>
+              </div>`;
+            }).join('');
+            return `<div class="jse-row" style="flex-direction:column;align-items:stretch"><label>${t(s.label)}</label><div data-sidx="${idx}" data-accordion-editor="true" style="margin-top:6px">${rows}<button data-acc-add style="width:100%;padding:8px;border:1px dashed var(--jse-border);border-radius:3px;background:transparent;color:var(--jse-accent);cursor:pointer;font-size:12px;margin-top:4px">${t('setting.addSection')}</button></div><p style="font-size:10px;color:var(--jse-text-muted);margin-top:6px;margin-bottom:0">Haz click en una sección para editarla en el canvas</p></div>`;
+          }
+          if (s.type === 'listgroup') {
+            // Bootstrap List Group editor - edit item text
+            const listGroup = blockRoot.querySelector('.list-group');
+            const items = listGroup ? Array.from(listGroup.querySelectorAll('.list-group-item')) : [];
+            const rows = items.map((item, li) => {
+              const text = (item.textContent || '').replace(/"/g, '&quot;');
+              return `<div class="jse-listitem-row" data-listitem-idx="${li}" style="display:flex;gap:8px;align-items:center;margin-bottom:6px">
+                <input type="text" data-listitem-text="${li}" value="${text}" placeholder="${t('setting.itemText')}" style="flex:1;padding:6px 8px;border:1px solid var(--jse-border);border-radius:3px;background:var(--jse-bg);color:var(--jse-text);font-size:12px">
+                <button data-listitem-del="${li}" style="padding:4px 8px;border:1px solid var(--jse-border);border-radius:3px;background:var(--jse-bg);color:var(--jse-text);cursor:pointer;font-size:12px;line-height:1" title="${t('toolbar.delete')}">&times;</button>
+              </div>`;
+            }).join('');
+            return `<div class="jse-row" style="flex-direction:column;align-items:stretch"><label>${t(s.label)}</label><div data-sidx="${idx}" data-listgroup-editor="true" style="margin-top:6px">${rows}<button data-listitem-add style="width:100%;padding:8px;border:1px dashed var(--jse-border);border-radius:3px;background:transparent;color:var(--jse-accent);cursor:pointer;font-size:12px;margin-top:4px">${t('setting.addItem')}</button></div></div>`;
+          }
+          if (s.type === 'breadcrumb') {
+            // Bootstrap Breadcrumb editor - text + URL per link, last is active
+            const breadcrumbOl = blockRoot.querySelector('.breadcrumb');
+            const items = breadcrumbOl ? Array.from(breadcrumbOl.querySelectorAll('.breadcrumb-item')) : [];
+            const rows = items.map((item, bi) => {
+              const isActive = item.classList.contains('active');
+              const link = item.querySelector('a');
+              const text = (isActive ? item.textContent : link?.textContent || '').replace(/"/g, '&quot;');
+              const href = (link?.getAttribute('href') || '#').replace(/"/g, '&quot;');
+              return `<div class="jse-breadcrumb-row" data-bc-idx="${bi}" style="display:flex;flex-direction:column;gap:4px;margin-bottom:8px;padding:8px;border:1px solid var(--jse-border);border-radius:4px;background:var(--jse-bg-alt)">
+                <div style="display:flex;gap:6px;align-items:center">
+                  <input type="text" data-bc-text="${bi}" value="${text}" placeholder="${t('setting.linkText')}" style="flex:1;padding:5px 8px;border:1px solid var(--jse-border);border-radius:3px;background:var(--jse-bg);color:var(--jse-text);font-size:12px">
+                  <button data-bc-del="${bi}" style="padding:4px 8px;border:1px solid var(--jse-border);border-radius:3px;background:var(--jse-bg);color:var(--jse-text);cursor:pointer;font-size:12px;line-height:1" title="${t('toolbar.delete')}">&times;</button>
+                </div>
+                ${!isActive ? `<input type="text" data-bc-url="${bi}" value="${href}" placeholder="${t('setting.linkUrl')}" style="width:100%;padding:5px 8px;border:1px solid var(--jse-border);border-radius:3px;background:var(--jse-bg);color:var(--jse-text);font-size:11px">` : `<span style="font-size:10px;color:var(--jse-text-muted);padding:2px 0">Página actual (sin enlace)</span>`}
+              </div>`;
+            }).join('');
+            return `<div class="jse-row" style="flex-direction:column;align-items:stretch"><label>${t(s.label)}</label><div data-sidx="${idx}" data-breadcrumb-editor="true" style="margin-top:6px">${rows}<button data-bc-add style="width:100%;padding:8px;border:1px dashed var(--jse-border);border-radius:3px;background:transparent;color:var(--jse-accent);cursor:pointer;font-size:12px;margin-top:4px">${t('setting.addLink')}</button></div><p style="font-size:10px;color:var(--jse-text-muted);margin-top:6px;margin-bottom:0">El último enlace se muestra como página actual</p></div>`;
           }
 
           // Default: text input

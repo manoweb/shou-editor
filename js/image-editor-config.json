@@ -1,0 +1,36 @@
+{
+  "theme": "dark",
+  "width": "100%",
+  "height": "100%",
+  "maxHistory": 20,
+  "outputFormat": "png",
+  "outputQuality": 0.92,
+  "lang": "en",
+  "tools": {
+    "drawing": [
+      "move",
+      {
+        "group": "select",
+        "tools": ["selectRect", "selectEllipse", "selectPoly", "selectFree"]
+      },
+      "pencil",
+      "eraser",
+      "eyedropper",
+      "fill",
+      "gradient",
+      "rect",
+      "circle",
+      "line",
+      "arrow",
+      "text"
+    ],
+    "transform": ["crop", "resize", "rotateLeft", "rotateRight", "flipH", "flipV"]
+  },
+  "panels": {
+    "layers": true,
+    "filters": true,
+    "statusBar": true
+  },
+  "filters": ["brightness", "contrast", "saturation", "blur", "grayscale", "sepia", "hue"],
+  "preset": null
+}
