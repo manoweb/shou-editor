@@ -655,7 +655,7 @@
 
   function getEditorCSS() {
     return `
-.jse-editor{display:flex;flex-direction:column;font-family:system-ui,sans-serif;font-size:14px;background:var(--jse-bg);color:var(--jse-text);overflow:hidden}
+.jse-editor{display:flex;flex-direction:column;font-family:system-ui,sans-serif;font-size:14px;background:var(--jse-bg);color:var(--jse-text);overflow:hidden;isolation:isolate}
 .jse-editor.theme-dark{--jse-bg:#1e1e1e;--jse-bg2:#252526;--jse-bg3:#323233;--jse-text:#d4d4d4;--jse-text2:#858585;--jse-border:#3c3c3c;--jse-accent:#007acc;--jse-hover:#2a2d2e}
 .jse-editor.theme-light{--jse-bg:#fff;--jse-bg2:#f3f3f3;--jse-bg3:#f8f8f8;--jse-text:#1e1e1e;--jse-text2:#6e6e6e;--jse-border:#e0e0e0;--jse-accent:#007acc;--jse-hover:#e8e8e8}
 .jse-toolbar{display:flex;align-items:center;justify-content:space-between;padding:8px 16px;background:var(--jse-bg3);border-bottom:1px solid var(--jse-border);gap:16px}
@@ -791,6 +791,10 @@ input[type="checkbox"]:checked+.jse-toggle::after{transform:translateX(12px);bac
         this.container = document.body;
         this.config = { ...this.getDefaultConfig(), ...containerOrConfig };
       }
+
+      // Track if theme was explicitly provided by user config
+      const userCfg = typeof containerOrConfig === 'string' || containerOrConfig instanceof Element ? config : containerOrConfig;
+      this._themeFromConfig = userCfg && userCfg.theme !== undefined;
 
       this.blocks = { ...DefaultBlocks, ...(this.config.customBlocks || {}) };
       this.config.blocks = this.blocks;
@@ -3675,7 +3679,7 @@ body{min-height:100vh;padding:10px}
         this.code.css = localStorage.getItem(p + 'css') || '';
         this.code.js = localStorage.getItem(p + 'js') || '';
         const theme = localStorage.getItem(p + 'theme');
-        if (theme) this.setTheme(theme);
+        if (theme && !this._themeFromConfig) this.setTheme(theme);
         const outlines = localStorage.getItem(p + 'outlines');
         if (outlines) {
           this._outlinesActive = true;
