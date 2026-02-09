@@ -1251,6 +1251,12 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
         this._renderLayersList();
         this._updateLayerOpacityUI();
         this._redraw();
+        // If text layer selected, switch to text tool and load properties
+        const layer = this._findLayerById(id);
+        if (layer && layer.type === 'text' && layer.textData) {
+          this.setTool('text');
+          this._loadTextLayerProps(layer);
+        }
       });
 
       // Toggle visibility
@@ -1511,8 +1517,11 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
           this.drawing = false;
           const hitText = this._findTextLayerAt(pos);
           if (hitText) {
+            // Single click: select text layer and load its properties
             this.layerManager.setActive(hitText.id);
-            this._editTextLayer(hitText);
+            this._loadTextLayerProps(hitText);
+            this._renderLayersList();
+            this._redraw();
           } else {
             this._placeText(pos);
           }
@@ -1646,6 +1655,14 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
         if (!active) return;
 
         if (this.currentTool === 'move') {
+          // Update textData position if this is a text layer
+          if (active.type === 'text' && active.textData && this._moveStart) {
+            const pos = this._canvasPos(e);
+            const dx = pos.x - this._moveStart.x;
+            const dy = pos.y - this._moveStart.y;
+            active.textData.x = (active.textData.x || 0) + dx;
+            active.textData.y = (active.textData.y || 0) + dy;
+          }
           this._moveSnapshot = null;
           this._moveStart = null;
           this.pushHistory();
@@ -1715,6 +1732,7 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
         if (hitText) {
           this.layerManager.setActive(hitText.id);
           this._renderLayersList();
+          this.setTool('text');
           this._editTextLayer(hitText);
         }
       });
@@ -2013,7 +2031,10 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
         html += `<div class="jsie-text-row"><label>${t('opt.letterSpacing')}</label><input type="number" id="jsie-opt-spacing" value="${this.letterSpacing}" min="-5" max="20" step="0.5" style="width:56px"></div>`;
         html += `<div class="jsie-text-row"><label>${t('opt.lineHeight')}</label><input type="number" id="jsie-opt-lineheight" value="${this.lineHeight}" min="0.5" max="3" step="0.1" style="width:56px"></div>`;
         html += `<div class="jsie-text-row"><label>${t('opt.textDecoration')}</label><select id="jsie-opt-decoration"><option value="none"${this.textDecoration==='none'?' selected':''}>None</option><option value="underline"${this.textDecoration==='underline'?' selected':''}>Underline</option><option value="line-through"${this.textDecoration==='line-through'?' selected':''}>Strikethrough</option></select></div>`;
-        html += `<div class="jsie-text-row"><label>${t('opt.align')}</label><span class="jsie-align-btns"><button type="button" class="jsie-align-btn${this.textAlign==='left'?' active':''}" data-align="left" title="Left">&#9776;</button><button type="button" class="jsie-align-btn${this.textAlign==='center'?' active':''}" data-align="center" title="Center">&#9776;</button><button type="button" class="jsie-align-btn${this.textAlign==='right'?' active':''}" data-align="right" title="Right">&#9776;</button></span></div>`;
+        const svgAL = '<svg width="14" height="14" viewBox="0 0 14 14"><line x1="1" y1="3" x2="13" y2="3" stroke="currentColor" stroke-width="1.5"/><line x1="1" y1="7" x2="9" y2="7" stroke="currentColor" stroke-width="1.5"/><line x1="1" y1="11" x2="11" y2="11" stroke="currentColor" stroke-width="1.5"/></svg>';
+        const svgAC = '<svg width="14" height="14" viewBox="0 0 14 14"><line x1="1" y1="3" x2="13" y2="3" stroke="currentColor" stroke-width="1.5"/><line x1="3" y1="7" x2="11" y2="7" stroke="currentColor" stroke-width="1.5"/><line x1="2" y1="11" x2="12" y2="11" stroke="currentColor" stroke-width="1.5"/></svg>';
+        const svgAR = '<svg width="14" height="14" viewBox="0 0 14 14"><line x1="1" y1="3" x2="13" y2="3" stroke="currentColor" stroke-width="1.5"/><line x1="5" y1="7" x2="13" y2="7" stroke="currentColor" stroke-width="1.5"/><line x1="3" y1="11" x2="13" y2="11" stroke="currentColor" stroke-width="1.5"/></svg>';
+        html += `<div class="jsie-text-row"><label>${t('opt.align')}</label><span class="jsie-align-btns"><button type="button" class="jsie-align-btn${this.textAlign==='left'?' active':''}" data-align="left" title="Left">${svgAL}</button><button type="button" class="jsie-align-btn${this.textAlign==='center'?' active':''}" data-align="center" title="Center">${svgAC}</button><button type="button" class="jsie-align-btn${this.textAlign==='right'?' active':''}" data-align="right" title="Right">${svgAR}</button></span></div>`;
         html += `</div>`;
       } else if (tool === 'fill') {
         html += `<label>${t('opt.color')}</label><input type="color" id="jsie-opt-color" value="${this.drawColor}">`;
@@ -2051,15 +2072,16 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
       const optGrad1 = $('#jsie-opt-grad1', this.root);
       const optGrad2 = $('#jsie-opt-grad2', this.root);
 
-      if (optColor) on(optColor, 'input', () => { this.drawColor = optColor.value; });
+      const syncText = () => this._syncTextLayerProps();
+      if (optColor) on(optColor, 'input', () => { this.drawColor = optColor.value; syncText(); });
       if (optSize) on(optSize, 'input', () => { this.strokeSize = parseInt(optSize.value); });
       if (optFill) on(optFill, 'change', () => { this.fillEnabled = optFill.checked; });
       if (optFillColor) on(optFillColor, 'input', () => { this.fillColor = optFillColor.value; });
       if (optFont) {
         optFont.value = this.fontFamily;
-        on(optFont, 'change', () => { this.fontFamily = optFont.value; });
+        on(optFont, 'change', () => { this.fontFamily = optFont.value; syncText(); });
       }
-      if (optFontSize) on(optFontSize, 'input', () => { this.fontSize = parseInt(optFontSize.value); });
+      if (optFontSize) on(optFontSize, 'input', () => { this.fontSize = parseInt(optFontSize.value); syncText(); });
 
       // Text advanced options
       const optWeight = $('#jsie-opt-weight', this.root);
@@ -2067,11 +2089,11 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
       const optSpacing = $('#jsie-opt-spacing', this.root);
       const optLineH = $('#jsie-opt-lineheight', this.root);
       const optDeco = $('#jsie-opt-decoration', this.root);
-      if (optWeight) on(optWeight, 'change', () => { this.fontWeight = optWeight.value; });
-      if (optStyle) on(optStyle, 'change', () => { this.fontStyle = optStyle.value; });
-      if (optSpacing) on(optSpacing, 'input', () => { this.letterSpacing = parseFloat(optSpacing.value); });
-      if (optLineH) on(optLineH, 'input', () => { this.lineHeight = parseFloat(optLineH.value); });
-      if (optDeco) on(optDeco, 'change', () => { this.textDecoration = optDeco.value; });
+      if (optWeight) on(optWeight, 'change', () => { this.fontWeight = optWeight.value; syncText(); });
+      if (optStyle) on(optStyle, 'change', () => { this.fontStyle = optStyle.value; syncText(); });
+      if (optSpacing) on(optSpacing, 'input', () => { this.letterSpacing = parseFloat(optSpacing.value); syncText(); });
+      if (optLineH) on(optLineH, 'input', () => { this.lineHeight = parseFloat(optLineH.value); syncText(); });
+      if (optDeco) on(optDeco, 'change', () => { this.textDecoration = optDeco.value; syncText(); });
       // Align buttons
       const alignBtns = $$('.jsie-align-btn', this.root);
       alignBtns.forEach(btn => {
@@ -2079,6 +2101,7 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
           this.textAlign = btn.dataset.align;
           alignBtns.forEach(b => b.classList.remove('active'));
           btn.classList.add('active');
+          syncText();
         });
       });
       if (optTolerance) on(optTolerance, 'input', () => { this.fillTolerance = parseInt(optTolerance.value); });
@@ -2697,6 +2720,39 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
     }
 
     // ── Text Tool ─────────────────────────────────
+    _loadTextLayerProps(layer) {
+      if (!layer || layer.type !== 'text' || !layer.textData) return;
+      const td = layer.textData;
+      this.drawColor = td.color || this.drawColor;
+      this.fontFamily = td.fontFamily || this.fontFamily;
+      this.fontSize = td.fontSize || this.fontSize;
+      this.fontWeight = td.fontWeight || 'normal';
+      this.fontStyle = td.fontStyle || 'normal';
+      this.letterSpacing = td.letterSpacing || 0;
+      this.lineHeight = td.lineHeight || 1.2;
+      this.textAlign = td.align || 'left';
+      this.textDecoration = td.textDecoration || 'none';
+      this._renderToolOptions();
+    }
+
+    _syncTextLayerProps() {
+      if (!this.layerManager) return;
+      const layer = this.layerManager.activeLayer;
+      if (!layer || layer.type !== 'text' || !layer.textData) return;
+      const td = layer.textData;
+      td.color = this.drawColor;
+      td.fontSize = this.fontSize;
+      td.fontFamily = this.fontFamily;
+      td.fontWeight = this.fontWeight;
+      td.fontStyle = this.fontStyle;
+      td.letterSpacing = this.letterSpacing;
+      td.lineHeight = this.lineHeight;
+      td.align = this.textAlign;
+      td.textDecoration = this.textDecoration;
+      layer._renderText();
+      this._redraw();
+    }
+
     _findTextLayerAt(pos) {
       if (!this.layerManager) return null;
       const layers = this.layerManager.layers;
@@ -2714,6 +2770,9 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
       return null;
     }
     _placeText(pos) {
+      // Finish any active edit first
+      this._finishActiveTextEdit();
+
       const existing = $('.jsie-text-input-overlay', this.canvasWrap);
       if (existing) existing.remove();
 
@@ -2740,17 +2799,41 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
       overlay.appendChild(ta);
       this.canvasWrap.appendChild(overlay);
 
-      ta.focus();
-      ta.addEventListener('keydown', e => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-          e.preventDefault();
+      let finished = false;
+      const finish = (save) => {
+        if (finished) return;
+        finished = true;
+        this._activeTextEdit = null;
+        document.removeEventListener('mousedown', outsideHandler, true);
+        if (save) {
           const text = ta.value;
           if (text && this.layerManager) {
             this._createTextLayer(text, pos);
           }
-          overlay.remove();
+        }
+        overlay.remove();
+      };
+
+      this._activeTextEdit = finish;
+
+      const outsideHandler = (e) => {
+        if (!overlay.contains(e.target)) {
+          e.preventDefault();
+          e.stopPropagation();
+          finish(true);
+        }
+      };
+      setTimeout(() => {
+        if (!finished) document.addEventListener('mousedown', outsideHandler, true);
+      }, 0);
+
+      ta.focus();
+      ta.addEventListener('keydown', e => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          finish(true);
         } else if (e.key === 'Escape') {
-          overlay.remove();
+          finish(false);
         }
       });
     }
@@ -2787,12 +2870,25 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
       this._updateLayerOpacityUI();
     }
 
+    _finishActiveTextEdit() {
+      if (this._activeTextEdit) {
+        this._activeTextEdit(true);
+        this._activeTextEdit = null;
+      }
+    }
+
     _editTextLayer(layer) {
       if (layer.type !== 'text' || !layer.textData) return;
       const td = layer.textData;
 
+      // Finish any previous edit first
+      this._finishActiveTextEdit();
+
       const existing = $('.jsie-text-input-overlay', this.canvasWrap);
       if (existing) existing.remove();
+
+      // Load props into panel
+      this._loadTextLayerProps(layer);
 
       const rect = this.interactionCanvas.getBoundingClientRect();
       const scaleX = rect.width / this.interactionCanvas.width;
@@ -2802,18 +2898,6 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
       overlay.className = 'jsie-text-input-overlay';
       overlay.style.left = (td.x * scaleX) + 'px';
       overlay.style.top = (td.y * scaleY) + 'px';
-
-      // Load saved text properties into current controls
-      this.drawColor = td.color || this.drawColor;
-      this.fontFamily = td.fontFamily || this.fontFamily;
-      this.fontSize = td.fontSize || this.fontSize;
-      this.fontWeight = td.fontWeight || 'normal';
-      this.fontStyle = td.fontStyle || 'normal';
-      this.letterSpacing = td.letterSpacing || 0;
-      this.lineHeight = td.lineHeight || 1.2;
-      this.textAlign = td.align || 'left';
-      this.textDecoration = td.textDecoration || 'none';
-      this._renderToolOptions();
 
       const ta = document.createElement('textarea');
       ta.style.fontSize = (td.fontSize * scaleY) + 'px';
@@ -2831,11 +2915,18 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
       overlay.appendChild(ta);
       this.canvasWrap.appendChild(overlay);
 
-      ta.focus();
-      ta.select();
-      ta.addEventListener('keydown', e => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-          e.preventDefault();
+      // Hide the rendered layer to avoid double text
+      layer.ctx.clearRect(0, 0, layer.width, layer.height);
+      this._redraw();
+
+      let finished = false;
+      const finishEdit = (save) => {
+        if (finished) return;
+        finished = true;
+        this._activeTextEdit = null;
+        document.removeEventListener('mousedown', outsideHandler, true);
+        overlay.remove();
+        if (save) {
           const text = ta.value;
           if (text) {
             td.text = text;
@@ -2849,14 +2940,38 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
             td.align = this.textAlign;
             td.textDecoration = this.textDecoration;
             layer.name = 'T: ' + text.substring(0, 15);
-            layer._renderText();
-            this.pushHistory();
-            this._redraw();
-            this._renderLayersList();
           }
-          overlay.remove();
+        }
+        // Re-render the text layer
+        layer._renderText();
+        this.pushHistory();
+        this._redraw();
+        this._renderLayersList();
+      };
+
+      this._activeTextEdit = finishEdit;
+
+      // Click outside overlay → save and close
+      const outsideHandler = (e) => {
+        if (!overlay.contains(e.target)) {
+          e.preventDefault();
+          e.stopPropagation();
+          finishEdit(true);
+        }
+      };
+      // Use setTimeout so the current click doesn't trigger it
+      setTimeout(() => {
+        if (!finished) document.addEventListener('mousedown', outsideHandler, true);
+      }, 0);
+
+      ta.focus();
+      ta.select();
+      ta.addEventListener('keydown', e => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          finishEdit(true);
         } else if (e.key === 'Escape') {
-          overlay.remove();
+          finishEdit(false);
         }
       });
     }
