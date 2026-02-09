@@ -1,97 +1,97 @@
-# Arquitectura del Proyecto
+# Project Architecture
 
-Guia de la arquitectura y organizacion de Shou Editor.
+Guide to the architecture and organization of Shou Editor.
 
-## Principios de Diseno
+## Design Principles
 
-1. **Vanilla First**: JavaScript nativo ES6+ sin frameworks
-2. **Plugin Autonomo**: Un solo archivo que genera todo (HTML + CSS)
-3. **IIFE Pattern**: Encapsulacion sin contaminar el scope global
-4. **Zero Dependencies**: Sin librerias externas
+1. **Vanilla First**: Native ES6+ JavaScript without frameworks
+2. **Self-Contained Plugin**: A single file that generates everything (HTML + CSS)
+3. **IIFE Pattern**: Encapsulation without polluting the global scope
+4. **Zero Dependencies**: No external libraries
 
-## Estructura de Archivos
+## File Structure
 
 ```
 js-editor/
-+-- index.html              # Ejemplo de uso del plugin (~40 lineas)
++-- index.html              # Plugin usage example (~40 lines)
 +-- js/
-|   +-- app.js              # Plugin completo (~1000 lineas)
+|   +-- app.js              # Complete plugin (~1000 lines)
 +-- css/
-|   +-- main.css            # (legacy - no requerido por el plugin)
-|   +-- editor.css           # (legacy - no requerido por el plugin)
+|   +-- main.css            # (legacy - not required by the plugin)
+|   +-- editor.css           # (legacy - not required by the plugin)
 |   +-- themes/
-|       +-- dark.css         # Variables CSS tema oscuro (referencia)
-|       +-- light.css        # Variables CSS tema claro (referencia)
-+-- docs/                    # Documentacion
-+-- assets/                  # Recursos
-+-- CLAUDE.md                # Instrucciones del proyecto
+|       +-- dark.css         # Dark theme CSS variables (reference)
+|       +-- light.css        # Light theme CSS variables (reference)
++-- docs/                    # Documentation
++-- assets/                  # Resources
++-- CLAUDE.md                # Project instructions
 ```
 
-**Nota**: Los archivos CSS en `css/` son de referencia. El plugin embebe todo su CSS directamente en `app.js` via `getEditorCSS()`.
+**Note**: The CSS files in `css/` are for reference only. The plugin embeds all its CSS directly in `app.js` via `getEditorCSS()`.
 
-## Arquitectura del Plugin
+## Plugin Architecture
 
 ```
 app.js (IIFE)
 |
 +-- Utilities
-|   +-- $(), $$()             Selectores DOM
-|   +-- on()                  Delegacion de eventos
-|   +-- escapeHtml()          Escape HTML
-|   +-- getCaretPos()         Posicion del cursor
-|   +-- setCaretPos()         Establecer cursor
+|   +-- $(), $$()             DOM selectors
+|   +-- on()                  Event delegation
+|   +-- escapeHtml()          HTML escaping
+|   +-- getCaretPos()         Cursor position
+|   +-- setCaretPos()         Set cursor
 |
-+-- DefaultBlocks             Bloques arrastrables
-|   +-- basic []              Texto, Titulo, Imagen, Enlace, Divisor
-|   +-- layout []             Container, 2/3 Columnas
-|   +-- bootstrap []          Card, Alerta, Boton, Tabla
++-- DefaultBlocks             Draggable blocks
+|   +-- basic []              Text, Heading, Image, Link, Divider
+|   +-- layout []             Container, 2/3 Columns
+|   +-- bootstrap []          Card, Alert, Button, Table
 |   +-- forms []              Input, Textarea, Select
 |   +-- sections []           Navbar, Hero, Features, Footer
 |
 +-- Syntax Highlighting
-|   +-- highlightHTML()       Resaltado HTML
-|   +-- highlightCSS()        Resaltado CSS
-|   +-- highlightJS()         Resaltado JavaScript
+|   +-- highlightHTML()       HTML highlighting
+|   +-- highlightCSS()        CSS highlighting
+|   +-- highlightJS()         JavaScript highlighting
 |   +-- highlight()           Dispatcher
 |
-+-- getEditorTemplate()       Genera estructura HTML del editor
-+-- getEditorCSS()            Genera CSS embebido del editor
++-- getEditorTemplate()       Generates the editor HTML structure
++-- getEditorCSS()            Generates the editor embedded CSS
 |
 +-- Editor Class
-|   +-- constructor()         Inicializacion
-|   +-- injectCSS()           Inyecta <style> en <head>
-|   +-- render()              Genera HTML en el contenedor
-|   +-- cacheElements()       Cache de referencias DOM
+|   +-- constructor()         Initialization
+|   +-- injectCSS()           Injects <style> into <head>
+|   +-- render()              Generates HTML in the container
+|   +-- cacheElements()       Caches DOM references
 |   +-- bindEvents()          Event listeners (toolbar, panels, etc.)
-|   +-- initFrame()           Crea iframe del canvas
-|   +-- setupFrame()          Eventos del canvas (click, drag, etc.)
-|   +-- setupDragHandle()     Drag & drop desde mini toolbar
-|   +-- showDropIndicator()   Linea magnetica (bloques panel)
-|   +-- showMoveIndicator()   Linea magnetica (drag handle)
-|   +-- createElementToolbar() Mini toolbar sobre elemento
-|   +-- selectElement()       Seleccion con outline
-|   +-- updateLayers()        Arbol DOM en panel capas
-|   +-- syncToCode()          Canvas -> Editor de codigo
-|   +-- syncFromCode()        Editor de codigo -> Canvas
-|   +-- toggleOutlines()      Mostrar/ocultar contornos
-|   +-- saveToStorage()       Persistencia localStorage
-|   +-- loadFromStorage()     Carga desde localStorage
-|   +-- generateFullHtml()    HTML completo para exportar
-|   +-- importHtml()          Parsea HTML importado
-|   +-- API Publica           getHtml, setHtml, save, etc.
+|   +-- initFrame()           Creates the canvas iframe
+|   +-- setupFrame()          Canvas events (click, drag, etc.)
+|   +-- setupDragHandle()     Drag & drop from mini toolbar
+|   +-- showDropIndicator()   Magnetic line (blocks panel)
+|   +-- showMoveIndicator()   Magnetic line (drag handle)
+|   +-- createElementToolbar() Mini toolbar over element
+|   +-- selectElement()       Selection with outline
+|   +-- updateLayers()        DOM tree in layers panel
+|   +-- syncToCode()          Canvas -> Code editor
+|   +-- syncFromCode()        Code editor -> Canvas
+|   +-- toggleOutlines()      Show/hide outlines
+|   +-- saveToStorage()       localStorage persistence
+|   +-- loadFromStorage()     Load from localStorage
+|   +-- generateFullHtml()    Full HTML for export
+|   +-- importHtml()          Parse imported HTML
+|   +-- Public API            getHtml, setHtml, save, etc.
 |
-+-- ShouEditor (API Global)
++-- ShouEditor (Global API)
     +-- version               '1.0.0'
-    +-- Editor                Referencia a la clase
-    +-- Blocks                Bloques por defecto
-    +-- init()                Crea nueva instancia
+    +-- Editor                Reference to the class
+    +-- Blocks                Default blocks
+    +-- init()                Creates new instance
 ```
 
-## Flujo de Datos
+## Data Flow
 
 ```
 +-------------+
-| Bloques     |--- click/drag ---> insertBlock() / insertBlockAtPosition()
+| Blocks      |--- click/drag ---> insertBlock() / insertBlockAtPosition()
 +-------------+                          |
                                          v
 +-------------+     syncToCode()    +----------+
@@ -102,33 +102,33 @@ app.js (IIFE)
       v                                  v
 +-------------+                    +----------+
 | Layers      |                    | Storage  |
-| (panel DOM) |                    | (local)  |
+| (DOM panel) |                    | (local)  |
 +-------------+                    +----------+
 ```
 
 ## Iframe Canvas
 
-El canvas visual usa un iframe aislado que contiene:
+The visual canvas uses an isolated iframe that contains:
 - Bootstrap 5 CSS (via CDN `<link>`)
-- Estilos del editor (seleccion, hover, drop indicator, mini toolbar, outlines)
-- El HTML del usuario en `<body>`
-- CSS personalizado del usuario (inyectado como `<style id="jse-custom-css">`)
+- Editor styles (selection, hover, drop indicator, mini toolbar, outlines)
+- The user's HTML in `<body>`
+- User's custom CSS (injected as `<style id="jse-custom-css">`)
 
-El iframe permite:
-- Aislamiento completo de estilos
-- Bootstrap sin afectar al editor
-- Edicion visual segura
+The iframe allows:
+- Complete style isolation
+- Bootstrap without affecting the editor
+- Safe visual editing
 
-## Comunicacion
+## Communication
 
-No hay EventBus ni pub/sub. La comunicacion es directa dentro de la clase `Editor`:
+There is no EventBus or pub/sub. Communication is direct within the `Editor` class:
 
-- Los eventos del DOM llaman metodos del Editor
-- Los metodos del Editor actualizan directamente los paneles
-- `syncToCode()` y `syncFromCode()` mantienen la coherencia visual <-> codigo
+- DOM events call Editor methods
+- Editor methods directly update the panels
+- `syncToCode()` and `syncFromCode()` maintain visual <-> code consistency
 
-## Inyeccion de CSS
+## CSS Injection
 
-El plugin inyecta un solo `<style id="jse-styles">` en el `<head>` del documento host. Si ya existe (multiples instancias), no lo duplica.
+The plugin injects a single `<style id="jse-styles">` into the host document's `<head>`. If it already exists (multiple instances), it does not duplicate it.
 
-Todo el CSS usa el prefijo `.jse-` para evitar conflictos con estilos del sitio host.
+All CSS uses the `.jse-` prefix to avoid conflicts with the host site's styles.

@@ -1,12 +1,12 @@
-# Extender el Editor
+# Extending the Editor
 
-Guia para anadir nuevas funcionalidades a Shou Editor.
+Guide to adding new features to Shou Editor.
 
-## Anadir Bloques Personalizados
+## Adding Custom Blocks
 
-La forma mas sencilla de extender el editor es anadir bloques nuevos:
+The simplest way to extend the editor is to add new blocks:
 
-### Via Configuracion
+### Via Configuration
 
 ```javascript
 const editor = ShouEditor.init('#editor', {
@@ -39,37 +39,37 @@ const editor = ShouEditor.init('#editor', {
 });
 ```
 
-### Estructura de un Bloque
+### Block Structure
 
 ```javascript
 {
-  id: 'identificador-unico',   // String, sin espacios
-  label: 'Nombre Visible',     // Texto para el panel
-  icon: 'X',                   // Texto/emoji para el icono
-  html: '<div>HTML</div>'      // Codigo HTML que se inserta
+  id: 'identificador-unico',   // String, no spaces
+  label: 'Nombre Visible',     // Text for the panel
+  icon: 'X',                   // Text/emoji for the icon
+  html: '<div>HTML</div>'      // HTML code that gets inserted
 }
 ```
 
-## Acceder a los Bloques por Defecto
+## Accessing Default Blocks
 
 ```javascript
-// Consultar todos los bloques
+// Query all blocks
 console.log(ShouEditor.Blocks);
 
-// Categorias disponibles: basic, layout, bootstrap, forms, sections
+// Available categories: basic, layout, bootstrap, forms, sections
 ShouEditor.Blocks.basic.forEach(block => {
   console.log(block.id, block.label);
 });
 ```
 
-## Usar la API para Integraciones
+## Using the API for Integrations
 
-### Guardar en Base de Datos
+### Save to Database
 
 ```javascript
 const editor = ShouEditor.init('#editor');
 
-// Boton para guardar en servidor
+// Button to save to server
 document.getElementById('btn-save-db').addEventListener('click', async () => {
   const code = editor.getCode();
   await fetch('/api/save', {
@@ -80,7 +80,7 @@ document.getElementById('btn-save-db').addEventListener('click', async () => {
 });
 ```
 
-### Cargar desde Base de Datos
+### Load from Database
 
 ```javascript
 async function loadProject(id) {
@@ -90,7 +90,7 @@ async function loadProject(id) {
 }
 ```
 
-### Multiples Editores
+### Multiple Editors
 
 ```javascript
 const editorHeader = ShouEditor.init('#editor-header', {
@@ -103,13 +103,13 @@ const editorFooter = ShouEditor.init('#editor-footer', {
   height: '300px'
 });
 
-// Combinar contenido
+// Combine content
 function getFullPage() {
   return editorHeader.getHtml() + editorFooter.getHtml();
 }
 ```
 
-## Integracion con Frameworks
+## Framework Integration
 
 ### React
 
@@ -179,21 +179,21 @@ defineExpose({ getCode });
 </script>
 ```
 
-## Modificar el Codigo Fuente
+## Modifying the Source Code
 
-Si necesitas hacer cambios mas profundos al editor, el archivo `js/app.js` esta organizado en secciones:
+If you need to make deeper changes to the editor, the `js/app.js` file is organized into sections:
 
-1. **Utilities** (~linea 26): Funciones helper
-2. **DefaultBlocks** (~linea 61): Definicion de bloques
-3. **Syntax Highlighting** (~linea 97): Resaltado de codigo
-4. **Template HTML** (~linea 149): Estructura generada
-5. **Embedded CSS** (~linea 289): Estilos del editor
-6. **Editor Class** (~linea 377): Logica principal
-7. **Public API** (~linea 930): Exportacion global
+1. **Utilities** (~line 26): Helper functions
+2. **DefaultBlocks** (~line 61): Block definitions
+3. **Syntax Highlighting** (~line 97): Code highlighting
+4. **Template HTML** (~line 149): Generated structure
+5. **Embedded CSS** (~line 289): Editor styles
+6. **Editor Class** (~line 377): Main logic
+7. **Public API** (~line 930): Global export
 
-### Agregar una Seccion de Estilos
+### Adding a Style Section
 
-Para anadir mas propiedades al panel de estilos, edita `getEditorTemplate()` y anade dentro de `.jse-styles-editor`:
+To add more properties to the styles panel, edit `getEditorTemplate()` and add inside `.jse-styles-editor`:
 
 ```html
 <div class="jse-style-section">
@@ -210,27 +210,27 @@ Para anadir mas propiedades al panel de estilos, edita `getEditorTemplate()` y a
 </div>
 ```
 
-Los inputs con `data-style` se conectan automaticamente al elemento seleccionado via los event listeners existentes.
+Inputs with `data-style` are automatically connected to the selected element via the existing event listeners.
 
-### Agregar un Boton a la Toolbar
+### Adding a Toolbar Button
 
-Edita `getEditorTemplate()` y anade en la zona correspondiente:
+Edit `getEditorTemplate()` and add in the corresponding area:
 
 ```html
 <button class="jse-btn" data-action="mi-accion" title="Mi Accion">MA</button>
 ```
 
-Luego en `bindEvents()`, el handler de `.jse-btn` ya escucha `data-action`, solo necesitas anadir el caso:
+Then in `bindEvents()`, the `.jse-btn` handler already listens for `data-action`, you just need to add the case:
 
 ```javascript
 if (action === 'mi-accion') this.miMetodo();
 ```
 
-## Reglas del Proyecto
+## Project Rules
 
-1. Solo JavaScript vanilla ES6+
-2. Sin dependencias externas (npm, CDN)
-3. Sin bundlers ni transpiladores
-4. El editor debe funcionar con solo abrir `index.html`
-5. Prefijo `jse-` para todas las clases CSS del editor
-6. Prefijo `--jse-` para variables CSS
+1. Vanilla ES6+ JavaScript only
+2. No external dependencies (npm, CDN)
+3. No bundlers or transpilers
+4. The editor must work by simply opening `index.html`
+5. `jse-` prefix for all editor CSS classes
+6. `--jse-` prefix for CSS variables

@@ -1,11 +1,11 @@
-# Utilidades Internas
+# Internal Utilities
 
-Documentacion de funciones de utilidad incluidas en Shou Editor.
+Documentation of utility functions included in Shou Editor.
 
-## Selectores DOM
+## DOM Selectors
 
 ### `$(selector, context?)`
-Atajo para `querySelector`.
+Shortcut for `querySelector`.
 
 ```javascript
 const el = $('#mi-elemento');
@@ -13,32 +13,32 @@ const child = $('.child', parentElement);
 ```
 
 ### `$$(selector, context?)`
-Atajo para `querySelectorAll` (devuelve Array).
+Shortcut for `querySelectorAll` (returns Array).
 
 ```javascript
 const items = $$('.item');
 items.forEach(item => item.classList.add('active'));
 ```
 
-## Eventos
+## Events
 
 ### `on(element, event, selectorOrFn, fn?)`
-Anade event listener con soporte para delegacion.
+Adds an event listener with delegation support.
 
 ```javascript
-// Listener directo
+// Direct listener
 on(button, 'click', () => console.log('click'));
 
-// Delegacion de eventos
+// Event delegation
 on(list, 'click', '.item', (e, target) => {
   console.log('Item clickeado:', target);
 });
 ```
 
-## Texto
+## Text
 
 ### `escapeHtml(string)`
-Escapa caracteres HTML para mostrar como texto.
+Escapes HTML characters for display as text.
 
 ```javascript
 escapeHtml('<script>');
@@ -48,24 +48,24 @@ escapeHtml('<script>');
 ## Cursor
 
 ### `getCaretPos(textarea)`
-Obtiene la posicion del cursor en un textarea.
+Gets the cursor position in a textarea.
 
 ```javascript
 const { start, end } = getCaretPos(textarea);
 ```
 
 ### `setCaretPos(textarea, start, end?)`
-Establece la posicion del cursor.
+Sets the cursor position.
 
 ```javascript
-setCaretPos(textarea, 10);       // Cursor en posicion 10
-setCaretPos(textarea, 5, 15);    // Seleccion de 5 a 15
+setCaretPos(textarea, 10);       // Cursor at position 10
+setCaretPos(textarea, 5, 15);    // Selection from 5 to 15
 ```
 
-## Resaltado de Sintaxis
+## Syntax Highlighting
 
 ### `highlight(code, lang)`
-Resalta codigo y devuelve HTML con clases CSS.
+Highlights code and returns HTML with CSS classes.
 
 ```javascript
 const html = highlight('<div>Hola</div>', 'html');
@@ -73,11 +73,11 @@ const css = highlight('body { color: red; }', 'css');
 const js = highlight('const x = 42;', 'js');
 ```
 
-Ver [Sistema de Sintaxis](./syntax.md) para mas detalles.
+See [Syntax System](./syntax.md) for more details.
 
-## Bloques por Defecto
+## Default Blocks
 
-El objeto `DefaultBlocks` contiene todos los bloques disponibles organizados por categoria:
+The `DefaultBlocks` object contains all available blocks organized by category:
 
 ```javascript
 const DefaultBlocks = {
@@ -93,4 +93,4 @@ const DefaultBlocks = {
 };
 ```
 
-Accesible como `ShouEditor.Blocks` para consultar los bloques disponibles.
+Accessible as `ShouEditor.Blocks` to query the available blocks.

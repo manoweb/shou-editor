@@ -1,34 +1,34 @@
-# Interfaz del Editor
+# Editor Interface
 
-Guía completa de la interfaz de usuario de Shou Editor.
+Complete guide to the Shou Editor user interface.
 
-## Vista General
+## Overview
 
-Shou Editor tiene un layout de 3 paneles con una barra de herramientas superior:
+Shou Editor has a 3-panel layout with a top toolbar:
 
 ```
 ┌──────────────────────────────────────────────────────────────────────┐
 │  TOOLBAR                                                             │
-│  Shou Editor  [Nuevo][Abrir][Guardar][Preview]  [⬚ Outlines]          │
-│  [🖥️ Desktop][📱 Tablet][📲 Mobile]    [Visual | Código]    [🌙]    │
+│  Shou Editor  [New][Open][Save][Preview]  [⬚ Outlines]               │
+│  [🖥️ Desktop][📱 Tablet][📲 Mobile]    [Visual | Code]    [🌙]      │
 ├──────────┬────────────────────────────────────────┬──────────────────┤
+│ LEFT     │                                        │   RIGHT          │
 │ PANEL    │                                        │   PANEL          │
-│ IZQUIERDO│                                        │   DERECHO        │
 │ ──────── │                                        │   ────────       │
-│ [Bloques]│         ┌──────────────────┐          │   ESTILOS        │
-│ [Capas]  │         │                  │          │   Dimensiones    │
-│          │         │  CANVAS VISUAL   │          │   Espaciado      │
-│ □ Texto  │         │  (iframe con     │          │   Tipografía     │
-│ □ Título │         │   Bootstrap 5)   │          │   Fondo          │
-│ □ Imagen │         │                  │          │   Bordes         │
+│ [Blocks] │         ┌──────────────────┐          │   STYLES         │
+│ [Layers] │         │                  │          │   Dimensions     │
+│          │         │  VISUAL CANVAS   │          │   Spacing        │
+│ □ Text   │         │  (iframe with    │          │   Typography     │
+│ □ Title  │         │   Bootstrap 5)   │          │   Background     │
+│ □ Image  │         │                  │          │   Borders        │
 │ □ Card   │         │  [Mini Toolbar]  │          │   Display        │
 │ □ Alert  │         │   ✥  ⧉  ✕       │          │   ────────       │
 │ □ Hero   │         └──────────────────┘          │   SETTINGS       │
-│          │                                        │   ID, clases     │
-│ ──────── │   o bien:                              │                  │
-│ CAPAS    │                                        │                  │
+│          │                                        │   ID, classes    │
+│ ──────── │   or alternatively:                    │                  │
+│ LAYERS   │                                        │                  │
 │ <div>    │   ┌──────────────────────────────┐    │                  │
-│   <h1>   │   │  EDITOR DE CÓDIGO            │    │                  │
+│   <h1>   │   │  CODE EDITOR                 │    │                  │
 │   <p>    │   │  [HTML] [CSS] [JS]           │    │                  │
 │          │   │  1│ <div class="container">  │    │                  │
 │          │   │  2│   <h1>Hola</h1>          │    │                  │
@@ -36,60 +36,60 @@ Shou Editor tiene un layout de 3 paneles con una barra de herramientas superior:
 └──────────┴────────────────────────────────────────┴──────────────────┘
 ```
 
-## Barra de Herramientas (Toolbar)
+## Toolbar
 
-La toolbar ocupa la parte superior y se divide en zonas:
+The toolbar occupies the top area and is divided into zones:
 
-### Zona Izquierda - Acciones de Archivo
+### Left Zone - File Actions
 
-| Botón | Acción |
-|-------|--------|
-| **Nuevo** | Crear proyecto vacío (pide confirmación) |
-| **Abrir** | Importar archivo HTML/HTM desde disco |
-| **Guardar** | Descargar proyecto como `proyecto.html` |
-| **Preview** | Abrir vista previa en nueva pestaña |
+| Button | Action |
+|--------|--------|
+| **New** | Create an empty project (prompts for confirmation) |
+| **Open** | Import an HTML/HTM file from disk |
+| **Save** | Download the project as `proyecto.html` |
+| **Preview** | Open a preview in a new tab |
 
-### Zona Central - Herramientas
+### Center Zone - Tools
 
-| Botón | Acción |
-|-------|--------|
-| **Outlines** | Mostrar/ocultar contornos de contenedores invisibles |
+| Button | Action |
+|--------|--------|
+| **Outlines** | Show/hide outlines of invisible containers |
 
-### Zona de Dispositivos
+### Device Zone
 
-| Botón | Ancho del Canvas |
-|-------|-----------------|
+| Button | Canvas Width |
+|--------|-------------|
 | **Desktop** | 1200px |
 | **Tablet** | 768px |
 | **Mobile** | 375px |
 
-### Zona Derecha - Vista y Tema
+### Right Zone - View and Theme
 
-| Botón | Acción |
-|-------|--------|
-| **Visual** | Cambiar al canvas visual (WYSIWYG) |
-| **Código** | Cambiar al editor de código |
-| **Tema** (luna/sol) | Alternar entre tema oscuro y claro |
+| Button | Action |
+|--------|--------|
+| **Visual** | Switch to the visual canvas (WYSIWYG) |
+| **Code** | Switch to the code editor |
+| **Theme** (moon/sun) | Toggle between dark and light theme |
 
-## Panel Izquierdo
+## Left Panel
 
-Tiene dos pestañas:
+It has two tabs:
 
-### Pestaña Bloques
+### Blocks Tab
 
-Muestra componentes organizados por categorías que puedes insertar en el canvas:
+Displays components organized by category that you can insert into the canvas:
 
-- **Básicos**: Texto, Título, Imagen, Enlace, Divisor
-- **Layout**: Container, 2 Columnas, 3 Columnas
-- **Bootstrap**: Card, Alerta, Botón, Tabla
-- **Formularios**: Input, Textarea, Select
-- **Secciones**: Navbar, Hero, Features, Footer
+- **Basic**: Text, Title, Image, Link, Divider
+- **Layout**: Container, 2 Columns, 3 Columns
+- **Bootstrap**: Card, Alert, Button, Table
+- **Forms**: Input, Textarea, Select
+- **Sections**: Navbar, Hero, Features, Footer
 
-**Para insertar**: Haz clic en un bloque o arrástralo al canvas. Al arrastrar, aparece un indicador magnético (línea azul) que señala dónde se insertará.
+**To insert**: Click on a block or drag it onto the canvas. When dragging, a magnetic indicator (blue line) appears showing where the block will be inserted.
 
-### Pestaña Capas
+### Layers Tab
 
-Muestra el árbol DOM del contenido del canvas:
+Displays the DOM tree of the canvas content:
 
 ```
 <div>.container
@@ -98,32 +98,32 @@ Muestra el árbol DOM del contenido del canvas:
   <button>.btn
 ```
 
-- Cada elemento muestra su tag HTML y su primera clase CSS
-- Los elementos están separados por líneas divisorias
-- **Click** en una capa selecciona ese elemento en el canvas
-- La capa seleccionada se resalta en azul
+- Each element displays its HTML tag and its first CSS class
+- Elements are separated by divider lines
+- **Click** on a layer to select that element on the canvas
+- The selected layer is highlighted in blue
 
-## Canvas Visual (Centro)
+## Visual Canvas (Center)
 
-El área central muestra el canvas visual cuando estás en modo "Visual":
+The center area displays the visual canvas when in "Visual" mode:
 
-- Es un **iframe** con Bootstrap 5 CSS cargado
-- Muestra tu HTML renderizado en tiempo real
-- Cambia de ancho según el dispositivo seleccionado
+- It is an **iframe** with Bootstrap 5 CSS loaded
+- It shows your HTML rendered in real time
+- Its width changes based on the selected device
 
-### Interacciones en el Canvas
+### Canvas Interactions
 
-| Acción | Resultado |
-|--------|-----------|
-| **Click** en un elemento | Lo selecciona (borde azul + mini toolbar) |
-| **Doble click** en texto | Activa edición inline |
-| **Delete** con elemento seleccionado | Elimina el elemento |
-| **Escape** | Deselecciona el elemento |
-| **Arrastrar bloque** desde el panel | Inserta con indicador magnético |
+| Action | Result |
+|--------|--------|
+| **Click** on an element | Selects it (blue border + mini toolbar) |
+| **Double click** on text | Activates inline editing |
+| **Delete** with an element selected | Deletes the element |
+| **Escape** | Deselects the element |
+| **Drag a block** from the panel | Inserts with magnetic indicator |
 
 ### Mini Toolbar
 
-Al seleccionar un elemento, aparece una mini toolbar flotante encima de él:
+When you select an element, a floating mini toolbar appears above it:
 
 ```
 ┌────────────────┐
@@ -131,75 +131,75 @@ Al seleccionar un elemento, aparece una mini toolbar flotante encima de él:
 └────────────────┘
 ```
 
-| Botón | Función |
-|-------|---------|
-| **✥** (4 flechas) | **Drag handle** - Mantener pulsado y arrastrar para mover el elemento a otra posición. Aparece el indicador magnético al arrastrar. |
-| **⧉** | **Duplicar** - Crea una copia del elemento justo después |
-| **✕** | **Eliminar** - Elimina el elemento del canvas |
+| Button | Function |
+|--------|----------|
+| **✥** (4 arrows) | **Drag handle** - Hold and drag to move the element to another position. The magnetic indicator appears while dragging. |
+| **⧉** | **Duplicate** - Creates a copy of the element right after it |
+| **✕** | **Delete** - Removes the element from the canvas |
 
-### Indicador Magnético
+### Magnetic Indicator
 
-Al arrastrar un bloque (desde el panel o con el drag handle), una línea azul aparece entre los elementos del canvas indicando la posición de inserción:
+When dragging a block (from the panel or with the drag handle), a blue line appears between canvas elements indicating the insertion position:
 
 ```
 ┌──────────────┐
-│  Elemento 1  │
+│  Element 1   │
 ├──────────────┤
-│ ─── ● ────── │  ← Indicador magnético (línea azul con círculos)
+│ ─── ● ────── │  ← Magnetic indicator (blue line with circles)
 ├──────────────┤
-│  Elemento 2  │
+│  Element 2   │
 └──────────────┘
 ```
 
-### Outlines (Contornos)
+### Outlines
 
-Al activar el botón **"Outlines"** en la toolbar, todos los contenedores (`div`, `section`, `header`, `footer`, `main`, `nav`, `article`, `aside`) muestran un borde punteado semitransparente. Esto permite visualizar elementos invisibles (sin fondo ni borde).
+When the **"Outlines"** button is activated in the toolbar, all containers (`div`, `section`, `header`, `footer`, `main`, `nav`, `article`, `aside`) display a semi-transparent dashed border. This helps visualize invisible elements (those without a background or border).
 
-## Editor de Código (Centro)
+## Code Editor (Center)
 
-Al cambiar a modo "Código", el centro muestra un editor de texto con:
+When switching to "Code" mode, the center area displays a text editor with:
 
-### Pestañas de Lenguaje
-- **HTML**: Código del body
-- **CSS**: Estilos personalizados
-- **JS**: JavaScript del proyecto
+### Language Tabs
+- **HTML**: Body code
+- **CSS**: Custom styles
+- **JS**: Project JavaScript
 
-### Características del Editor
-- Números de línea
-- Resaltado de sintaxis con colores (keywords, strings, comentarios, etc.)
-- Auto-indentación al pulsar Enter
-- Inserción de 2 espacios con Tab
-- Overlay transparente: el textarea captura input, un `<pre><code>` superpuesto muestra los colores
+### Editor Features
+- Line numbers
+- Syntax highlighting with colors (keywords, strings, comments, etc.)
+- Auto-indentation when pressing Enter
+- Insertion of 2 spaces with Tab
+- Transparent overlay: the textarea captures input, while a superimposed `<pre><code>` displays the colors
 
-### Sincronización
+### Synchronization
 
-- **Visual → Código**: Al cambiar a modo código, el HTML del canvas se copia al editor
-- **Código → Visual**: Al cambiar a modo visual, el canvas se actualiza con el HTML editado y el CSS personalizado se inyecta en el iframe
+- **Visual -> Code**: When switching to code mode, the canvas HTML is copied to the editor
+- **Code -> Visual**: When switching to visual mode, the canvas is updated with the edited HTML and the custom CSS is injected into the iframe
 
-## Panel Derecho
+## Right Panel
 
-Muestra propiedades del elemento seleccionado en el canvas:
+Displays properties of the selected element on the canvas:
 
-### Sección Estilos
+### Styles Section
 
-| Grupo | Propiedades |
-|-------|-------------|
-| **Dimensiones** | width, height, min-width, max-width, min-height, max-height |
-| **Espaciado** | margin (top, right, bottom, left), padding (top, right, bottom, left) |
-| **Tipografía** | font-family, font-size, font-weight, color, text-align, line-height |
-| **Fondo** | background-color, background-image, background-size |
-| **Bordes** | border-width, border-style, border-color, border-radius |
+| Group | Properties |
+|-------|------------|
+| **Dimensions** | width, height, min-width, max-width, min-height, max-height |
+| **Spacing** | margin (top, right, bottom, left), padding (top, right, bottom, left) |
+| **Typography** | font-family, font-size, font-weight, color, text-align, line-height |
+| **Background** | background-color, background-image, background-size |
+| **Borders** | border-width, border-style, border-color, border-radius |
 | **Display** | display, position, overflow, z-index, opacity |
 
-### Sección Settings
+### Settings Section
 
-- **ID**: Identificador del elemento
-- **Clases CSS**: Lista de clases del elemento
+- **ID**: Element identifier
+- **CSS Classes**: List of the element's classes
 
-Los cambios se aplican en tiempo real al elemento seleccionado en el canvas.
+Changes are applied in real time to the selected element on the canvas.
 
-## Persistencia
+## Persistence
 
-- El tema se guarda en `{prefijo}theme`
-- El código HTML, CSS y JS se guarda automáticamente en localStorage
-- Todo se restaura al reabrir el editor
+- The theme is saved in `{prefix}theme`
+- The HTML, CSS, and JS code is automatically saved in localStorage
+- Everything is restored when reopening the editor

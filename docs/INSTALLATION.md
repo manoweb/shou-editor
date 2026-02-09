@@ -1,59 +1,59 @@
-# Instalación de Shou Editor
+# Shou Editor Installation
 
-Shou Editor es un plugin JavaScript vanilla que crea un editor visual de páginas web estilo GrapesJS. Es 100% autónomo y genera su propia estructura HTML y CSS.
+Shou Editor is a vanilla JavaScript plugin that creates a GrapesJS-style visual web page editor. It is 100% self-contained and generates its own HTML and CSS structure.
 
-## Instalación Rápida
+## Quick Installation
 
-### 1. Incluir el Script
+### 1. Include the Script
 
 ```html
-<!-- Archivo local (versiones minificadas recomendadas) -->
+<!-- Local file (minified versions recommended) -->
 <script src="js/app.min.js"></script>
 
-<!-- O versiones sin minificar para desarrollo -->
+<!-- Or unminified versions for development -->
 <script src="js/app.js"></script>
 
-<!-- O desde CDN -->
+<!-- Or from CDN -->
 <script src="https://cdn.example.com/js-editor/app.min.js"></script>
 ```
 
-### 2. Editor de Imagenes (opcional)
+### 2. Image Editor (optional)
 
-El editor de imagenes es un plugin independiente. Si se incluye, aparece un boton "Editar imagen" al seleccionar un `<IMG>`. Si no se incluye, el editor funciona normalmente sin esa funcionalidad.
+The image editor is an independent plugin. If included, an "Edit image" button appears when selecting an `<IMG>`. If not included, the editor works normally without that functionality.
 
 ```html
-<!-- Opcional: incluir ANTES de app.js -->
+<!-- Optional: include BEFORE app.js -->
 <script src="js/image-editor.min.js"></script>
 <script src="js/app.min.js"></script>
 ```
 
-### 3. Inicializar el Editor
+### 3. Initialize the Editor
 
 ```html
 <div id="editor"></div>
 
 <script>
-  // Inicializar en un contenedor específico
+  // Initialize in a specific container
   const editor = ShouEditor.init('#editor', {
     theme: 'dark'
   });
 </script>
 ```
 
-O en todo el body:
+Or on the entire body:
 
 ```html
 <script>
-  // Inicializar en document.body
+  // Initialize on document.body
   const editor = ShouEditor.init({ theme: 'dark' });
 </script>
 ```
 
 ---
 
-## Uso desde CDN
+## CDN Usage
 
-El plugin funciona desde cualquier CDN. Solo hay que tener en cuenta que `blocksPath` usa rutas relativas por defecto, asi que desde CDN conviene usar una ruta absoluta:
+The plugin works from any CDN. Just note that `blocksPath` uses relative paths by default, so when using a CDN it is best to use an absolute path:
 
 ```html
 <script src="https://cdn.example.com/js-editor/image-editor.min.js"></script>
@@ -65,11 +65,11 @@ El plugin funciona desde cualquier CDN. Solo hay que tener en cuenta que `blocks
 </script>
 ```
 
-> Si no configuras `blocksPath`, el editor usa `'blocks/'` relativo al HTML actual. Si no encuentra los JSON, usa los bloques por defecto integrados (`DefaultBlocks`), que incluyen todos los bloques basicos, layout, Bootstrap y formularios.
+> If you don't configure `blocksPath`, the editor uses `'blocks/'` relative to the current HTML file. If it cannot find the JSON files, it falls back to the built-in default blocks (`DefaultBlocks`), which include all basic, layout, Bootstrap, and form blocks.
 
 ---
 
-## Ejemplo Completo
+## Complete Example
 
 ```html
 <!DOCTYPE html>
@@ -103,35 +103,35 @@ El plugin funciona desde cualquier CDN. Solo hay que tener en cuenta que `blocks
 
 ---
 
-## Opciones de Configuración
+## Configuration Options
 
-| Opción | Tipo | Default | Descripción |
+| Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `theme` | `'dark' \| 'light'` | `'dark'` | Tema de colores |
-| `width` | `string` | `'100%'` | Ancho del editor |
-| `height` | `string` | `'100vh'` | Alto del editor |
-| `defaultView` | `'visual' \| 'code'` | `'visual'` | Vista inicial |
-| `defaultDevice` | `'desktop' \| 'tablet' \| 'mobile'` | `'desktop'` | Dispositivo inicial |
-| `storagePrefix` | `string` | `'shou-editor-'` | Prefijo para localStorage |
-| `bootstrapCss` | `string` | CDN Bootstrap 5.3.2 | URL del CSS de Bootstrap |
-| `blocksPath` | `string` | `'blocks/'` | Ruta a la carpeta de bloques JSON (local o URL remota) |
-| `customBlocks` | `object` | `{}` | Bloques personalizados (inline, se mergean con los JSON) |
-| `lang` | `'en' \| 'es'` | `'en'` | Idioma de la interfaz del editor |
-| `saveFormat` | `'html' \| 'json'` | `'html'` | Formato de guardado: página completa o JSON con html/css/js separados |
-| `saveTarget` | `'local' \| 'remote'` | `'local'` | Destino: descarga local o POST a endpoint |
-| `saveEndpoint` | `string \| null` | `null` | URL para POST cuando saveTarget es 'remote' |
-| `saveFilename` | `string` | `'proyecto'` | Nombre base del archivo descargado |
-| `onSaveSuccess` | `function \| null` | `null` | Callback tras POST exitoso: `(response) => {}` |
-| `onSaveError` | `function \| null` | `null` | Callback tras POST fallido: `(error) => {}` |
-| `stylesPath` | `string` | `'styles/'` | Ruta a los JSON de estilos y atributos |
+| `theme` | `'dark' \| 'light'` | `'dark'` | Color theme |
+| `width` | `string` | `'100%'` | Editor width |
+| `height` | `string` | `'100vh'` | Editor height |
+| `defaultView` | `'visual' \| 'code'` | `'visual'` | Initial view |
+| `defaultDevice` | `'desktop' \| 'tablet' \| 'mobile'` | `'desktop'` | Initial device |
+| `storagePrefix` | `string` | `'shou-editor-'` | Prefix for localStorage |
+| `bootstrapCss` | `string` | Bootstrap 5.3.2 CDN | Bootstrap CSS URL |
+| `blocksPath` | `string` | `'blocks/'` | Path to the JSON blocks folder (local or remote URL) |
+| `customBlocks` | `object` | `{}` | Custom blocks (inline, merged with the JSON blocks) |
+| `lang` | `'en' \| 'es'` | `'en'` | Editor interface language |
+| `saveFormat` | `'html' \| 'json'` | `'html'` | Save format: full HTML page or JSON with separate html/css/js |
+| `saveTarget` | `'local' \| 'remote'` | `'local'` | Destination: local download or POST to an endpoint |
+| `saveEndpoint` | `string \| null` | `null` | URL for POST when saveTarget is 'remote' |
+| `saveFilename` | `string` | `'proyecto'` | Base name of the downloaded file |
+| `onSaveSuccess` | `function \| null` | `null` | Callback after successful POST: `(response) => {}` |
+| `onSaveError` | `function \| null` | `null` | Callback after failed POST: `(error) => {}` |
+| `stylesPath` | `string` | `'styles/'` | Path to the styles and attributes JSON files |
 
 ---
 
-## Panel de Estilos CSS
+## CSS Styles Panel
 
-El panel de estilos se genera dinámicamente desde `styles/styles.json`. Contiene 9 secciones con ~80 propiedades CSS:
+The styles panel is dynamically generated from `styles/styles.json`. It contains 9 sections with ~80 CSS properties:
 
-| Sección | Propiedades |
+| Section | Properties |
 |---------|------------|
 | **Dimensions** | width, height, min/max width, min/max height, overflow |
 | **Spacing** | margin (top/right/bottom/left), padding (top/right/bottom/left) |
@@ -143,9 +143,9 @@ El panel de estilos se genera dinámicamente desde `styles/styles.json`. Contien
 | **Grid** | grid-template-columns/rows, grid-column/row, gap, place-items, place-content |
 | **Transform** | transform, transform-origin, transition, animation, filter |
 
-### Personalizar estilos
+### Customizing Styles
 
-Edita `styles/styles.json` para añadir/quitar secciones o propiedades. El formato es:
+Edit `styles/styles.json` to add/remove sections or properties. The format is:
 
 ```json
 {
@@ -163,21 +163,21 @@ Edita `styles/styles.json` para añadir/quitar secciones o propiedades. El forma
 }
 ```
 
-Tipos soportados: `text`, `color`, `select`.
+Supported types: `text`, `color`, `select`.
 
-## Atributos HTML por Tag
+## HTML Attributes by Tag
 
-Los atributos editables de cada tag HTML se definen en `styles/attributes.json`. Incluye 50+ tags HTML5 con sus atributos específicos, más 12 atributos comunes (id, class, title, style, role, tabindex, lang, dir, hidden, draggable, contenteditable, spellcheck).
+The editable attributes for each HTML tag are defined in `styles/attributes.json`. It includes 50+ HTML5 tags with their specific attributes, plus 12 common attributes (id, class, title, style, role, tabindex, lang, dir, hidden, draggable, contenteditable, spellcheck).
 
-Para personalizar, edita `styles/attributes.json`.
+To customize, edit `styles/attributes.json`.
 
 ---
 
-## Internacionalización (i18n)
+## Internationalization (i18n)
 
-El editor soporta múltiples idiomas. Por defecto se muestra en inglés (`en`). Idiomas disponibles: `en` (inglés), `es` (español).
+The editor supports multiple languages. By default it displays in English (`en`). Available languages: `en` (English), `es` (Spanish).
 
-### Configurar idioma
+### Configure Language
 
 ```javascript
 const editor = ShouEditor.init('#editor', {
@@ -185,7 +185,7 @@ const editor = ShouEditor.init('#editor', {
 });
 ```
 
-### Cambiar idioma en runtime
+### Change Language at Runtime
 
 ```javascript
 editor.setLang('es');  // Cambiar a español
@@ -194,9 +194,9 @@ editor.setLang('en');  // Cambiar a inglés
 const lang = editor.getLang();  // Obtener idioma actual
 ```
 
-### Settings labels i18n
+### Settings Labels i18n
 
-Los `label` de los settings en bloques JSON usan claves i18n (ej: `"setting.label"`, `"setting.name"`). El editor los traduce automáticamente según el idioma activo. Si un label no tiene clave i18n, se muestra tal cual (fallback).
+The `label` fields in block JSON settings use i18n keys (e.g., `"setting.label"`, `"setting.name"`). The editor translates them automatically based on the active language. If a label has no i18n key, it is displayed as-is (fallback).
 
 ```json
 {
@@ -210,32 +210,32 @@ Los `label` de los settings en bloques JSON usan claves i18n (ej: `"setting.labe
 
 ---
 
-## API del Editor
+## Editor API
 
-### Obtener Código
+### Get Code
 
 ```javascript
 const editor = ShouEditor.init('#editor');
 
-// Obtener código individual
+// Get individual code
 const html = editor.getHtml();
 const css = editor.getCss();
 const js = editor.getJs();
 
-// Obtener todo el código
+// Get all code
 const code = editor.getCode();
 console.log(code.html, code.css, code.js);
 ```
 
-### Establecer Código
+### Set Code
 
 ```javascript
-// Establecer código individual
+// Set individual code
 editor.setHtml('<h1>Hola Mundo</h1>');
 editor.setCss('h1 { color: red; }');
 editor.setJs('console.log("Hola");');
 
-// Establecer todo el código
+// Set all code
 editor.setCode({
   html: '<div>Contenido</div>',
   css: '.clase { color: blue; }',
@@ -243,67 +243,67 @@ editor.setCode({
 });
 ```
 
-### Acciones
+### Actions
 
 ```javascript
-// Crear nuevo proyecto
+// Create new project
 editor.newProject();
 
-// Guardar (local o remoto segun config)
+// Save (local or remote depending on config)
 editor.save();
 
-// Vista previa en nueva ventana
+// Preview in new window
 editor.preview();
 
-// Cambiar tema
+// Change theme
 editor.setTheme('light');
 editor.toggleTheme();
 
-// Cambiar idioma
+// Change language
 editor.setLang('es');
 editor.getLang(); // 'es'
 
-// Cambiar formato de guardado
+// Change save format
 editor.setSaveFormat('json');  // 'html' | 'json'
 
-// Cambiar destino de guardado
+// Change save target
 editor.setSaveTarget('remote', 'https://api.example.com/save');
 
-// Vincular a formulario
-editor.bindToForm('#form');                        // 3 campos: editor_html, editor_css, editor_js
-editor.bindToForm('#form', { field: 'desc' });     // 1 campo JSON
-editor.unbindForm();                               // Desvincular
+// Bind to a form
+editor.bindToForm('#form');                        // 3 fields: editor_html, editor_css, editor_js
+editor.bindToForm('#form', { field: 'desc' });     // 1 JSON field
+editor.unbindForm();                               // Unbind
 
-// Destruir el editor
+// Destroy the editor
 editor.destroy();
 ```
 
 ---
 
-## Configuración de Guardado
+## Save Configuration
 
-El editor soporta dos modos de guardado y dos destinos.
+The editor supports two save modes and two destinations.
 
-### Formato de guardado
+### Save Format
 
-- **`'html'`** (por defecto): Genera una página HTML completa con `<!DOCTYPE>`, `<head>`, Bootstrap CDN, estilos y scripts incluidos.
-- **`'json'`**: Genera un JSON con `{ html, css, js }` separados. Solo el contenido editado, sin tags `<html>`, `<head>`, `<body>`.
+- **`'html'`** (default): Generates a complete HTML page with `<!DOCTYPE>`, `<head>`, Bootstrap CDN, included styles and scripts.
+- **`'json'`**: Generates a JSON object with `{ html, css, js }` separated. Only the edited content, without `<html>`, `<head>`, `<body>` tags.
 
-### Destino de guardado
+### Save Destination
 
-- **`'local'`** (por defecto): Descarga el archivo al disco del usuario.
-- **`'remote'`**: Envía el contenido via POST a un endpoint configurado.
+- **`'local'`** (default): Downloads the file to the user's disk.
+- **`'remote'`**: Sends the content via POST to a configured endpoint.
 
-### Ejemplos
+### Examples
 
 ```javascript
-// Guardar como JSON descargable
+// Save as downloadable JSON
 const editor = ShouEditor.init('#editor', {
   saveFormat: 'json',
   saveFilename: 'mi-proyecto'
 });
 
-// Guardar via POST a un servidor
+// Save via POST to a server
 const editor = ShouEditor.init('#editor', {
   saveFormat: 'json',
   saveTarget: 'remote',
@@ -317,28 +317,28 @@ const editor = ShouEditor.init('#editor', {
 });
 ```
 
-### Formato del POST remoto
+### Remote POST Format
 
-Cuando `saveTarget: 'remote'`, el editor hace `fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body })`.
+When `saveTarget: 'remote'`, the editor performs `fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body })`.
 
-- Con `saveFormat: 'json'`: el body es `{"html":"...","css":"...","js":"..."}`
-- Con `saveFormat: 'html'`: el body es `{"html":"<!DOCTYPE html>..."}`
+- With `saveFormat: 'json'`: the body is `{"html":"...","css":"...","js":"..."}`
+- With `saveFormat: 'html'`: the body is `{"html":"<!DOCTYPE html>..."}`
 
-### Cambiar en runtime
+### Change at Runtime
 
 ```javascript
 editor.setSaveFormat('json');
 editor.setSaveTarget('remote', 'https://api.example.com/save');
-editor.save(); // Ahora hace POST del JSON
+editor.save(); // Now performs POST with JSON
 ```
 
 ---
 
-## Integración con Formularios
+## Form Integration
 
-Para integrar el editor dentro de un formulario HTML (por ejemplo, el campo "descripción" de un producto), usa `bindToForm()`. El editor crea automáticamente campos `<input type="hidden">` y los rellena al hacer submit.
+To integrate the editor inside an HTML form (for example, the "description" field of a product), use `bindToForm()`. The editor automatically creates `<input type="hidden">` fields and populates them on submit.
 
-### Uso básico (3 campos separados)
+### Basic Usage (3 separate fields)
 
 ```html
 <form id="form-producto" method="POST" action="/api/productos">
@@ -355,23 +355,23 @@ Para integrar el editor dentro de un formulario HTML (por ejemplo, el campo "des
     height: '400px'
   });
 
-  // Vincula al formulario: crea campos editor_html, editor_css, editor_js
+  // Bind to the form: creates fields editor_html, editor_css, editor_js
   editor.bindToForm('#form-producto');
 </script>
 ```
 
-El servidor recibe: `nombre`, `precio`, `editor_html`, `editor_css`, `editor_js`.
+The server receives: `nombre`, `precio`, `editor_html`, `editor_css`, `editor_js`.
 
-### Campo único JSON
+### Single JSON Field
 
 ```javascript
-// Un solo campo con todo el contenido como JSON
+// A single field with all content as JSON
 editor.bindToForm('#form-producto', { field: 'descripcion' });
 ```
 
-El servidor recibe: `nombre`, `precio`, `descripcion` (JSON string: `{"html":"...","css":"...","js":"..."}`).
+The server receives: `nombre`, `precio`, `descripcion` (JSON string: `{"html":"...","css":"...","js":"..."}`).
 
-### Nombres de campos personalizados
+### Custom Field Names
 
 ```javascript
 editor.bindToForm('#form-producto', {
@@ -381,14 +381,14 @@ editor.bindToForm('#form-producto', {
 });
 ```
 
-### Cargar contenido desde base de datos
+### Load Content from Database
 
-#### Backend renderiza el HTML (PHP, Django, Rails, etc.)
+#### Backend Renders the HTML (PHP, Django, Rails, etc.)
 
-Si el backend inyecta los valores directamente en la pagina:
+If the backend injects values directly into the page:
 
 ```html
-<!-- PHP ejemplo con 3 campos separados -->
+<!-- PHP example with 3 separate fields -->
 <script>
   const editor = ShouEditor.init('#editor', { theme: 'dark' });
 
@@ -399,7 +399,7 @@ Si el backend inyecta los valores directamente en la pagina:
   });
 </script>
 
-<!-- PHP ejemplo con campo unico JSON -->
+<!-- PHP example with single JSON field -->
 <script>
   const editor = ShouEditor.init('#editor', { theme: 'dark' });
 
@@ -408,9 +408,9 @@ Si el backend inyecta los valores directamente en la pagina:
 </script>
 ```
 
-#### Carga via AJAX / fetch
+#### Load via AJAX / fetch
 
-Si los datos se obtienen de una API:
+If the data is obtained from an API:
 
 ```javascript
 const editor = ShouEditor.init('#editor', { theme: 'dark' });
@@ -418,19 +418,19 @@ const editor = ShouEditor.init('#editor', { theme: 'dark' });
 fetch('/api/productos/123')
   .then(r => r.json())
   .then(producto => {
-    // Con 3 campos separados:
+    // With 3 separate fields:
     editor.setCode({
       html: producto.editor_html,
       css: producto.editor_css,
       js: producto.editor_js
     });
 
-    // O con campo unico JSON:
+    // Or with single JSON field:
     // editor.setCode(JSON.parse(producto.descripcion));
   });
 ```
 
-#### Ejemplo completo: editar producto existente
+#### Complete Example: Edit an Existing Product
 
 ```html
 <form id="form-producto" method="POST" action="/api/productos/123">
@@ -447,41 +447,41 @@ fetch('/api/productos/123')
     height: '400px'
   });
 
-  // 1. Vincular al formulario (crea hidden inputs automaticamente)
+  // 1. Bind to the form (creates hidden inputs automatically)
   editor.bindToForm('#form-producto');
 
-  // 2. Cargar contenido existente desde el servidor
+  // 2. Load existing content from the server
   fetch('/api/productos/123')
     .then(r => r.json())
     .then(p => {
       editor.setCode({ html: p.editor_html, css: p.editor_css, js: p.editor_js });
     });
 
-  // 3. Al submit, el formulario envia nombre + precio + editor_html + editor_css + editor_js
+  // 3. On submit, the form sends nombre + precio + editor_html + editor_css + editor_js
 </script>
 ```
 
-> En todos los casos, `editor.setCode({ html, css, js })` restaura el editor completo (visual + codigo).
+> In all cases, `editor.setCode({ html, css, js })` restores the complete editor (visual + code).
 
-### Desvincular
+### Unbind
 
 ```javascript
-editor.unbindForm(); // Elimina el listener del formulario
+editor.unbindForm(); // Removes the form listener
 ```
 
-> **Nota:** `bindToForm()` solo vincula un formulario a la vez. Si llamas de nuevo con otro formulario, se desvincula el anterior automáticamente. Al llamar `editor.destroy()` se desvincula también.
+> **Note:** `bindToForm()` only binds one form at a time. If you call it again with a different form, the previous one is automatically unbound. Calling `editor.destroy()` also unbinds the form.
 
 ---
 
-## Sistema de Bloques JSON
+## JSON Block System
 
-Los bloques se cargan desde archivos JSON organizados en carpetas por categoría. El editor los carga dinámicamente al inicializar.
+Blocks are loaded from JSON files organized in folders by category. The editor loads them dynamically on initialization.
 
-### Estructura de carpetas
+### Folder Structure
 
 ```
 blocks/
-├── _index.json          ← Manifiesto (lista de categorías y bloques)
+├── _index.json          ← Manifest (list of categories and blocks)
 ├── basic/
 │   ├── text.json
 │   ├── heading.json
@@ -525,9 +525,9 @@ blocks/
     └── footer.json
 ```
 
-### Manifiesto `_index.json`
+### Manifest `_index.json`
 
-Define el orden de categorías y bloques:
+Defines the order of categories and blocks:
 
 ```json
 {
@@ -541,7 +541,7 @@ Define el orden de categorías y bloques:
 }
 ```
 
-### Formato de un Bloque JSON
+### JSON Block Format
 
 ```json
 {
@@ -557,58 +557,58 @@ Define el orden de categorías y bloques:
 }
 ```
 
-| Campo | Tipo | Requerido | Descripción |
-|-------|------|-----------|-------------|
-| `id` | `string` | Si | Identificador único del bloque |
-| `label` | `string` | Si | Nombre visible en el panel |
-| `icon` | `string` | Si | Clave del icono (`text`, `hero`, `card`, etc.) |
-| `html` | `string` | Si | HTML que se inserta en el canvas |
-| `css` | `string` | No | CSS personalizado que se inyecta en el iframe |
-| `settings` | `array` | No | Propiedades editables en el panel Ajustes |
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `id` | `string` | Yes | Unique block identifier |
+| `label` | `string` | Yes | Visible name in the panel |
+| `icon` | `string` | Yes | Icon key (`text`, `hero`, `card`, etc.) |
+| `html` | `string` | Yes | HTML inserted into the canvas |
+| `css` | `string` | No | Custom CSS injected into the iframe |
+| `settings` | `array` | No | Editable properties in the Settings panel |
 
-### Settings: Propiedades editables por bloque
+### Settings: Editable Properties per Block
 
-Cada entrada en `settings` define un campo editable que aparece en el panel "Ajustes" al seleccionar un elemento de este bloque.
+Each entry in `settings` defines an editable field that appears in the "Settings" panel when selecting an element from this block.
 
 ```json
 { "label": "setting.label", "attr": "name", "selector": "input", "type": "text" }
 ```
 
-| Propiedad | Tipo | Descripción |
-|-----------|------|-------------|
-| `label` | `string` | Clave i18n o nombre visible del campo (ej: `"setting.label"`) |
-| `attr` | `string` | Atributo HTML a editar (ej: `href`, `src`, `class`) |
-| `prop` | `string` | Propiedad JS alternativa: `textContent`, `innerHTML`, `tagName` |
-| `selector` | `string` | Selector CSS del sub-elemento a editar (si omitido, edita la raíz) |
-| `type` | `string` | Tipo de input: `text`, `checkbox`, `select`, `options` |
-| `options` | `array` | Para `type: "select"`: lista de valores posibles |
-| `all` | `boolean` | Aplicar cambio a todos los elementos que coincidan con `selector` |
+| Property | Type | Description |
+|----------|------|-------------|
+| `label` | `string` | i18n key or visible field name (e.g., `"setting.label"`) |
+| `attr` | `string` | HTML attribute to edit (e.g., `href`, `src`, `class`) |
+| `prop` | `string` | Alternative JS property: `textContent`, `innerHTML`, `tagName` |
+| `selector` | `string` | CSS selector of the sub-element to edit (if omitted, edits the root) |
+| `type` | `string` | Input type: `text`, `checkbox`, `select`, `options` |
+| `options` | `array` | For `type: "select"`: list of possible values |
+| `all` | `boolean` | Apply the change to all elements matching `selector` |
 
-**Tipos disponibles:**
-- `text` — Campo de texto libre
-- `checkbox` — Toggle switch con colores del tema para atributos booleanos (`required`, `disabled`, etc.)
-- `select` — Desplegable con opciones predefinidas (`options: [...]`)
-- `options` — Editor visual de opciones para `<select>` con botones de añadir/eliminar por fila (valor + texto)
+**Available types:**
+- `text` — Free text field
+- `checkbox` — Toggle switch with theme colors for boolean attributes (`required`, `disabled`, etc.)
+- `select` — Dropdown with predefined options (`options: [...]`)
+- `options` — Visual options editor for `<select>` with add/remove buttons per row (value + text)
 
-### Configurar ruta de bloques
+### Configure Blocks Path
 
 ```javascript
-// Ruta local (por defecto)
+// Local path (default)
 const editor = ShouEditor.init('#editor', {
   blocksPath: 'blocks/'
 });
 
-// Ruta remota
+// Remote path
 const editor = ShouEditor.init('#editor', {
   blocksPath: 'https://cdn.example.com/blocks/'
 });
 ```
 
-Si los JSON no se pueden cargar (ej: `file://`), el editor usa los bloques por defecto embebidos.
+If the JSON files cannot be loaded (e.g., `file://`), the editor uses the built-in default blocks.
 
-### Crear un bloque personalizado
+### Create a Custom Block
 
-1. Crear un archivo JSON en la subcarpeta de categoría:
+1. Create a JSON file in the appropriate category subfolder:
 
 ```json
 // blocks/basic/video.json
@@ -620,7 +620,7 @@ Si los JSON no se pueden cargar (ej: `file://`), el editor usa los bloques por d
 }
 ```
 
-2. Añadir el ID al manifiesto `_index.json`:
+2. Add the ID to the `_index.json` manifest:
 
 ```json
 {
@@ -634,9 +634,9 @@ Si los JSON no se pueden cargar (ej: `file://`), el editor usa los bloques por d
 }
 ```
 
-### Bloques inline (sin JSON)
+### Inline Blocks (without JSON)
 
-También puedes pasar bloques directamente en la configuración con `customBlocks`:
+You can also pass blocks directly in the configuration using `customBlocks`:
 
 ```javascript
 const editor = ShouEditor.init('#editor', {
@@ -653,7 +653,7 @@ const editor = ShouEditor.init('#editor', {
 });
 ```
 
-### Estructura de un Bloque (inline)
+### Block Structure (inline)
 
 ```javascript
 {
@@ -666,16 +666,16 @@ const editor = ShouEditor.init('#editor', {
 
 ---
 
-## Bloques Incluidos
+## Included Blocks
 
 ### Basic
-- Texto, Título, Imagen, Enlace, Divisor
+- Text, Heading, Image, Link, Divider
 
 ### Layout
-- Container, 2 Columnas, 3 Columnas
+- Container, 2 Columns, 3 Columns
 
 ### Bootstrap
-- Card, Alerta, Botón, Tabla
+- Card, Alert, Button, Table
 
 ### Forms
 - Input, Textarea, Select, Checkbox, Radio, File, Range, Switch
@@ -685,10 +685,10 @@ const editor = ShouEditor.init('#editor', {
 
 ---
 
-## Múltiples Instancias
+## Multiple Instances
 
 ```javascript
-// Crear varios editores en la misma página
+// Create multiple editors on the same page
 const editor1 = ShouEditor.init('#editor1', {
   storagePrefix: 'editor1-',
   theme: 'dark'
@@ -702,7 +702,7 @@ const editor2 = ShouEditor.init('#editor2', {
 
 ---
 
-## Integración con Frameworks
+## Framework Integration
 
 ### React
 
@@ -756,16 +756,16 @@ export default {
 
 ## LocalStorage
 
-El editor guarda automáticamente en localStorage:
+The editor automatically saves to localStorage:
 
 ```javascript
-// Claves utilizadas (con prefijo por defecto 'shou-editor-'):
-// shou-editor-html    - Código HTML
-// shou-editor-css     - Código CSS
-// shou-editor-js      - Código JavaScript
-// shou-editor-theme   - Tema actual
+// Keys used (with default prefix 'shou-editor-'):
+// shou-editor-html    - HTML code
+// shou-editor-css     - CSS code
+// shou-editor-js      - JavaScript code
+// shou-editor-theme   - Current theme
 
-// Limpiar datos guardados
+// Clear saved data
 localStorage.removeItem('shou-editor-html');
 localStorage.removeItem('shou-editor-css');
 localStorage.removeItem('shou-editor-js');
@@ -774,126 +774,126 @@ localStorage.removeItem('shou-editor-theme');
 
 ---
 
-## Sin Dependencias
+## No Dependencies
 
-El plugin es **100% vanilla JavaScript**:
-- No requiere npm/yarn
-- No requiere bundlers (webpack, vite)
-- No requiere frameworks (React, Vue)
-- Funciona con solo incluir el script
-- CSS embebido automáticamente
+The plugin is **100% vanilla JavaScript**:
+- Does not require npm/yarn
+- Does not require bundlers (webpack, vite)
+- Does not require frameworks (React, Vue)
+- Works by simply including the script
+- CSS is automatically embedded
 
-Bootstrap 5 se carga desde CDN solo dentro del iframe del canvas para la vista previa.
-
----
-
-## Code Folding (Plegado de Código)
-
-El editor de código incluye plegado de bloques estilo VS Code.
-
-### Funcionamiento
-
-- **HTML**: Pliega pares de tags (`<div>...</div>`, `<section>...</section>`, etc.). Ignora void elements (img, br, hr, input...)
-- **CSS**: Pliega bloques `{ }` (reglas CSS)
-- **JS**: Pliega bloques `{ }`, `( )` y `[ ]` multilínea
-
-### Uso
-
-- **Click en ▼/▶** en el gutter de líneas para plegar/desplegar
-- **Ctrl+Shift+[** pliega el bloque en la posición del cursor
-- **Ctrl+Shift+]** despliega el bloque en la posición del cursor
-
-### Arquitectura Interna
-
-El textarea no puede ocultar líneas, así que se usa un sistema de código virtual:
-
-- `this.code[lang]` = código REAL completo (nunca modificado por folding)
-- `this._foldState[lang]` = Set de líneas inicio colapsadas
-- `this._foldRegions[lang]` = Array de `{start, end}` regiones detectadas
-- `this._displayCode[lang]` = código visible en textarea con regiones colapsadas
-- `this._displayToRealMap[lang]` = mapeo de línea display → línea real
-
-Métodos principales:
-- `_detectFoldRegions(code, lang)` — detecta regiones plegables
-- `_buildDisplayCode(lang)` — genera código display
-- `_displayToRealCode(lang, text)` — reconstruye código real desde display
-- `_renderFoldableLines(lang)` — renderiza gutter con iconos ▼/▶
-- `_toggleFold(lang, line)` — alterna plegado de una región
-- `_refreshCodeEditor(lang)` — refresca todo después de un fold
+Bootstrap 5 is loaded from CDN only inside the canvas iframe for the preview.
 
 ---
 
-## Sistema de Movimiento de Bloques
+## Code Folding
 
-### Drag & Drop Mejorado
+The code editor includes VS Code-style block folding.
 
-El algoritmo de drop detecta automáticamente layouts horizontales (flex-row, grid) y usa el eje X para posicionar. Para layouts verticales usa el eje Y.
+### How It Works
 
-- `_isHorizontalLayout(parent)` — detecta si un contenedor es horizontal
-- `_findBestGap()` — calcula gaps en ambos ejes según dirección
-- El indicador de drop muestra barra vertical para inserciones horizontales
+- **HTML**: Folds tag pairs (`<div>...</div>`, `<section>...</section>`, etc.). Ignores void elements (img, br, hr, input...)
+- **CSS**: Folds `{ }` blocks (CSS rules)
+- **JS**: Folds multiline `{ }`, `( )`, and `[ ]` blocks
 
-### Mover con Teclado
+### Usage
 
-Con un elemento seleccionado:
-- **Alt+↑** mover arriba (antes del hermano anterior)
-- **Alt+↓** mover abajo (después del hermano siguiente)
-- **Alt+←** sacar del contenedor (al nivel del padre)
-- **Alt+→** meter en contenedor adyacente
+- **Click on the arrow icons** in the line gutter to fold/unfold
+- **Ctrl+Shift+[** folds the block at the cursor position
+- **Ctrl+Shift+]** unfolds the block at the cursor position
 
-### Drag & Drop en Panel de Capas
+### Internal Architecture
 
-Las capas son arrastrables. Al arrastrar sobre otra capa:
-- **Tercio superior** = insertar antes
-- **Tercio central** = insertar dentro (como hijo)
-- **Tercio inferior** = insertar después
+The textarea cannot hide lines, so a virtual code system is used:
 
----
+- `this.code[lang]` = full REAL code (never modified by folding)
+- `this._foldState[lang]` = Set of collapsed start lines
+- `this._foldRegions[lang]` = Array of `{start, end}` detected regions
+- `this._displayCode[lang]` = visible code in textarea with collapsed regions
+- `this._displayToRealMap[lang]` = mapping from display line to real line
 
-## Breadcrumb de Navegación
-
-Al seleccionar un elemento, aparece una barra breadcrumb en:
-- **Editor visual** — parte inferior del canvas
-- **Editor de código** — parte inferior del editor
-
-Muestra la cadena de padres: `div.container › table › tbody › tr › td`
-
-Click en cualquier ancestro para seleccionarlo directamente. Útil para seleccionar tablas, carousels u otros contenedores profundamente anidados.
+Main methods:
+- `_detectFoldRegions(code, lang)` -- detects foldable regions
+- `_buildDisplayCode(lang)` -- generates display code
+- `_displayToRealCode(lang, text)` -- reconstructs real code from display
+- `_renderFoldableLines(lang)` -- renders gutter with fold icons
+- `_toggleFold(lang, line)` -- toggles folding of a region
+- `_refreshCodeEditor(lang)` -- refreshes everything after a fold
 
 ---
 
-## Sincronización Visual ↔ Código
+## Block Movement System
 
-Al seleccionar un elemento (desde el canvas, capas, o breadcrumbs), el editor de código HTML automáticamente:
-1. Selecciona (resalta) el bloque HTML completo del elemento
-2. Hace scroll hasta ese punto
+### Enhanced Drag & Drop
+
+The drop algorithm automatically detects horizontal layouts (flex-row, grid) and uses the X axis for positioning. For vertical layouts it uses the Y axis.
+
+- `_isHorizontalLayout(parent)` -- detects if a container is horizontal
+- `_findBestGap()` -- calculates gaps on both axes based on direction
+- The drop indicator shows a vertical bar for horizontal insertions
+
+### Keyboard Movement
+
+With a selected element:
+- **Alt+Up Arrow** move up (before the previous sibling)
+- **Alt+Down Arrow** move down (after the next sibling)
+- **Alt+Left Arrow** move out of the container (to the parent level)
+- **Alt+Right Arrow** move into an adjacent container
+
+### Drag & Drop in the Layers Panel
+
+Layers are draggable. When dragging over another layer:
+- **Top third** = insert before
+- **Middle third** = insert inside (as child)
+- **Bottom third** = insert after
 
 ---
 
-## Syntax Highlighting Personalizable
+## Navigation Breadcrumb
 
-El editor de código incluye syntax highlighting para HTML, CSS y JS. Los colores se pueden personalizar con un archivo JSON.
+When selecting an element, a breadcrumb bar appears in:
+- **Visual editor** -- bottom of the canvas
+- **Code editor** -- bottom of the editor
 
-### Tokens disponibles
+It shows the parent chain: `div.container > table > tbody > tr > td`
 
-| Token | Descripción | Default |
+Click on any ancestor to select it directly. Useful for selecting tables, carousels, or other deeply nested containers.
+
+---
+
+## Visual <-> Code Synchronization
+
+When selecting an element (from the canvas, layers, or breadcrumbs), the HTML code editor automatically:
+1. Selects (highlights) the complete HTML block of the element
+2. Scrolls to that position
+
+---
+
+## Customizable Syntax Highlighting
+
+The code editor includes syntax highlighting for HTML, CSS, and JS. Colors can be customized with a JSON file.
+
+### Available Tokens
+
+| Token | Description | Default |
 |-------|-------------|---------|
-| `comment` | Comentarios | `#6a9955` |
-| `tag` | Nombre de tags HTML | `#569cd6` |
-| `attr` | Nombre de atributos HTML | `#9cdcfe` |
-| `str` | Strings / valores de atributos | `#ce9178` |
+| `comment` | Comments | `#6a9955` |
+| `tag` | HTML tag names | `#569cd6` |
+| `attr` | HTML attribute names | `#9cdcfe` |
+| `str` | Strings / attribute values | `#ce9178` |
 | `kw` | Keywords (JS: const, let, if... / CSS: @media...) | `#c586c0` |
-| `num` | Números y colores hex | `#b5cea8` |
-| `bool` | Booleanos (true/false/null) | `#569cd6` |
-| `fn` | Nombres de funciones JS | `#dcdcaa` |
-| `prop` | Propiedades CSS | `#9cdcfe` |
-| `punct` | Puntuación (`<`, `>`, `=`, `:`, `;`) | `#808080` |
-| `unit` | Unidades CSS (px, em, rem, %, vh, vw, s, ms, deg) | `#b5cea8` |
-| `selector` | Selectores CSS (.clase, #id, tag) | `#d7ba7d` |
+| `num` | Numbers and hex colors | `#b5cea8` |
+| `bool` | Booleans (true/false/null) | `#569cd6` |
+| `fn` | JS function names | `#dcdcaa` |
+| `prop` | CSS properties | `#9cdcfe` |
+| `punct` | Punctuation (`<`, `>`, `=`, `:`, `;`) | `#808080` |
+| `unit` | CSS units (px, em, rem, %, vh, vw, s, ms, deg) | `#b5cea8` |
+| `selector` | CSS selectors (.class, #id, tag) | `#d7ba7d` |
 
-### Personalizar colores
+### Customize Colors
 
-Crear/editar `styles/highlight.json`:
+Create/edit `styles/highlight.json`:
 
 ```json
 {
@@ -915,26 +915,26 @@ Crear/editar `styles/highlight.json`:
 }
 ```
 
-No es necesario incluir todos los tokens — los que no estén en el JSON usarán el color por defecto.
+It is not necessary to include all tokens -- any tokens not present in the JSON will use the default color.
 
-### Arquitectura
+### Architecture
 
-- Los colores se aplican como CSS custom properties (`--tok-comment`, `--tok-tag`, etc.)
-- Se cargan desde `styles/highlight.json` al inicializar (con fallback si no existe)
-- Opción `stylesPath` configura la ruta base para el JSON
+- Colors are applied as CSS custom properties (`--tok-comment`, `--tok-tag`, etc.)
+- They are loaded from `styles/highlight.json` on initialization (with fallback if the file does not exist)
+- The `stylesPath` option configures the base path for the JSON file
 
 ---
 
-## Editor de Imágenes (Standalone)
+## Image Editor (Standalone)
 
-El editor de imágenes puede usarse de forma independiente como un editor Photoshop-like en el navegador.
+The image editor can be used independently as a Photoshop-like editor in the browser.
 
-### Inicialización
+### Initialization
 
 ```html
 <script src="js/image-editor.min.js"></script>
 <script>
-  // Modo embebido
+  // Embedded mode
   const imgEditor = JSImageEditor.init('#container', {
     theme: 'dark',
     lang: 'en',
@@ -942,16 +942,16 @@ El editor de imágenes puede usarse de forma independiente como un editor Photos
     onSave: (base64) => uploadImage(base64)
   });
 
-  // O modo modal
+  // Or modal mode
   JSImageEditor.open(existingImageUrl, {
     onSave: (base64) => updateAvatar(base64)
   });
 </script>
 ```
 
-### Configuración JSON
+### JSON Configuration
 
-Se puede usar `js/image-editor-config.json` para configurar herramientas, paneles y filtros:
+You can use `js/image-editor-config.json` to configure tools, panels, and filters:
 
 ```json
 {
@@ -968,99 +968,99 @@ Se puede usar `js/image-editor-config.json` para configurar herramientas, panele
 }
 ```
 
-### Herramientas de Selección
+### Selection Tools
 
-5 herramientas de selección con animación marching ants:
+5 selection tools with marching ants animation:
 
-| Herramienta | Descripción |
-|-------------|-------------|
-| **selectRect** | Selección rectangular |
-| **selectEllipse** | Selección elíptica |
-| **selectPoly** | Selección poligonal (click para añadir puntos, doble-click para cerrar) |
-| **selectFree** | Selección a mano alzada |
-| **selectWand** | Varita mágica (selecciona por color similar, con tolerancia configurable) |
+| Tool | Description |
+|------|-------------|
+| **selectRect** | Rectangular selection |
+| **selectEllipse** | Elliptical selection |
+| **selectPoly** | Polygonal selection (click to add points, double-click to close) |
+| **selectFree** | Freehand selection |
+| **selectWand** | Magic wand (selects by similar color, with configurable tolerance) |
 
-Acciones de selección: Copiar (`Ctrl+C`), Cortar (`Ctrl+X`), Pegar como nuevo layer (`Ctrl+V`), Seleccionar todo (`Ctrl+A`), Deseleccionar (`Ctrl+D`), Invertir (`Ctrl+Shift+I`).
+Selection actions: Copy (`Ctrl+C`), Cut (`Ctrl+X`), Paste as new layer (`Ctrl+V`), Select all (`Ctrl+A`), Deselect (`Ctrl+D`), Invert (`Ctrl+Shift+I`).
 
-### Text Layers con Google Fonts
+### Text Layers with Google Fonts
 
-- 80+ fuentes Google Fonts precargadas, cargadas via CDN
-- Diálogo de búsqueda con vista previa de fuentes
-- Soporte para fuentes personalizadas
-- Propiedades avanzadas: peso, estilo, espaciado de letras, altura de línea, decoración, alineación
+- 80+ Google Fonts preloaded, loaded via CDN
+- Search dialog with font preview
+- Custom font support
+- Advanced properties: weight, style, letter spacing, line height, decoration, alignment
 
-### Layer Styles (Opciones de Fusión)
+### Layer Styles (Blending Options)
 
-Cada capa puede tener efectos de estilo tipo Photoshop:
+Each layer can have Photoshop-style effects:
 
-| Efecto | Propiedades |
-|--------|-------------|
+| Effect | Properties |
+|--------|------------|
 | **Drop Shadow** | offsetX, offsetY, blur, color, opacity |
 | **Inner Shadow** | offsetX, offsetY, blur, color, opacity |
 | **Outer Glow** | blur, color, opacity |
 | **Stroke** | size, color, position (inside/center/outside) |
 | **Color Overlay** | color, opacity, blendMode |
 
-Accesible via doble-click en layer o click derecho → "Layer Styles".
+Accessible via double-click on a layer or right-click then "Layer Styles".
 
 ### Import / Export
 
-**Importar**: Botón "Import" o arrastrar imagen al canvas. Si ya hay layers, la imagen se añade como nuevo layer.
+**Import**: "Import" button or drag an image onto the canvas. If layers already exist, the image is added as a new layer.
 
-**Exportar**: Diálogo con selección de formato (PNG/JPEG/WebP), slider de calidad para JPEG/WebP, y estimación de tamaño de archivo.
+**Export**: Dialog with format selection (PNG/JPEG/WebP), quality slider for JPEG/WebP, and file size estimation.
 
 ### Color Palette
 
-Todos los selectores de color incluyen:
-- Input nativo `<input type="color">`
-- Campo hex editable (formato `#RRGGBB`)
-- Botón de paleta con 60 colores web predefinidos
-- Input personalizado para cualquier color hex
+All color selectors include:
+- Native `<input type="color">` input
+- Editable hex field (`#RRGGBB` format)
+- Palette button with 60 predefined web colors
+- Custom input for any hex color
 
 ### Resize Handles
 
-- 8 handles de redimensión (esquinas + centros de aristas)
-- Handle central para mover
-- Shift + arrastre para escalado proporcional
-- Cursor contextual según posición del handle
+- 8 resize handles (corners + edge centers)
+- Central handle for moving
+- Shift + drag for proportional scaling
+- Contextual cursor based on handle position
 
-### Atajos del Image Editor
+### Image Editor Shortcuts
 
-| Atajo | Acción |
-|-------|--------|
-| `Ctrl+Z` | Deshacer |
-| `Ctrl+Shift+Z` | Rehacer |
-| `Ctrl+C` | Copiar selección |
-| `Ctrl+X` | Cortar selección |
-| `Ctrl+V` | Pegar como nuevo layer |
-| `Ctrl+A` | Seleccionar todo |
-| `Ctrl+D` | Deseleccionar |
-| `Ctrl+Shift+I` | Invertir selección |
+| Shortcut | Action |
+|----------|--------|
+| `Ctrl+Z` | Undo |
+| `Ctrl+Shift+Z` | Redo |
+| `Ctrl+C` | Copy selection |
+| `Ctrl+X` | Cut selection |
+| `Ctrl+V` | Paste as new layer |
+| `Ctrl+A` | Select all |
+| `Ctrl+D` | Deselect |
+| `Ctrl+Shift+I` | Invert selection |
 | `Ctrl++` | Zoom in |
 | `Ctrl+-` | Zoom out |
-| `Ctrl+0` | Ajustar a pantalla |
-| `Delete` | Borrar selección |
+| `Ctrl+0` | Fit to screen |
+| `Delete` | Delete selection |
 
 ---
 
-## Versiones Minificadas
+## Minified Versions
 
-Los archivos `.min.js` se generan con [terser](https://github.com/terser/terser):
+The `.min.js` files are generated with [terser](https://github.com/terser/terser):
 
 ```bash
 npx terser js/image-editor.js -o js/image-editor.min.js --compress --mangle
 npx terser js/app.js -o js/app.min.js --compress --mangle
 ```
 
-Los archivos HTML de demo (`test-js-editor.html`, `test-image-editor.html`) referencian las versiones `.min.js`. Los archivos `.js` sin minificar son la fuente de desarrollo.
+The demo HTML files (`test-js-editor.html`, `test-image-editor.html`) reference the `.min.js` versions. The unminified `.js` files are the development source.
 
 ---
 
-## Compatibilidad
+## Compatibility
 
-| Navegador | Versión Mínima |
-|-----------|----------------|
-| Chrome    | 90+            |
-| Firefox   | 88+            |
-| Safari    | 14+            |
-| Edge      | 90+            |
+| Browser | Minimum Version |
+|---------|-----------------|
+| Chrome  | 90+             |
+| Firefox | 88+             |
+| Safari  | 14+             |
+| Edge    | 90+             |

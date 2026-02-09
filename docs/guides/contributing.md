@@ -1,69 +1,69 @@
-# Contribuir al Proyecto
+# Contributing to the Project
 
-Guía para contribuir al desarrollo de Shou Editor.
+Guide for contributing to the development of Shou Editor.
 
-## Reglas Fundamentales
+## Fundamental Rules
 
-### Lo que SÍ está permitido
-- JavaScript ES6+ nativo
-- CSS3 con variables CSS
-- HTML5 semántico
-- APIs nativas del navegador
-- Módulos ES6 nativos
+### What IS allowed
+- Native ES6+ JavaScript
+- CSS3 with CSS variables
+- Semantic HTML5
+- Native browser APIs
+- Native ES6 modules
 
-### Lo que NO está permitido
-- Frameworks JS (React, Vue, Angular, Svelte, etc.)
-- Librerías externas (jQuery, Lodash, etc.)
-- Preprocesadores CSS (Sass, Less, etc.)
+### What is NOT allowed
+- JS frameworks (React, Vue, Angular, Svelte, etc.)
+- External libraries (jQuery, Lodash, etc.)
+- CSS preprocessors (Sass, Less, etc.)
 - Bundlers (Webpack, Vite, Rollup, etc.)
-- Transpiladores (Babel, TypeScript, etc.)
-- CDN externos
+- Transpilers (Babel, TypeScript, etc.)
+- External CDNs
 
-## Configurar Entorno de Desarrollo
+## Setting Up the Development Environment
 
 ```bash
-# Clonar repositorio
+# Clone repository
 git clone https://github.com/tu-usuario/js-editor.git
 cd js-editor
 
-# Iniciar servidor local
+# Start local server
 python3 -m http.server 8080
 
-# Abrir en navegador
+# Open in browser
 # http://localhost:8080
 ```
 
-No hay `npm install` porque no hay dependencias.
+There is no `npm install` because there are no dependencies.
 
-## Estructura de Commits
+## Commit Structure
 
 ```
-tipo: descripción breve
+type: brief description
 
-[cuerpo opcional con más detalles]
+[optional body with more details]
 ```
 
-Tipos:
-- `feat`: Nueva funcionalidad
-- `fix`: Corrección de bug
-- `docs`: Documentación
-- `style`: Formato (no afecta lógica)
-- `refactor`: Refactorización
-- `perf`: Mejora de rendimiento
-- `test`: Añadir tests
+Types:
+- `feat`: New feature
+- `fix`: Bug fix
+- `docs`: Documentation
+- `style`: Formatting (does not affect logic)
+- `refactor`: Refactoring
+- `perf`: Performance improvement
+- `test`: Adding tests
 
-Ejemplos:
+Examples:
 ```
-feat: añadir autocompletado para CSS
-fix: corregir scroll en números de línea
-docs: documentar API de eventos
+feat: add CSS autocomplete
+fix: fix line numbers scroll
+docs: document events API
 ```
 
-## Estilo de Código
+## Code Style
 
 ### JavaScript
 ```javascript
-// ✅ Correcto
+// ✅ Correct
 const miVariable = 'valor';
 
 function miFuncion(param) {
@@ -89,7 +89,7 @@ class MiClase {
   }
 }
 
-// ❌ Incorrecto
+// ❌ Incorrect
 var miVariable = "valor"
 
 function mi_funcion(param){
@@ -101,7 +101,7 @@ function mi_funcion(param){
 
 ### CSS
 ```css
-/* ✅ Correcto */
+/* ✅ Correct */
 .mi-componente {
   display: flex;
   padding: var(--spacing-md);
@@ -112,7 +112,7 @@ function mi_funcion(param){
   margin-top: var(--spacing-sm);
 }
 
-/* ❌ Incorrecto */
+/* ❌ Incorrect */
 .miComponente {
   display: flex;
   padding: 16px;
@@ -122,7 +122,7 @@ function mi_funcion(param){
 
 ### HTML
 ```html
-<!-- ✅ Correcto -->
+<!-- ✅ Correct -->
 <section class="editor-panel" data-language="javascript">
   <header class="panel-header">
     <h2>JavaScript</h2>
@@ -132,7 +132,7 @@ function mi_funcion(param){
   </div>
 </section>
 
-<!-- ❌ Incorrecto -->
+<!-- ❌ Incorrect -->
 <div class="editorPanel">
   <div class="header">
     <span>JavaScript</span>
@@ -143,38 +143,38 @@ function mi_funcion(param){
 </div>
 ```
 
-## Añadir Nueva Funcionalidad
+## Adding New Features
 
-1. **Crear rama**
+1. **Create a branch**
    ```bash
    git checkout -b feat/mi-funcionalidad
    ```
 
-2. **Implementar**
-   - Seguir la arquitectura existente
-   - Usar EventBus para comunicación
-   - Documentar código complejo
+2. **Implement**
+   - Follow the existing architecture
+   - Use EventBus for communication
+   - Document complex code
 
-3. **Probar**
-   - Probar en Chrome, Firefox, Safari
-   - Verificar que no rompe funcionalidad existente
+3. **Test**
+   - Test in Chrome, Firefox, Safari
+   - Verify that existing functionality is not broken
 
-4. **Documentar**
-   - Actualizar docs si es necesario
-   - Añadir comentarios JSDoc
+4. **Document**
+   - Update docs if needed
+   - Add JSDoc comments
 
 5. **Pull Request**
-   - Descripción clara de cambios
-   - Screenshots si hay cambios visuales
+   - Clear description of changes
+   - Screenshots if there are visual changes
 
-## Reportar Bugs
+## Reporting Bugs
 
-Incluir:
-1. Navegador y versión
-2. Pasos para reproducir
-3. Comportamiento esperado vs actual
-4. Screenshots o código de ejemplo
+Include:
+1. Browser and version
+2. Steps to reproduce
+3. Expected vs actual behavior
+4. Screenshots or example code
 
-## Preguntas
+## Questions
 
-Abrir un Issue con la etiqueta `question`.
+Open an Issue with the `question` label.

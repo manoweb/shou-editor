@@ -1,124 +1,124 @@
-# Documentación de Shou Editor
+# Shou Editor Documentation
 
-Bienvenido a la documentación de Shou Editor, un editor visual de páginas web estilo GrapesJS construido con JavaScript vanilla. Es un plugin autónomo que genera su propia interfaz HTML y CSS.
+Welcome to the Shou Editor documentation, a visual web page editor in the style of GrapesJS built with vanilla JavaScript. It is a standalone plugin that generates its own HTML and CSS interface.
 
-## Índice
+## Table of Contents
 
-### Inicio Rápido
-- [Instalación](./INSTALLATION.md)
-- [Primeros Pasos](./QUICKSTART.md)
+### Quick Start
+- [Installation](./INSTALLATION.md)
+- [Getting Started](./QUICKSTART.md)
 
-### Guías para Desarrolladores
-- [Arquitectura del Proyecto](./guides/architecture.md)
-- [Contribuir al Proyecto](./guides/contributing.md)
-- [Extender el Editor](./guides/extending.md)
+### Developer Guides
+- [Project Architecture](./guides/architecture.md)
+- [Contributing to the Project](./guides/contributing.md)
+- [Extending the Editor](./guides/extending.md)
 
-### Referencia de API
-- [Core del Editor](./api/core.md)
-- [Sistema de Sintaxis](./api/syntax.md)
-- [Sistema de Eventos](./api/events.md)
-- [Utilidades](./api/utils.md)
+### API Reference
+- [Editor Core](./api/core.md)
+- [Syntax System](./api/syntax.md)
+- [Event System](./api/events.md)
+- [Utilities](./api/utils.md)
 
-### Manual de Usuario
-- [Interfaz del Editor](./user/interface.md)
-- [Atajos de Teclado](./user/shortcuts.md)
-- [Temas y Personalización](./user/themes.md)
-- [Exportar e Importar](./user/export-import.md)
+### User Manual
+- [Editor Interface](./user/interface.md)
+- [Keyboard Shortcuts](./user/shortcuts.md)
+- [Themes and Customization](./user/themes.md)
+- [Export and Import](./user/export-import.md)
 
-## Características Principales
+## Main Features
 
-### Editor Visual (GrapesJS-style)
-- **Panel de Bloques**: Componentes arrastrables organizados por categorías
-  - Básicos (texto, títulos, imágenes, enlaces)
-  - Layout (contenedores, filas, columnas)
-  - Bootstrap (cards, alertas, botones, tablas)
-  - Formularios (inputs, textareas, selects)
-  - Secciones (navbar, hero, features, pricing, footer)
+### Visual Editor (GrapesJS-style)
+- **Blocks Panel**: Draggable components organized by categories
+  - Basic (text, headings, images, links)
+  - Layout (containers, rows, columns)
+  - Bootstrap (cards, alerts, buttons, tables)
+  - Forms (inputs, textareas, selects)
+  - Sections (navbar, hero, features, pricing, footer)
 
-- **Canvas Visual**: Vista previa en tiempo real con iframe
-  - Soporte completo para Bootstrap 5
-  - Vista responsive (Desktop/Tablet/Mobile)
-  - Selección visual de elementos
-  - Edición inline con doble clic
-  - Indicador magnético al arrastrar bloques
-  - Mini toolbar con drag & drop para reordenar elementos
+- **Visual Canvas**: Real-time preview with iframe
+  - Full Bootstrap 5 support
+  - Responsive view (Desktop/Tablet/Mobile)
+  - Visual element selection
+  - Inline editing with double-click
+  - Magnetic indicator when dragging blocks
+  - Mini toolbar with drag & drop for reordering elements
 
-- **Panel de Estilos CSS**: Editor visual de propiedades
-  - Dimensiones (width, height, min/max)
-  - Espaciado (margin, padding)
-  - Tipografía (font, size, color, align)
-  - Fondo (color, imagen)
-  - Bordes (width, style, color, radius)
-  - Display y posicionamiento
+- **CSS Styles Panel**: Visual property editor
+  - Dimensions (width, height, min/max)
+  - Spacing (margin, padding)
+  - Typography (font, size, color, align)
+  - Background (color, image)
+  - Borders (width, style, color, radius)
+  - Display and positioning
 
-- **Panel de Capas**: Árbol DOM visual
-  - Navegación jerárquica de elementos con separadores
-  - Selección desde el árbol (click para seleccionar)
-  - Muestra tag + clase CSS de cada elemento
+- **Layers Panel**: Visual DOM tree
+  - Hierarchical element navigation with separators
+  - Selection from the tree (click to select)
+  - Displays tag + CSS class for each element
 
-- **Visualización de Contenedores**: Botón "Outlines" para mostrar/ocultar contornos de divs invisibles
+- **Container Visualization**: "Outlines" button to show/hide outlines of invisible divs
 
-### Editor de Código
-- Resaltado de sintaxis para HTML, CSS, JavaScript
-- Números de línea
-- Auto-indentación
-- Pestañas para HTML, CSS y JS
-- Sincronización bidireccional con el canvas visual
+### Code Editor
+- Syntax highlighting for HTML, CSS, JavaScript
+- Line numbers
+- Auto-indentation
+- Tabs for HTML, CSS, and JS
+- Bidirectional synchronization with the visual canvas
 
-### Editor de Imágenes (Photoshop-like)
-- **Layer System**: Capas con opacidad, modos de fusión, visibilidad, reorden drag-and-drop, grupos con carpetas
-- **Selection Tools**: Rectangular, elíptica, polígono, mano alzada y varita mágica con animación marching ants
-- **Drawing Tools**: Lápiz, borrador, rectángulo, círculo, línea, flecha, degradado, relleno, cuentagotas
-- **Text Layers**: Texto re-editable con 80+ Google Fonts via CDN, peso, estilo, espaciado, decoración, alineación
-- **Layer Styles**: Drop shadow, inner shadow, outer glow, stroke, color overlay con vista previa en vivo
-- **Import/Export**: Importar imágenes como layers (botón + drag & drop). Exportar a PNG, JPEG, WebP con slider de calidad
-- **Visual Resize**: 8 handles de redimensión + escalado proporcional con Shift. Zoom in/out, pan, scrollbars
-- **Color Palette**: Selector de color con input hex, paleta de colores web y swatches
-- **Filters**: Brillo, contraste, saturación, desenfoque, escala de grises, sepia, tono en tiempo real
-- **Transforms**: Recortar, redimensionar, rotar, voltear
-- **Context Menu**: Click derecho en layers para estilos, redimensión, duplicar, eliminar
-- **Undo/Redo**: Historial completo con atajos de teclado
+### Image Editor (Photoshop-like)
+- **Layer System**: Layers with opacity, blend modes, visibility, drag-and-drop reordering, groups with folders
+- **Selection Tools**: Rectangular, elliptical, polygon, freehand, and magic wand with marching ants animation
+- **Drawing Tools**: Pencil, eraser, rectangle, circle, line, arrow, gradient, fill, eyedropper
+- **Text Layers**: Re-editable text with 80+ Google Fonts via CDN, weight, style, spacing, decoration, alignment
+- **Layer Styles**: Drop shadow, inner shadow, outer glow, stroke, color overlay with live preview
+- **Import/Export**: Import images as layers (button + drag & drop). Export to PNG, JPEG, WebP with quality slider
+- **Visual Resize**: 8 resize handles + proportional scaling with Shift. Zoom in/out, pan, scrollbars
+- **Color Palette**: Color picker with hex input, web color palette, and swatches
+- **Filters**: Brightness, contrast, saturation, blur, grayscale, sepia, hue in real time
+- **Transforms**: Crop, resize, rotate, flip
+- **Context Menu**: Right-click on layers for styles, resize, duplicate, delete
+- **Undo/Redo**: Full history with keyboard shortcuts
 
-### Otras Características
-- Sin dependencias externas (vanilla JS)
-- Plugin autónomo: `app.js` (web editor) + `image-editor.js` (image editor)
-- CSS embebido automáticamente
-- Temas claro y oscuro
-- Guardado automático en LocalStorage
-- Exportar a HTML completo con Bootstrap
-- Importar archivos HTML existentes
-- Versiones minificadas disponibles (`.min.js`)
+### Other Features
+- No external dependencies (vanilla JS)
+- Standalone plugin: `app.js` (web editor) + `image-editor.js` (image editor)
+- Automatically embedded CSS
+- Light and dark themes
+- Auto-save to LocalStorage
+- Export to complete HTML with Bootstrap
+- Import existing HTML files
+- Minified versions available (`.min.js`)
 
-## Requisitos
+## Requirements
 
-- Navegador moderno (Chrome 90+, Firefox 88+, Safari 14+, Edge 90+)
-- Conexión a Internet (solo para cargar Bootstrap CSS en el canvas)
-- No requiere instalación de software adicional
+- Modern browser (Chrome 90+, Firefox 88+, Safari 14+, Edge 90+)
+- Internet connection (only for loading Bootstrap CSS in the canvas)
+- No additional software installation required
 
-## Vista Rápida de la Interfaz
+## Quick Interface Overview
 
 ```
 ┌──────────────────────────────────────────────────────────────────────┐
-│ Shou Editor  [Nuevo][Abrir][Guardar][Preview]  [🖥️📱💻]  [Visual|Código] │
+│ Shou Editor  [New][Open][Save][Preview]  [🖥️📱💻]  [Visual|Code]     │
 ├──────────┬────────────────────────────────────────┬──────────────────┤
-│ BLOQUES  │                                        │   ESTILOS        │
+│ BLOCKS   │                                        │   STYLES         │
 │ ──────── │                                        │   ────────       │
-│ □ Texto  │         ┌──────────────────┐          │   Dimensiones    │
-│ □ Título │         │                  │          │   Espaciado      │
-│ □ Imagen │         │  CANVAS VISUAL   │          │   Tipografía     │
-│ □ Card   │         │  (Bootstrap 5)   │          │   Fondo          │
-│ □ Alert  │         │                  │          │   Bordes         │
+│ □ Text   │         ┌──────────────────┐          │   Dimensions     │
+│ □ Title  │         │                  │          │   Spacing        │
+│ □ Image  │         │  VISUAL CANVAS   │          │   Typography     │
+│ □ Card   │         │  (Bootstrap 5)   │          │   Background     │
+│ □ Alert  │         │                  │          │   Borders        │
 │ □ Button │         └──────────────────┘          │   Display        │
 │ □ Hero   │                                        │   ────────       │
 │ □ Footer │     [Mini Toolbar: ✥ ⧉ ✕]             │   SETTINGS       │
 │ ──────── │                                        │                  │
-│ CAPAS    │                                        │                  │
+│ LAYERS   │                                        │                  │
 │ <div>    │                                        │                  │
 │ <h1>     │                                        │                  │
 └──────────┴────────────────────────────────────────┴──────────────────┘
 ```
 
-## Uso Básico
+## Basic Usage
 
 ### Web Editor
 ```html
@@ -145,6 +145,6 @@ Bienvenido a la documentación de Shou Editor, un editor visual de páginas web 
 </script>
 ```
 
-## Licencia
+## License
 
-MIT License - Ver archivo LICENSE para más detalles.
+MIT License - See the LICENSE file for more details.

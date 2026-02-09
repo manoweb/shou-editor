@@ -1,47 +1,47 @@
-# Temas y Personalizacion
+# Themes and Customization
 
-Guia para personalizar la apariencia de Shou Editor.
+Guide for customizing the appearance of Shou Editor.
 
-## Temas Incluidos
+## Included Themes
 
-### Tema Oscuro (Dark)
-Tema por defecto, ideal para largas sesiones.
+### Dark Theme
+Default theme, ideal for long sessions.
 
-- Fondo: Negro/Gris oscuro (`#1e1e1e`)
-- Texto: Gris claro (`#d4d4d4`)
-- Acentos: Azul (`#007acc`)
+- Background: Black/Dark gray (`#1e1e1e`)
+- Text: Light gray (`#d4d4d4`)
+- Accents: Blue (`#007acc`)
 
-### Tema Claro (Light)
-Optimo para ambientes con mucha luz.
+### Light Theme
+Optimal for bright environments.
 
-- Fondo: Blanco (`#ffffff`)
-- Texto: Gris oscuro (`#1e1e1e`)
-- Acentos: Azul (`#007acc`)
+- Background: White (`#ffffff`)
+- Text: Dark gray (`#1e1e1e`)
+- Accents: Blue (`#007acc`)
 
-## Cambiar Tema
+## Change Theme
 
-### Desde la Interfaz
-Click en el boton de tema (icono luna/sol) en la barra de herramientas.
+### From the Interface
+Click the theme button (moon/sun icon) in the toolbar.
 
-### Desde la API
+### From the API
 ```javascript
 editor.setTheme('light');
 editor.setTheme('dark');
-editor.toggleTheme(); // Alterna entre ambos
+editor.toggleTheme(); // Toggle between both
 ```
 
-### Desde la Configuracion
+### From the Configuration
 ```javascript
 const editor = ShouEditor.init('#editor', {
   theme: 'light'
 });
 ```
 
-## Variables CSS del Plugin
+## Plugin CSS Variables
 
-El plugin usa variables CSS con prefijo `--jse-` que se definen segun el tema:
+The plugin uses CSS variables with the `--jse-` prefix, defined according to the theme:
 
-### Tema Oscuro
+### Dark Theme
 ```css
 .jse-editor.theme-dark {
   --jse-bg: #1e1e1e;
@@ -55,7 +55,7 @@ El plugin usa variables CSS con prefijo `--jse-` que se definen segun el tema:
 }
 ```
 
-### Tema Claro
+### Light Theme
 ```css
 .jse-editor.theme-light {
   --jse-bg: #fff;
@@ -69,23 +69,23 @@ El plugin usa variables CSS con prefijo `--jse-` que se definen segun el tema:
 }
 ```
 
-## Colores de Sintaxis
+## Syntax Colors
 
-El resaltado de sintaxis usa las siguientes clases CSS (embebidas en el plugin):
+Syntax highlighting uses the following CSS classes (embedded in the plugin):
 
-| Clase | Elemento | Color Dark | Color Light |
-|-------|----------|-----------|-------------|
-| `.tok-comment` | Comentarios | `#6a9955` | `#6a9955` |
-| `.tok-tag` | Tags HTML | `#569cd6` | `#569cd6` |
-| `.tok-attr` | Atributos | `#9cdcfe` | `#9cdcfe` |
+| Class | Element | Dark Color | Light Color |
+|-------|---------|-----------|-------------|
+| `.tok-comment` | Comments | `#6a9955` | `#6a9955` |
+| `.tok-tag` | HTML Tags | `#569cd6` | `#569cd6` |
+| `.tok-attr` | Attributes | `#9cdcfe` | `#9cdcfe` |
 | `.tok-str` | Strings | `#ce9178` | `#ce9178` |
 | `.tok-kw` | Keywords | `#c586c0` | `#c586c0` |
-| `.tok-num` | Numeros | `#b5cea8` | `#b5cea8` |
-| `.tok-bool` | Booleanos | `#569cd6` | `#569cd6` |
-| `.tok-fn` | Funciones | `#dcdcaa` | `#dcdcaa` |
-| `.tok-prop` | Propiedades CSS | `#9cdcfe` | `#9cdcfe` |
-| `.tok-punct` | Puntuacion | `#808080` | `#808080` |
+| `.tok-num` | Numbers | `#b5cea8` | `#b5cea8` |
+| `.tok-bool` | Booleans | `#569cd6` | `#569cd6` |
+| `.tok-fn` | Functions | `#dcdcaa` | `#dcdcaa` |
+| `.tok-prop` | CSS Properties | `#9cdcfe` | `#9cdcfe` |
+| `.tok-punct` | Punctuation | `#808080` | `#808080` |
 
-## Persistencia
+## Persistence
 
-El tema seleccionado se guarda automaticamente en LocalStorage con la clave `{prefijo}theme` y se restaura al reabrir el editor.
+The selected theme is automatically saved in LocalStorage with the key `{prefix}theme` and is restored when reopening the editor.

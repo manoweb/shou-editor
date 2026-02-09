@@ -1,24 +1,24 @@
-# Exportar e Importar
+# Export and Import
 
-Guia para guardar y cargar proyectos en Shou Editor.
+Guide for saving and loading projects in Shou Editor.
 
-## Guardado Automatico
+## Auto Save
 
-El editor guarda automaticamente tu codigo mientras trabajas:
-- Se guarda en LocalStorage del navegador
-- Persiste entre sesiones
-- Se restaura al abrir el editor
+The editor automatically saves your code as you work:
+- Saved in the browser's LocalStorage
+- Persists between sessions
+- Restored when opening the editor
 
-**Nota**: El guardado automatico es local a tu navegador. Si cambias de navegador o limpias datos, se perdera.
+**Note**: Auto save is local to your browser. If you switch browsers or clear data, it will be lost.
 
-## Exportar Proyecto
+## Export Project
 
-### Exportar como HTML
+### Export as HTML
 
-1. Click en **Exportar** en la barra de herramientas
-2. Se descargara `proyecto.html`
+1. Click on **Export** in the toolbar
+2. The file `proyecto.html` will be downloaded
 
-El archivo generado incluye:
+The generated file includes:
 ```html
 <!DOCTYPE html>
 <html lang="es">
@@ -41,24 +41,24 @@ El archivo generado incluye:
 </html>
 ```
 
-### Vista Previa
+### Preview
 
-Click en **Preview** para abrir tu proyecto en una nueva pestana del navegador sin descargar archivo.
+Click on **Preview** to open your project in a new browser tab without downloading a file.
 
-## Importar Proyecto
+## Import Project
 
-### Importar Archivo HTML
+### Import HTML File
 
-1. Click en **Abrir** en la barra de herramientas
-2. Selecciona un archivo `.html` o `.htm`
-3. El editor extraera automaticamente:
-   - HTML del `<body>`
-   - CSS de `<style>` tags
-   - JS de `<script>` tags (sin src)
+1. Click on **Open** in the toolbar
+2. Select an `.html` or `.htm` file
+3. The editor will automatically extract:
+   - HTML from the `<body>`
+   - CSS from `<style>` tags
+   - JS from `<script>` tags (without src)
 
-## API Programatica
+## Programmatic API
 
-### Obtener Codigo
+### Get Code
 
 ```javascript
 const editor = ShouEditor.init('#editor');
@@ -69,7 +69,7 @@ const js = editor.getJs();
 const code = editor.getCode(); // { html, css, js }
 ```
 
-### Establecer Codigo
+### Set Code
 
 ```javascript
 editor.setHtml('<h1>Hola</h1>');
@@ -78,26 +78,26 @@ editor.setJs('console.log("hola")');
 editor.setCode({ html: '...', css: '...', js: '...' });
 ```
 
-### Acciones
+### Actions
 
 ```javascript
-editor.newProject();  // Nuevo proyecto (con confirmacion)
-editor.save();        // Descargar HTML
-editor.preview();     // Vista previa en nueva ventana
+editor.newProject();  // New project (with confirmation)
+editor.save();        // Download HTML
+editor.preview();     // Preview in new window
 ```
 
 ## LocalStorage
 
-Claves utilizadas (con prefijo por defecto `shou-editor-`):
+Keys used (with default prefix `shou-editor-`):
 
-| Clave | Contenido |
-|-------|-----------|
-| `shou-editor-html` | Codigo HTML |
-| `shou-editor-css` | Codigo CSS |
-| `shou-editor-js` | Codigo JavaScript |
-| `shou-editor-theme` | Tema actual (dark/light) |
+| Key | Content |
+|-----|---------|
+| `shou-editor-html` | HTML code |
+| `shou-editor-css` | CSS code |
+| `shou-editor-js` | JavaScript code |
+| `shou-editor-theme` | Current theme (dark/light) |
 
-### Limpiar Datos
+### Clear Data
 
 ```javascript
 localStorage.removeItem('shou-editor-html');
@@ -106,64 +106,64 @@ localStorage.removeItem('shou-editor-js');
 localStorage.removeItem('shou-editor-theme');
 ```
 
-## Compartir Proyecto
+## Share Project
 
-1. Exporta como HTML
-2. Comparte el archivo `.html`
-3. El receptor solo necesita abrir en un navegador (Bootstrap se carga desde CDN)
+1. Export as HTML
+2. Share the `.html` file
+3. The recipient only needs to open it in a browser (Bootstrap is loaded from CDN)
 
 ---
 
-## Editor de Imágenes - Import / Export
+## Image Editor - Import / Export
 
-### Importar Imagen como Layer
+### Import Image as Layer
 
-1. Click en **Import** en la barra de herramientas del editor de imágenes
-2. Selecciona un archivo de imagen (PNG, JPEG, WebP, GIF, BMP, SVG)
-3. La imagen se añade como un **nuevo layer** encima del layer activo
+1. Click on **Import** in the image editor toolbar
+2. Select an image file (PNG, JPEG, WebP, GIF, BMP, SVG)
+3. The image is added as a **new layer** above the active layer
 
-**Drag & Drop**: También puedes arrastrar una imagen directamente al canvas:
-- Si ya hay layers, se añade como nuevo layer
-- Si el canvas está vacío, se carga como imagen base
+**Drag & Drop**: You can also drag an image directly onto the canvas:
+- If layers already exist, it is added as a new layer
+- If the canvas is empty, it is loaded as the base image
 
-### Exportar Imagen
+### Export Image
 
-1. Click en **Export** en la barra de herramientas
-2. Se abre un diálogo con opciones:
+1. Click on **Export** in the toolbar
+2. A dialog opens with options:
 
-| Opción | Descripción |
+| Option | Description |
 |--------|-------------|
-| **Formato** | PNG (sin pérdida), JPEG (con compresión), WebP (moderno) |
-| **Calidad** | Slider 0-100% (solo para JPEG y WebP) |
-| **Dimensiones** | Muestra ancho × alto del canvas |
-| **Tamaño estimado** | Estimación del tamaño del archivo resultante |
+| **Format** | PNG (lossless), JPEG (with compression), WebP (modern) |
+| **Quality** | Slider 0-100% (only for JPEG and WebP) |
+| **Dimensions** | Shows canvas width x height |
+| **Estimated size** | Estimate of the resulting file size |
 
-3. Click en **Download** para descargar la imagen
+3. Click on **Download** to download the image
 
-### API Programática (Image Editor)
+### Programmatic API (Image Editor)
 
 ```javascript
 const imgEditor = JSImageEditor.init('#container', { theme: 'dark' });
 
-// Obtener imagen como base64
-const base64 = imgEditor.getImage();       // PNG por defecto
-const jpeg = imgEditor.getImage('jpeg', 0.8); // JPEG calidad 80%
+// Get image as base64
+const base64 = imgEditor.getImage();       // PNG by default
+const jpeg = imgEditor.getImage('jpeg', 0.8); // JPEG quality 80%
 
-// Obtener como Blob
-const blob = await imgEditor.getBlob();    // PNG por defecto
-const webp = await imgEditor.getBlob('webp', 0.9); // WebP calidad 90%
+// Get as Blob
+const blob = await imgEditor.getBlob();    // PNG by default
+const webp = await imgEditor.getBlob('webp', 0.9); // WebP quality 90%
 
-// Importar imagen como layer
+// Import image as layer
 imgEditor.importAsLayer('path/to/image.png');
 
-// Cargar imagen (reemplaza todo)
+// Load image (replaces everything)
 imgEditor.loadImage('path/to/image.png');
 ```
 
 ---
 
-## Limites
+## Limits
 
-- **LocalStorage**: ~5-10MB dependiendo del navegador
-- **Codificacion**: UTF-8
-- **Image Editor**: El tamaño máximo de imagen depende de la memoria del navegador (típicamente hasta ~4000×4000px)
+- **LocalStorage**: ~5-10MB depending on the browser
+- **Encoding**: UTF-8
+- **Image Editor**: Maximum image size depends on browser memory (typically up to ~4000x4000px)

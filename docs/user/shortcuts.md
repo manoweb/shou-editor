@@ -1,96 +1,96 @@
-# Atajos de Teclado
+# Keyboard Shortcuts
 
-Lista de atajos disponibles en Shou Editor.
+List of available shortcuts in Shou Editor.
 
-## Editor Visual (Canvas)
+## Visual Editor (Canvas)
 
-| Atajo | Accion |
-|-------|--------|
-| `Click` | Seleccionar elemento |
-| `Doble click` | Edicion inline de texto |
-| `Delete` | Eliminar elemento seleccionado |
-| `Escape` | Deseleccionar elemento |
+| Shortcut | Action |
+|----------|--------|
+| `Click` | Select element |
+| `Double click` | Inline text editing |
+| `Delete` | Delete selected element |
+| `Escape` | Deselect element |
 
-## Editor de Codigo
+## Code Editor
 
-| Atajo | Accion |
-|-------|--------|
-| `Tab` | Insertar 2 espacios de indentacion |
-| `Enter` | Nueva linea con auto-indentacion |
+| Shortcut | Action |
+|----------|--------|
+| `Tab` | Insert 2 spaces of indentation |
+| `Enter` | New line with auto-indentation |
 
 ## Toolbar
 
-| Atajo | Accion |
-|-------|--------|
-| `Ctrl + S` | Guardar (descargar archivo HTML) |
-| `Ctrl + O` | Abrir archivo HTML |
+| Shortcut | Action |
+|----------|--------|
+| `Ctrl + S` | Save (download HTML file) |
+| `Ctrl + O` | Open HTML file |
 
-## Mini Toolbar (Elemento Seleccionado)
+## Mini Toolbar (Selected Element)
 
-| Accion | Descripcion |
+| Action | Description |
 |--------|-------------|
-| Drag handle (4 flechas) | Mantener pulsado y arrastrar para mover |
-| Duplicar | Crea copia del elemento |
-| Eliminar | Elimina el elemento |
+| Drag handle (4 arrows) | Hold and drag to move |
+| Duplicate | Creates a copy of the element |
+| Delete | Deletes the element |
 
-## Editor de Imágenes
+## Image Editor
 
-### Herramientas
+### Tools
 
-| Atajo | Accion |
-|-------|--------|
-| `V` | Herramienta Mover |
-| `B` | Lápiz |
-| `E` | Borrador |
-| `I` | Cuentagotas |
-| `G` | Relleno |
-| `T` | Texto |
-| `M` | Selección rectangular |
-| `L` | Selección lazo/polígono |
-| `W` | Varita mágica |
-| `H` | Herramienta pan (mano) |
+| Shortcut | Action |
+|----------|--------|
+| `V` | Move tool |
+| `B` | Pencil |
+| `E` | Eraser |
+| `I` | Eyedropper |
+| `G` | Fill |
+| `T` | Text |
+| `M` | Rectangular selection |
+| `L` | Lasso/polygon selection |
+| `W` | Magic wand |
+| `H` | Pan tool (hand) |
 
-### Edición
+### Editing
 
-| Atajo | Accion |
-|-------|--------|
-| `Ctrl + Z` | Deshacer |
-| `Ctrl + Shift + Z` | Rehacer |
-| `Ctrl + C` | Copiar selección |
-| `Ctrl + X` | Cortar selección |
-| `Ctrl + V` | Pegar como nuevo layer |
-| `Delete` | Borrar selección |
+| Shortcut | Action |
+|----------|--------|
+| `Ctrl + Z` | Undo |
+| `Ctrl + Shift + Z` | Redo |
+| `Ctrl + C` | Copy selection |
+| `Ctrl + X` | Cut selection |
+| `Ctrl + V` | Paste as new layer |
+| `Delete` | Clear selection |
 
-### Selección
+### Selection
 
-| Atajo | Accion |
-|-------|--------|
-| `Ctrl + A` | Seleccionar todo |
-| `Ctrl + D` | Deseleccionar |
-| `Ctrl + Shift + I` | Invertir selección |
+| Shortcut | Action |
+|----------|--------|
+| `Ctrl + A` | Select all |
+| `Ctrl + D` | Deselect |
+| `Ctrl + Shift + I` | Invert selection |
 
 ### Zoom
 
-| Atajo | Accion |
-|-------|--------|
+| Shortcut | Action |
+|----------|--------|
 | `Ctrl + +` | Zoom in |
 | `Ctrl + -` | Zoom out |
-| `Ctrl + 0` | Ajustar a pantalla |
-| `Rueda del ratón` | Zoom in/out (con Ctrl) |
+| `Ctrl + 0` | Fit to screen |
+| `Mouse wheel` | Zoom in/out (with Ctrl) |
 
 ### Resize Handles
 
-| Accion | Descripcion |
+| Action | Description |
 |--------|-------------|
-| Arrastrar handle de esquina | Redimensionar libremente |
-| Shift + arrastrar handle | Redimensionar proporcionalmente |
-| Arrastrar handle central | Mover la capa |
+| Drag corner handle | Resize freely |
+| Shift + drag handle | Resize proportionally |
+| Drag center handle | Move the layer |
 
-## Nota para macOS
+## Note for macOS
 
-En macOS, reemplaza `Ctrl` por `Cmd`:
-- `Cmd + S` -> Guardar
-- `Cmd + O` -> Abrir
-- `Cmd + Z` -> Deshacer
-- `Cmd + Shift + Z` -> Rehacer
-- `Cmd + C/X/V` -> Copiar/Cortar/Pegar
+On macOS, replace `Ctrl` with `Cmd`:
+- `Cmd + S` -> Save
+- `Cmd + O` -> Open
+- `Cmd + Z` -> Undo
+- `Cmd + Shift + Z` -> Redo
+- `Cmd + C/X/V` -> Copy/Cut/Paste

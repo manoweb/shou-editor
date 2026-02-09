@@ -1,110 +1,110 @@
-# API Core del Editor
+# Editor Core API
 
-Documentacion de la API publica de Shou Editor (`js/app.js`).
+Documentation of the Shou Editor public API (`js/app.js`).
 
-## ShouEditor (Objeto Global)
+## ShouEditor (Global Object)
 
-El plugin expone el objeto global `ShouEditor` con la API de inicializacion.
+The plugin exposes the global `ShouEditor` object with the initialization API.
 
-### Propiedades
+### Properties
 
-| Propiedad | Tipo | Descripcion |
-|-----------|------|-------------|
-| `version` | `string` | Version del plugin (`'1.0.0'`) |
-| `Editor` | `class` | Referencia a la clase Editor |
-| `Blocks` | `object` | Bloques por defecto disponibles |
+| Property | Type | Description |
+|----------|------|-------------|
+| `version` | `string` | Plugin version (`'1.0.0'`) |
+| `Editor` | `class` | Reference to the Editor class |
+| `Blocks` | `object` | Available default blocks |
 
 ### `ShouEditor.init(containerOrConfig, config?)`
 
-Crea una nueva instancia del editor.
+Creates a new editor instance.
 
 ```javascript
-// Con contenedor + config
+// With container + config
 const editor = ShouEditor.init('#mi-editor', {
   theme: 'dark',
   width: '100%',
   height: '100vh'
 });
 
-// Solo config (usa document.body)
+// Config only (uses document.body)
 const editor = ShouEditor.init({ theme: 'light' });
 
-// Con elemento DOM
+// With DOM element
 const el = document.getElementById('editor');
 const editor = ShouEditor.init(el, { theme: 'dark' });
 ```
 
-## Clase Editor
+## Editor Class
 
-### Configuracion
+### Configuration
 
-| Opcion | Tipo | Default | Descripcion |
+| Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `theme` | `string` | `'dark'` | `'dark'` o `'light'` |
-| `width` | `string` | `'100%'` | Ancho CSS del editor |
-| `height` | `string` | `'100vh'` | Alto CSS del editor |
-| `defaultView` | `string` | `'visual'` | `'visual'` o `'code'` |
-| `defaultDevice` | `string` | `'desktop'` | `'desktop'`, `'tablet'` o `'mobile'` |
-| `storagePrefix` | `string` | `'shou-editor-'` | Prefijo para claves en localStorage |
-| `bootstrapCss` | `string` | CDN Bootstrap 5.3.2 | URL del CSS de Bootstrap para el canvas |
-| `customBlocks` | `object` | `{}` | Bloques personalizados adicionales |
+| `theme` | `string` | `'dark'` | `'dark'` or `'light'` |
+| `width` | `string` | `'100%'` | CSS width of the editor |
+| `height` | `string` | `'100vh'` | CSS height of the editor |
+| `defaultView` | `string` | `'visual'` | `'visual'` or `'code'` |
+| `defaultDevice` | `string` | `'desktop'` | `'desktop'`, `'tablet'` or `'mobile'` |
+| `storagePrefix` | `string` | `'shou-editor-'` | Prefix for localStorage keys |
+| `bootstrapCss` | `string` | CDN Bootstrap 5.3.2 | URL of Bootstrap CSS for the canvas |
+| `customBlocks` | `object` | `{}` | Additional custom blocks |
 
-### Metodos - Obtener Codigo
+### Methods - Get Code
 
 #### `getHtml()`
-Devuelve el HTML actual del canvas.
+Returns the current HTML from the canvas.
 
 ```javascript
 const html = editor.getHtml();
 ```
 
 #### `getCss()`
-Devuelve el CSS personalizado.
+Returns the custom CSS.
 
 ```javascript
 const css = editor.getCss();
 ```
 
 #### `getJs()`
-Devuelve el JavaScript del proyecto.
+Returns the project JavaScript.
 
 ```javascript
 const js = editor.getJs();
 ```
 
 #### `getCode()`
-Devuelve un objeto con todo el codigo.
+Returns an object with all the code.
 
 ```javascript
 const code = editor.getCode();
 // { html: '...', css: '...', js: '...' }
 ```
 
-### Metodos - Establecer Codigo
+### Methods - Set Code
 
 #### `setHtml(html)`
-Establece el HTML y actualiza el canvas visual.
+Sets the HTML and updates the visual canvas.
 
 ```javascript
 editor.setHtml('<h1>Hola Mundo</h1>');
 ```
 
 #### `setCss(css)`
-Establece el CSS personalizado.
+Sets the custom CSS.
 
 ```javascript
 editor.setCss('h1 { color: red; }');
 ```
 
 #### `setJs(js)`
-Establece el JavaScript.
+Sets the JavaScript.
 
 ```javascript
 editor.setJs('console.log("Hola");');
 ```
 
 #### `setCode(code)`
-Establece todo el codigo a la vez.
+Sets all the code at once.
 
 ```javascript
 editor.setCode({
@@ -114,31 +114,31 @@ editor.setCode({
 });
 ```
 
-### Metodos - Acciones
+### Methods - Actions
 
 #### `newProject()`
-Crea un proyecto vacio (solicita confirmacion al usuario).
+Creates an empty project (prompts the user for confirmation).
 
 ```javascript
 editor.newProject();
 ```
 
 #### `save()`
-Descarga el proyecto como archivo HTML con Bootstrap.
+Downloads the project as an HTML file with Bootstrap.
 
 ```javascript
 editor.save();
 ```
 
 #### `preview()`
-Abre el proyecto en una nueva ventana del navegador.
+Opens the project in a new browser window.
 
 ```javascript
 editor.preview();
 ```
 
 #### `setTheme(theme)`
-Cambia el tema del editor.
+Changes the editor theme.
 
 ```javascript
 editor.setTheme('light');
@@ -146,47 +146,47 @@ editor.setTheme('dark');
 ```
 
 #### `toggleTheme()`
-Alterna entre tema claro y oscuro.
+Toggles between light and dark themes.
 
 ```javascript
 editor.toggleTheme();
 ```
 
 #### `destroy()`
-Destruye la instancia del editor y limpia el DOM.
+Destroys the editor instance and cleans up the DOM.
 
 ```javascript
 editor.destroy();
 ```
 
-## Ciclo de Vida Interno
+## Internal Lifecycle
 
 ```
 1. constructor()
-   +-- getDefaultConfig()      Merge de configuracion
-   +-- injectCSS()             Inyecta estilos embebidos en <head>
-   +-- render()                Genera HTML desde getEditorTemplate()
-   +-- cacheElements()         Cache de referencias DOM
-   +-- bindEvents()            Bindea todos los event listeners
-   +-- initFrame()             Crea el iframe del canvas
-   +-- loadFromStorage()       Carga datos guardados
+   +-- getDefaultConfig()      Configuration merge
+   +-- injectCSS()             Injects embedded styles in <head>
+   +-- render()                Generates HTML from getEditorTemplate()
+   +-- cacheElements()         Caches DOM references
+   +-- bindEvents()            Binds all event listeners
+   +-- initFrame()             Creates the canvas iframe
+   +-- loadFromStorage()       Loads saved data
 
-2. Usuario interactua
-   +-- selectElement()         Al hacer click en el canvas
-   +-- createElementToolbar()  Muestra mini toolbar
-   +-- insertBlock()           Al click o drop de bloque
-   +-- syncToCode()            Canvas -> Editor de codigo
-   +-- syncFromCode()          Editor de codigo -> Canvas
-   +-- saveToStorage()         Persistencia automatica
+2. User interacts
+   +-- selectElement()         On canvas click
+   +-- createElementToolbar()  Shows mini toolbar
+   +-- insertBlock()           On block click or drop
+   +-- syncToCode()            Canvas -> Code editor
+   +-- syncFromCode()          Code editor -> Canvas
+   +-- saveToStorage()         Automatic persistence
 
 3. destroy()
-   +-- Limpia innerHTML del contenedor
+   +-- Clears container innerHTML
 ```
 
-## Ejemplo Completo
+## Full Example
 
 ```javascript
-// Inicializar
+// Initialize
 const editor = ShouEditor.init('#editor', {
   theme: 'dark',
   width: '100%',
@@ -199,17 +199,17 @@ const editor = ShouEditor.init('#editor', {
   }
 });
 
-// Cargar contenido
+// Load content
 editor.setCode({
   html: '<h1>Mi Pagina</h1><p>Contenido</p>',
   css: 'h1 { color: navy; }',
   js: ''
 });
 
-// Mas tarde: obtener contenido
+// Later: get content
 const code = editor.getCode();
 console.log('HTML:', code.html);
 
-// Limpiar
+// Clean up
 editor.destroy();
 ```

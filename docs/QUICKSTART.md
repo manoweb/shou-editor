@@ -1,78 +1,78 @@
-# Primeros Pasos
+# Getting Started
 
-Guía rápida para comenzar a usar Shou Editor, el editor visual de páginas web.
+A quick guide to start using Shou Editor, the visual web page editor.
 
-## 1. Abrir el Editor
+## 1. Open the Editor
 
-Abre `index.html` en tu navegador o inicia un servidor local (ver [Instalación](./INSTALLATION.md)).
+Open `index.html` in your browser or start a local server (see [Installation](./INSTALLATION.md)).
 
-## 2. Modo Visual (Por defecto)
+## 2. Visual Mode (Default)
 
-### Insertar Componentes
+### Insert Components
 
-1. **Desde el Panel de Bloques** (izquierda):
-   - Haz clic en un bloque para insertarlo al final del canvas
-   - O arrastra el bloque y suéltalo donde quieras
-   - Un **indicador magnético** (línea azul) te muestra dónde se insertará el bloque
+1. **From the Blocks Panel** (left):
+   - Click a block to insert it at the end of the canvas
+   - Or drag the block and drop it where you want
+   - A **magnetic indicator** (blue line) shows you where the block will be inserted
 
-2. **Categorías disponibles**:
-   - **Básicos**: Texto, títulos, imágenes, enlaces, divisores
-   - **Layout**: Contenedores, filas, columnas (2, 3, 4)
-   - **Bootstrap**: Cards, alertas, botones, badges, listas, tablas
-   - **Formularios**: Inputs, textareas, selects, checkboxes
-   - **Secciones**: Navbar, Hero, Features, Precios, Testimonios, Contacto, Footer
+2. **Available categories**:
+   - **Basic**: Text, headings, images, links, dividers
+   - **Layout**: Containers, rows, columns (2, 3, 4)
+   - **Bootstrap**: Cards, alerts, buttons, badges, lists, tables
+   - **Forms**: Inputs, textareas, selects, checkboxes
+   - **Sections**: Navbar, Hero, Features, Pricing, Testimonials, Contact, Footer
 
-### Editar Elementos
+### Edit Elements
 
-1. **Seleccionar**: Haz clic en cualquier elemento del canvas
-2. **Editar texto**: Doble clic para edición inline
-3. **Modificar estilos**: Usa el panel derecho (Estilos)
-4. **Eliminar**: Selecciona el elemento y pulsa `Delete`
+1. **Select**: Click on any element in the canvas
+2. **Edit text**: Double-click for inline editing
+3. **Modify styles**: Use the right panel (Styles)
+4. **Delete**: Select the element and press `Delete`
 
 ### Mini Toolbar
 
-Al seleccionar un elemento aparece una mini toolbar flotante encima:
+When selecting an element, a floating mini toolbar appears above it:
 
-| Botón | Acción |
-|-------|--------|
-| ✥ (Drag handle) | Mantener pulsado y arrastrar para mover el elemento |
-| ⧉ (Duplicar) | Crea una copia del elemento |
-| ✕ (Eliminar) | Elimina el elemento |
+| Button | Action |
+|--------|--------|
+| ✥ (Drag handle) | Hold and drag to move the element |
+| ⧉ (Duplicate) | Creates a copy of the element |
+| ✕ (Delete) | Deletes the element |
 
-Al arrastrar con el drag handle, aparece el **indicador magnético** que muestra dónde se reubicará el elemento.
+When dragging with the drag handle, the **magnetic indicator** appears showing where the element will be relocated.
 
-### Editar Estilos CSS
+### Edit CSS Styles
 
-Con un elemento seleccionado, el panel derecho muestra:
-- **Dimensiones**: Width, Height, Min/Max
-- **Espaciado**: Margin, Padding
-- **Tipografía**: Font, Size, Weight, Color, Align
-- **Fondo**: Color, Imagen, Size
-- **Bordes**: Width, Style, Color, Radius
+With an element selected, the right panel displays:
+- **Dimensions**: Width, Height, Min/Max
+- **Spacing**: Margin, Padding
+- **Typography**: Font, Size, Weight, Color, Align
+- **Background**: Color, Image, Size
+- **Borders**: Width, Style, Color, Radius
 - **Display**: Display, Position, Overflow
 
-### Vista Responsive
+### Responsive View
 
-Usa los iconos de dispositivos en la barra superior:
+Use the device icons in the top bar:
 - **Desktop** (1200px)
 - **Tablet** (768px)
 - **Mobile** (375px)
 
-### Visualizar Contenedores Invisibles
+### Visualize Invisible Containers
 
-Haz clic en el botón **"Outlines"** en la barra de herramientas para mostrar/ocultar contornos punteados en divs y contenedores invisibles. Esto facilita identificar y seleccionar elementos sin borde ni fondo.
+Click the **"Outlines"** button in the toolbar to show/hide dotted outlines on divs and invisible containers. This makes it easier to identify and select elements without borders or backgrounds.
 
-## 3. Panel de Capas
+## 3. Layers Panel
 
-En el panel izquierdo, pestaña **"Capas"**:
-- Visualiza la estructura DOM de tu página como un árbol
-- Cada capa muestra el tag HTML y su primera clase CSS
-- Haz clic en una capa para seleccionar ese elemento en el canvas
-- Las capas están separadas visualmente con líneas divisorias
+In the left panel, under the **"Layers"** tab:
+- View your page's DOM structure as a tree
+- Each layer displays the HTML tag and its first CSS class
+- Click on a layer to select that element in the canvas
+- Layers are visually separated with divider lines
 
-## 4. Modo Código
+## 4. Code Mode
 
-Haz clic en el botón **"Código"** para cambiar al editor de código:
+Click the **"Code"** button to switch to the code editor:
 
 ### HTML
 ```html
@@ -101,48 +101,48 @@ document.getElementById('btn').addEventListener('click', () => {
 });
 ```
 
-## 5. Sincronización Visual ↔ Código
+## 5. Visual <-> Code Synchronization
 
-- Al cambiar de **visual a código**: el HTML del canvas se copia al editor de código
-- Al cambiar de **código a visual**: el canvas se actualiza con tu HTML y el CSS personalizado se aplica al iframe
+- When switching from **visual to code**: the canvas HTML is copied to the code editor
+- When switching from **code to visual**: the canvas is updated with your HTML and custom CSS is applied to the iframe
 
-## 6. Guardar tu Trabajo
+## 6. Save Your Work
 
-### Guardado Automático
-El código se guarda automáticamente en LocalStorage cada vez que haces cambios.
+### Auto-Save
+The code is automatically saved to LocalStorage every time you make changes.
 
-### Exportar HTML
-1. Click en **"Guardar"** en la barra de herramientas (o `Ctrl+S`)
-2. Se descargará un archivo `proyecto.html` con:
+### Export HTML
+1. Click **"Save"** in the toolbar (or `Ctrl+S`)
+2. A `proyecto.html` file will be downloaded containing:
    - Bootstrap 5 CSS (CDN)
-   - Tu HTML
-   - Tu CSS
-   - Tu JavaScript
+   - Your HTML
+   - Your CSS
+   - Your JavaScript
 
-### Vista Previa en Nueva Ventana
-Click en **"Preview"** para abrir tu proyecto en una nueva pestaña.
+### Preview in New Window
+Click **"Preview"** to open your project in a new tab.
 
-## 7. Atajos Útiles
+## 7. Useful Shortcuts
 
-| Atajo | Acción |
-|-------|--------|
-| `Ctrl + S` | Guardar (descargar archivo) |
-| `Ctrl + O` | Abrir archivo HTML |
-| `Tab` | Insertar indentación (en editor de código) |
-| `Enter` | Nueva línea con auto-indentación |
-| `Delete` | Eliminar elemento seleccionado |
-| `Escape` | Deseleccionar elemento |
+| Shortcut | Action |
+|----------|--------|
+| `Ctrl + S` | Save (download file) |
+| `Ctrl + O` | Open HTML file |
+| `Tab` | Insert indentation (in code editor) |
+| `Enter` | New line with auto-indentation |
+| `Delete` | Delete selected element |
+| `Escape` | Deselect element |
 
-## Ejemplo Rápido: Landing Page
+## Quick Example: Landing Page
 
-1. Inserta un bloque **Navbar** (Secciones)
-2. Inserta un bloque **Hero** (Secciones)
-3. Inserta un bloque **Features** (Secciones)
-4. Inserta un bloque **Footer** (Secciones)
-5. Personaliza colores y textos usando el editor de estilos
-6. Activa **Outlines** para ver la estructura
-7. Guarda tu proyecto con `Ctrl+S`
+1. Insert a **Navbar** block (Sections)
+2. Insert a **Hero** block (Sections)
+3. Insert a **Features** block (Sections)
+4. Insert a **Footer** block (Sections)
+5. Customize colors and text using the styles editor
+6. Enable **Outlines** to see the structure
+7. Save your project with `Ctrl+S`
 
-## Siguiente Paso
+## Next Step
 
-Consulta el [Manual de Usuario](./user/interface.md) para conocer todas las funcionalidades.
+Check the [User Manual](./user/interface.md) to learn about all the features.

@@ -1,75 +1,75 @@
-# Sistema de Sintaxis
+# Syntax System
 
-Documentacion del resaltado de sintaxis integrado en Shou Editor.
+Documentation of the syntax highlighting built into Shou Editor.
 
-## Funciones de Resaltado
+## Highlighting Functions
 
-El plugin incluye tres funciones de resaltado, una por lenguaje:
+The plugin includes three highlighting functions, one per language:
 
 ### `highlightHTML(code)`
-Resalta codigo HTML. Detecta:
-- Comentarios (`<!-- ... -->`)
+Highlights HTML code. Detects:
+- Comments (`<!-- ... -->`)
 - Tags (`<div>`, `</p>`)
-- Atributos (`class`, `id`, `href`)
-- Valores de atributos (`"valor"`)
+- Attributes (`class`, `id`, `href`)
+- Attribute values (`"value"`)
 
 ### `highlightCSS(code)`
-Resalta codigo CSS. Detecta:
-- Comentarios (`/* ... */`)
+Highlights CSS code. Detects:
+- Comments (`/* ... */`)
 - At-rules (`@media`, `@import`)
-- Propiedades (`color`, `margin`)
-- Valores con unidades (`16px`, `2em`)
+- Properties (`color`, `margin`)
+- Values with units (`16px`, `2em`)
 
 ### `highlightJS(code)`
-Resalta codigo JavaScript. Detecta:
+Highlights JavaScript code. Detects:
 - Keywords (`const`, `let`, `function`, `return`, `if`, `else`, etc.)
-- Strings (comillas dobles, simples y template literals)
-- Comentarios de linea (`// ...`)
-- Booleanos (`true`, `false`, `null`, `undefined`)
-- Numeros
-- Nombres de funciones
+- Strings (double quotes, single quotes, and template literals)
+- Line comments (`// ...`)
+- Booleans (`true`, `false`, `null`, `undefined`)
+- Numbers
+- Function names
 
 ### `highlight(code, lang)`
-Wrapper que selecciona el resaltador segun el lenguaje.
+Wrapper that selects the highlighter based on the language.
 
 ```javascript
-// Uso interno
+// Internal usage
 const html = highlight(code, 'html');
 const css = highlight(code, 'css');
 const js = highlight(code, 'js');
 ```
 
-## Clases CSS Generadas
+## Generated CSS Classes
 
-| Clase | Elemento | Color (tema oscuro) |
-|-------|----------|---------------------|
-| `.tok-comment` | Comentarios | `#6a9955` (verde) |
-| `.tok-tag` | Tags HTML | `#569cd6` (azul) |
-| `.tok-attr` | Atributos HTML | `#9cdcfe` (cyan) |
-| `.tok-str` | Strings | `#ce9178` (naranja) |
-| `.tok-kw` | Keywords | `#c586c0` (rosa) |
-| `.tok-num` | Numeros | `#b5cea8` (verde claro) |
-| `.tok-bool` | Booleanos | `#569cd6` (azul) |
-| `.tok-fn` | Funciones | `#dcdcaa` (amarillo) |
-| `.tok-prop` | Propiedades CSS | `#9cdcfe` (cyan) |
-| `.tok-punct` | Puntuacion | `#808080` (gris) |
-| `.tok-unit` | Unidades CSS | `#b5cea8` (verde claro) |
+| Class | Element | Color (dark theme) |
+|-------|---------|-------------------|
+| `.tok-comment` | Comments | `#6a9955` (green) |
+| `.tok-tag` | HTML tags | `#569cd6` (blue) |
+| `.tok-attr` | HTML attributes | `#9cdcfe` (cyan) |
+| `.tok-str` | Strings | `#ce9178` (orange) |
+| `.tok-kw` | Keywords | `#c586c0` (pink) |
+| `.tok-num` | Numbers | `#b5cea8` (light green) |
+| `.tok-bool` | Booleans | `#569cd6` (blue) |
+| `.tok-fn` | Functions | `#dcdcaa` (yellow) |
+| `.tok-prop` | CSS properties | `#9cdcfe` (cyan) |
+| `.tok-punct` | Punctuation | `#808080` (gray) |
+| `.tok-unit` | CSS units | `#b5cea8` (light green) |
 
-## Implementacion
+## Implementation
 
-El resaltado funciona mediante:
+The highlighting works by:
 
-1. El texto del `<textarea>` es transparente
-2. Un `<pre><code>` superpuesto muestra el HTML resaltado
-3. Ambos comparten la misma fuente y posicion de scroll
-4. El textarea captura la entrada, el pre muestra los colores
+1. The `<textarea>` text is transparent
+2. An overlaid `<pre><code>` displays the highlighted HTML
+3. Both share the same font and scroll position
+4. The textarea captures input, the pre displays the colors
 
 ```
 +--------------------+
-|  <textarea>        |  <- Input (texto transparente, caret visible)
+|  <textarea>        |  <- Input (transparent text, visible caret)
 |  z-index: 2        |
 +--------------------+
-|  <pre><code>       |  <- Display (HTML con spans de color)
+|  <pre><code>       |  <- Display (HTML with colored spans)
 |  z-index: 1        |
 +--------------------+
 ```
