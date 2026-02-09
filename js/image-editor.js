@@ -1098,6 +1098,13 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
       };
       document.addEventListener('click', this._closeGroupSubmenu);
 
+      // Right panel tabs
+      on(r, 'click', '.jsie-rpanel-tab', (e, tab) => {
+        const panel = tab.dataset.rpanel;
+        $$('.jsie-rpanel-tab', r).forEach(t => t.classList.toggle('active', t === tab));
+        $$('.jsie-rpanel-content', r).forEach(c => c.classList.toggle('active', c.dataset.rpanelContent === panel));
+      });
+
       // Filter sliders
       on(r, 'input', 'input[data-filter]', (e, inp) => {
         const filter = inp.dataset.filter;
