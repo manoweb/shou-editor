@@ -122,6 +122,13 @@
       'effect.size': 'Size',
       'effect.position': 'Position',
       'effect.blendMode': 'Blend Mode',
+      'fonts.title': 'Google Fonts',
+      'fonts.search': 'Search fonts…',
+      'fonts.custom': 'Custom font name',
+      'fonts.load': 'Load',
+      'fonts.loading': 'Loading…',
+      'fonts.loaded': 'Loaded fonts',
+      'fonts.popular': 'Popular fonts',
     },
     es: {
       'tool.undo': 'Deshacer',
@@ -221,6 +228,13 @@
       'effect.size': 'Tamaño',
       'effect.position': 'Posición',
       'effect.blendMode': 'Modo de Fusión',
+      'fonts.title': 'Google Fonts',
+      'fonts.search': 'Buscar fuentes…',
+      'fonts.custom': 'Nombre de fuente personalizado',
+      'fonts.load': 'Cargar',
+      'fonts.loading': 'Cargando…',
+      'fonts.loaded': 'Fuentes cargadas',
+      'fonts.popular': 'Fuentes populares',
     }
   };
 
@@ -921,6 +935,19 @@
 .jsie-text-opts .jsie-align-btn{width:24px;height:22px;border:1px solid var(--jsie-border);background:var(--jsie-input-bg);color:var(--jsie-text);border-radius:3px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0}
 .jsie-text-opts .jsie-align-btn.active{background:var(--jsie-accent);color:#fff;border-color:var(--jsie-accent)}
 .jsie-text-opts .jsie-align-btn svg{width:14px;height:14px;fill:currentColor}
+.jsie-gf-trigger{width:22px;height:22px;border:1px solid var(--jsie-border);background:var(--jsie-input-bg);color:var(--jsie-accent);border-radius:3px;cursor:pointer;font-weight:700;font-size:11px;display:inline-flex;align-items:center;justify-content:center;padding:0;margin-left:4px;flex-shrink:0}
+.jsie-gf-trigger:hover{background:var(--jsie-accent);color:#fff}
+.jsie-gf-chip{padding:4px 10px;border:1px solid var(--jsie-border);background:var(--jsie-input-bg);color:var(--jsie-text);border-radius:4px;cursor:pointer;font-size:12px;white-space:nowrap;transition:background .15s,border-color .15s}
+.jsie-gf-chip:hover{border-color:var(--jsie-accent);background:rgba(0,120,255,.1)}
+.jsie-gf-chip.loaded{border-color:var(--jsie-accent);color:var(--jsie-accent)}
+.jsie-gf-chip:disabled{opacity:.5;cursor:wait}
+.jsie-color-combo{display:inline-flex;align-items:center;gap:3px}
+.jsie-hex-input{width:62px;height:22px;background:var(--jsie-input-bg);border:1px solid var(--jsie-border);color:var(--jsie-text);border-radius:3px;padding:0 4px;font-size:10px;font-family:monospace}
+.jsie-palette-btn{width:22px;height:22px;border:1px solid var(--jsie-border);background:var(--jsie-input-bg);color:var(--jsie-text2);border-radius:3px;cursor:pointer;font-size:12px;display:inline-flex;align-items:center;justify-content:center;padding:0;line-height:1}
+.jsie-palette-btn:hover{border-color:var(--jsie-accent);color:var(--jsie-accent)}
+.jsie-color-palette{position:absolute;z-index:10002;background:var(--jsie-bg);border:1px solid var(--jsie-border);border-radius:6px;padding:8px;display:flex;flex-wrap:wrap;gap:3px;width:214px;box-shadow:0 4px 12px rgba(0,0,0,.3)}
+.jsie-swatch{width:20px;height:20px;border-radius:3px;cursor:pointer;border:1px solid rgba(255,255,255,.1);transition:transform .1s}
+.jsie-swatch:hover{transform:scale(1.3);z-index:1;border-color:var(--jsie-accent)}
 
 /* Buttons */
 .jsie-btn{display:flex;align-items:center;justify-content:center;width:30px;height:30px;border:none;background:transparent;color:var(--jsie-text);border-radius:4px;cursor:pointer;padding:0;transition:background .15s}
@@ -1717,7 +1744,23 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
       const ic = this.interactionCanvas;
 
       ic.addEventListener('mousedown', e => {
-        if (!this.currentTool || !this.layerManager) return;
+        if (!this.layerManager) return;
+
+        // Visual resize handles — always check first, regardless of active tool
+        {
+          const hpos = this._canvasPos(e);
+          if (this.layerManager.activeLayer) {
+            const fb = this._getLayerContentBounds(this.layerManager.activeLayer);
+            if (fb) this._lastLayerBounds = fb;
+          }
+          const handleHit = this._hitTestHandle(hpos);
+          if (handleHit) {
+            this._startVisualResize(handleHit, hpos, e);
+            return;
+          }
+        }
+
+        if (!this.currentTool) return;
 
         // Pan tool — scrolls the canvas area, no layer needed
         if (this.currentTool === 'pan') {
@@ -1738,21 +1781,6 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
           document.addEventListener('mousemove', onMove);
           document.addEventListener('mouseup', onUp);
           return;
-        }
-
-        // Visual resize handles — check before any tool logic
-        {
-          const hpos = this._canvasPos(e);
-          // Recompute bounds fresh so handles work right after import/edits
-          if (this.layerManager && this.layerManager.activeLayer) {
-            const fb = this._getLayerContentBounds(this.layerManager.activeLayer);
-            if (fb) this._lastLayerBounds = fb;
-          }
-          const handleHit = this._hitTestHandle(hpos);
-          if (handleHit) {
-            this._startVisualResize(handleHit, hpos, e);
-            return;
-          }
         }
 
         const active = this.layerManager.activeLayer;
@@ -2494,18 +2522,19 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
 
       let html = '';
       if (['pencil', 'rect', 'circle', 'line', 'arrow', 'eraser'].includes(tool)) {
-        html += `<label>${t('opt.color')}</label><input type="color" id="jsie-opt-color" value="${this.drawColor}">`;
+        html += `<label>${t('opt.color')}</label>${this._colorInputHtml('jsie-opt-color', this.drawColor)}`;
         html += `<label>${t('opt.size')}</label><input type="range" id="jsie-opt-size" min="1" max="50" value="${this.strokeSize}">`;
         if (['rect', 'circle'].includes(tool)) {
           html += `<div class="jsie-opt-check"><input type="checkbox" id="jsie-opt-fill" ${this.fillEnabled ? 'checked' : ''}><label for="jsie-opt-fill">${t('opt.fill')}</label></div>`;
-          html += `<input type="color" id="jsie-opt-fill-color" value="${this.fillColor}">`;
+          html += this._colorInputHtml('jsie-opt-fill-color', this.fillColor);
         }
       } else if (tool === 'text') {
-        const fonts = ['Arial','Helvetica','Verdana','Tahoma','Trebuchet MS','Georgia','Times New Roman','Courier New','Lucida Console','Impact','Comic Sans MS','Palatino','Garamond','Bookman'];
+        const baseFonts = ['Arial','Helvetica','Verdana','Tahoma','Trebuchet MS','Georgia','Times New Roman','Courier New','Lucida Console','Impact','Comic Sans MS','Palatino','Garamond','Bookman'];
+        const fonts = [...new Set([...this._loadedGoogleFonts, ...baseFonts])];
         const fontOpts = fonts.map(f => `<option value="${f}"${f === this.fontFamily ? ' selected' : ''}>${f}</option>`).join('');
         html += `<div class="jsie-text-opts">`;
-        html += `<div class="jsie-text-row"><label>${t('opt.color')}</label><input type="color" id="jsie-opt-color" value="${this.drawColor}"></div>`;
-        html += `<div class="jsie-text-row"><label>${t('opt.font')}</label><select id="jsie-opt-font">${fontOpts}</select></div>`;
+        html += `<div class="jsie-text-row"><label>${t('opt.color')}</label>${this._colorInputHtml('jsie-opt-color', this.drawColor)}</div>`;
+        html += `<div class="jsie-text-row"><label>${t('opt.font')}</label><select id="jsie-opt-font">${fontOpts}</select><button type="button" id="jsie-gf-btn" class="jsie-gf-trigger" title="Google Fonts">G</button></div>`;
         html += `<div class="jsie-text-row"><label>${t('opt.fontWeight')}</label><select id="jsie-opt-weight"><option value="300"${this.fontWeight==='300'?' selected':''}>Light</option><option value="normal"${this.fontWeight==='normal'?' selected':''}>Regular</option><option value="500"${this.fontWeight==='500'?' selected':''}>Medium</option><option value="bold"${this.fontWeight==='bold'?' selected':''}>Bold</option><option value="900"${this.fontWeight==='900'?' selected':''}>Black</option></select></div>`;
         html += `<div class="jsie-text-row"><label>${t('opt.fontStyle')}</label><select id="jsie-opt-style"><option value="normal"${this.fontStyle==='normal'?' selected':''}>Normal</option><option value="italic"${this.fontStyle==='italic'?' selected':''}>Italic</option></select></div>`;
         html += `<div class="jsie-text-row"><label>${t('opt.fontSize')}</label><input type="number" id="jsie-opt-fontsize" value="${this.fontSize}" min="8" max="200" style="width:56px"></div>`;
@@ -2518,13 +2547,13 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
         html += `<div class="jsie-text-row"><label>${t('opt.align')}</label><span class="jsie-align-btns"><button type="button" class="jsie-align-btn${this.textAlign==='left'?' active':''}" data-align="left" title="Left">${svgAL}</button><button type="button" class="jsie-align-btn${this.textAlign==='center'?' active':''}" data-align="center" title="Center">${svgAC}</button><button type="button" class="jsie-align-btn${this.textAlign==='right'?' active':''}" data-align="right" title="Right">${svgAR}</button></span></div>`;
         html += `</div>`;
       } else if (tool === 'fill') {
-        html += `<label>${t('opt.color')}</label><input type="color" id="jsie-opt-color" value="${this.drawColor}">`;
+        html += `<label>${t('opt.color')}</label>${this._colorInputHtml('jsie-opt-color', this.drawColor)}`;
         html += `<label>${t('opt.tolerance')}</label><input type="range" id="jsie-opt-tolerance" min="0" max="100" value="${this.fillTolerance}">`;
       } else if (tool === 'gradient') {
-        html += `<label>${t('opt.color1')}</label><input type="color" id="jsie-opt-grad1" value="${this.gradientColor1}">`;
-        html += `<label>${t('opt.color2')}</label><input type="color" id="jsie-opt-grad2" value="${this.gradientColor2}">`;
+        html += `<label>${t('opt.color1')}</label>${this._colorInputHtml('jsie-opt-grad1', this.gradientColor1)}`;
+        html += `<label>${t('opt.color2')}</label>${this._colorInputHtml('jsie-opt-grad2', this.gradientColor2)}`;
       } else if (tool === 'eyedropper') {
-        html += `<label>${t('opt.color')}</label><input type="color" id="jsie-opt-color" value="${this.drawColor}" disabled>`;
+        html += `<label>${t('opt.color')}</label>${this._colorInputHtml('jsie-opt-color', this.drawColor)}`;
       } else if (['selectRect', 'selectEllipse', 'selectPoly', 'selectFree', 'selectWand'].includes(tool)) {
         if (tool === 'selectWand') {
           html += `<label>${t('opt.tolerance')}</label><input type="range" id="jsie-opt-wand-tolerance" min="0" max="100" value="${this.wandTolerance}"><span id="jsie-wand-tol-val" style="min-width:24px;text-align:center">${this.wandTolerance}</span>`;
@@ -2562,6 +2591,8 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
         optFont.value = this.fontFamily;
         on(optFont, 'change', () => { this.fontFamily = optFont.value; syncText(); });
       }
+      const gfBtn = $('#jsie-gf-btn', this.root);
+      if (gfBtn) on(gfBtn, 'click', () => this._showGoogleFontsDialog());
       if (optFontSize) on(optFontSize, 'input', () => { this.fontSize = parseInt(optFontSize.value); syncText(); });
 
       // Text advanced options
@@ -2605,6 +2636,9 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
       if (selInvert) on(selInvert, 'click', () => this._invertSelection());
       if (selCrop) on(selCrop, 'click', () => this._cropToSelection());
       if (selDelete) on(selDelete, 'click', () => this._deleteSelection());
+
+      // Color combos (hex input + palette)
+      this._bindColorCombos();
     }
 
     // ── Shapes ────────────────────────────────────
@@ -2969,9 +3003,11 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
       const pixel = this.mainCtx.getImageData(Math.round(pos.x), Math.round(pos.y), 1, 1).data;
       const hex = '#' + ((1 << 24) + (pixel[0] << 16) + (pixel[1] << 8) + pixel[2]).toString(16).slice(1);
       this.drawColor = hex;
-      // Update color input if visible
+      // Update color input + hex field if visible
       const optColor = $('#jsie-opt-color', this.root);
       if (optColor) optColor.value = hex;
+      const hexInput = $('.jsie-hex-input[data-for="jsie-opt-color"]', this.root);
+      if (hexInput) hexInput.value = hex;
     }
 
     // ── Flood Fill (scanline) ────────────────────────
@@ -3969,6 +4005,291 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
         this._updateLayerOpacityUI();
       };
       img.src = url;
+    }
+
+    // ── Google Fonts ─────────────────────────────
+    _loadedGoogleFonts = new Set();
+
+    _googleFontsList() {
+      return [
+        'Roboto','Open Sans','Lato','Montserrat','Oswald','Raleway','Poppins','Nunito',
+        'Ubuntu','Merriweather','Playfair Display','Rubik','Inter','Noto Sans','Work Sans',
+        'Fira Sans','Quicksand','Barlow','Mulish','Inconsolata','Karla','Cabin','Arimo',
+        'Dosis','Bitter','Josefin Sans','Anton','Lobster','Pacifico','Dancing Script',
+        'Caveat','Permanent Marker','Satisfy','Shadows Into Light','Indie Flower',
+        'Amatic SC','Comfortaa','Bebas Neue','Archivo','Manrope','Sora','Space Grotesk',
+        'DM Sans','Plus Jakarta Sans','Outfit','Lexend','Jost','Urbanist','Figtree',
+        'Geist','Nunito Sans','Titillium Web','PT Sans','Source Sans 3','Hind',
+        'Libre Franklin','Exo 2','Rajdhani','Kanit','Prompt','Sarabun','Heebo',
+        'Overpass','Yanone Kaffeesatz','Righteous','Alfa Slab One','Bungee',
+        'Press Start 2P','Silkscreen','VT323','Special Elite','Orbitron',
+        'Cinzel','Cormorant Garamond','EB Garamond','Spectral','Crimson Text',
+        'Source Serif 4','Zilla Slab','IBM Plex Sans','IBM Plex Mono','Fira Code',
+        'JetBrains Mono','Source Code Pro','Roboto Mono','Space Mono'
+      ];
+    }
+
+    _loadGoogleFont(fontName) {
+      return new Promise((resolve, reject) => {
+        if (this._loadedGoogleFonts.has(fontName)) { resolve(); return; }
+        const encoded = fontName.replace(/ /g, '+');
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = `https://fonts.googleapis.com/css2?family=${encoded}:wght@300;400;500;700;900&display=swap`;
+        link.onload = () => {
+          // Force actual font file download for all weights
+          const weights = ['300', '400', '500', '700', '900'];
+          const loads = weights.map(w => document.fonts.load(`${w} 16px "${fontName}"`));
+          Promise.all(loads).then(() => {
+            this._loadedGoogleFonts.add(fontName);
+            resolve();
+          }).catch(() => {
+            // Fallback: at least the CSS is loaded
+            this._loadedGoogleFonts.add(fontName);
+            resolve();
+          });
+        };
+        link.onerror = () => reject(new Error(`Failed to load font: ${fontName}`));
+        document.head.appendChild(link);
+      });
+    }
+
+    _showGoogleFontsDialog() {
+      const allFonts = this._googleFontsList();
+      const modal = document.createElement('div');
+      modal.className = 'jsie-modal-overlay';
+      modal.style.zIndex = '10001';
+      const box = document.createElement('div');
+      box.style.cssText = 'background:var(--jsie-bg);padding:24px;border-radius:8px;width:520px;max-width:90vw;max-height:80vh;color:var(--jsie-text);display:flex;flex-direction:column';
+      box.innerHTML = `
+        <h3 style="margin:0 0 12px;font-size:16px">${t('fonts.title')}</h3>
+        <div style="display:flex;gap:8px;margin-bottom:12px">
+          <input type="text" id="jsie-gf-search" placeholder="${t('fonts.search')}" style="flex:1;height:28px;background:var(--jsie-input-bg);border:1px solid var(--jsie-border);color:var(--jsie-text);border-radius:4px;padding:0 8px;font-size:12px">
+        </div>
+        <div style="display:flex;gap:8px;margin-bottom:12px;align-items:center">
+          <input type="text" id="jsie-gf-custom" placeholder="${t('fonts.custom')}" style="flex:1;height:28px;background:var(--jsie-input-bg);border:1px solid var(--jsie-border);color:var(--jsie-text);border-radius:4px;padding:0 8px;font-size:12px">
+          <button id="jsie-gf-custom-btn" class="jsie-btn-text" style="height:28px;padding:0 12px;font-size:11px">${t('fonts.load')}</button>
+        </div>
+        ${this._loadedGoogleFonts.size > 0 ? `<div style="font-size:10px;color:var(--jsie-text2);margin-bottom:4px">${t('fonts.loaded')}</div>
+        <div id="jsie-gf-loaded" style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid var(--jsie-border)"></div>` : ''}
+        <div style="font-size:10px;color:var(--jsie-text2);margin-bottom:4px">${t('fonts.popular')}</div>
+        <div id="jsie-gf-list" style="flex:1;overflow-y:auto;display:flex;flex-wrap:wrap;gap:4px;align-content:flex-start"></div>
+        <div style="display:flex;justify-content:flex-end;margin-top:12px">
+          <button id="jsie-gf-close" class="jsie-btn-text secondary" style="height:28px;padding:0 16px;font-size:11px">Cancel</button>
+        </div>`;
+      modal.appendChild(box);
+      this.root.appendChild(modal);
+
+      const searchInput = box.querySelector('#jsie-gf-search');
+      const listDiv = box.querySelector('#jsie-gf-list');
+      const loadedDiv = box.querySelector('#jsie-gf-loaded');
+      const customInput = box.querySelector('#jsie-gf-custom');
+      const customBtn = box.querySelector('#jsie-gf-custom-btn');
+
+      const makeChip = (name, isLoaded) => {
+        const chip = document.createElement('button');
+        chip.className = 'jsie-gf-chip' + (isLoaded ? ' loaded' : '');
+        chip.textContent = name;
+        if (isLoaded) chip.style.fontFamily = `'${name}', sans-serif`;
+        chip.onclick = () => selectFont(name, chip);
+        return chip;
+      };
+
+      const renderList = (filter) => {
+        listDiv.innerHTML = '';
+        const q = (filter || '').toLowerCase();
+        allFonts.filter(f => !q || f.toLowerCase().includes(q)).forEach(f => {
+          listDiv.appendChild(makeChip(f, this._loadedGoogleFonts.has(f)));
+        });
+      };
+
+      const renderLoaded = () => {
+        if (!loadedDiv) return;
+        loadedDiv.innerHTML = '';
+        this._loadedGoogleFonts.forEach(f => {
+          loadedDiv.appendChild(makeChip(f, true));
+        });
+      };
+
+      const selectFont = async (name, chip) => {
+        if (this._loadedGoogleFonts.has(name)) {
+          this.fontFamily = name;
+          this._syncTextLayerProps();
+          this._redraw();
+          this._addFontToDropdown(name);
+          close();
+          return;
+        }
+        chip.textContent = t('fonts.loading');
+        chip.disabled = true;
+        try {
+          await this._loadGoogleFont(name);
+          this.fontFamily = name;
+          this._syncTextLayerProps();
+          this._redraw();
+          this._addFontToDropdown(name);
+          close();
+        } catch (err) {
+          chip.textContent = name + ' ✗';
+          chip.disabled = false;
+        }
+      };
+
+      const loadCustom = async () => {
+        const name = customInput.value.trim();
+        if (!name) return;
+        customBtn.textContent = t('fonts.loading');
+        customBtn.disabled = true;
+        try {
+          await this._loadGoogleFont(name);
+          this.fontFamily = name;
+          this._syncTextLayerProps();
+          this._redraw();
+          this._addFontToDropdown(name);
+          close();
+        } catch (err) {
+          customBtn.textContent = t('fonts.load') + ' ✗';
+          customBtn.disabled = false;
+          setTimeout(() => { customBtn.textContent = t('fonts.load'); }, 2000);
+        }
+      };
+
+      on(searchInput, 'input', () => renderList(searchInput.value));
+      on(customBtn, 'click', loadCustom);
+      on(customInput, 'keydown', e => { if (e.key === 'Enter') loadCustom(); });
+
+      const close = () => { modal.remove(); this._renderToolOptions(); };
+      on(box.querySelector('#jsie-gf-close'), 'click', close);
+      on(modal, 'click', e => { if (e.target === modal) close(); });
+
+      renderList('');
+      if (loadedDiv) renderLoaded();
+
+      // Lazy-load font previews for loaded fonts
+      requestAnimationFrame(() => {
+        listDiv.querySelectorAll('.jsie-gf-chip.loaded').forEach(chip => {
+          chip.style.fontFamily = `'${chip.textContent}', sans-serif`;
+        });
+      });
+
+      searchInput.focus();
+    }
+
+    _addFontToDropdown(fontName) {
+      const optFont = $('#jsie-opt-font', this.root);
+      if (!optFont) return;
+      // Check if already in dropdown
+      const exists = Array.from(optFont.options).some(o => o.value === fontName);
+      if (!exists) {
+        const opt = document.createElement('option');
+        opt.value = fontName;
+        opt.textContent = fontName;
+        optFont.insertBefore(opt, optFont.firstChild);
+      }
+      optFont.value = fontName;
+    }
+
+    // ── Color Palette ─────────────────────────────
+    _webColors() {
+      return [
+        '#000000','#333333','#555555','#777777','#999999','#bbbbbb','#dddddd','#ffffff',
+        '#ff0000','#ff4444','#ff6600','#ff9900','#ffcc00','#ffff00','#ccff00','#66ff00',
+        '#00ff00','#00ff66','#00ffcc','#00ffff','#00ccff','#0099ff','#0066ff','#0000ff',
+        '#6600ff','#9900ff','#cc00ff','#ff00ff','#ff0099','#ff0066','#ff3366','#ff6699',
+        '#990000','#994400','#996600','#999900','#669900','#009900','#009966','#009999',
+        '#006699','#003399','#000099','#330099','#660099','#990099','#990066','#993333',
+        '#ffcccc','#ffe0cc','#ffffcc','#ccffcc','#ccffe0','#ccffff','#cce0ff','#ccccff',
+        '#e0ccff','#ffccff','#ffcce0','#ffd7b5'
+      ];
+    }
+
+    _colorInputHtml(id, value) {
+      return `<span class="jsie-color-combo"><input type="color" id="${id}" value="${value}"><input type="text" class="jsie-hex-input" data-for="${id}" value="${value}" maxlength="7" spellcheck="false"><button type="button" class="jsie-palette-btn" data-for="${id}" title="Palette">▦</button></span>`;
+    }
+
+    _showColorPalette(targetId, triggerEl) {
+      // Remove any existing palette
+      const existing = this.root.querySelector('.jsie-color-palette');
+      if (existing) existing.remove();
+
+      const palette = document.createElement('div');
+      palette.className = 'jsie-color-palette';
+      const colors = this._webColors();
+      colors.forEach(c => {
+        const swatch = document.createElement('span');
+        swatch.className = 'jsie-swatch';
+        swatch.style.background = c;
+        swatch.dataset.color = c;
+        swatch.title = c;
+        palette.appendChild(swatch);
+      });
+      // Custom input at bottom
+      const customRow = document.createElement('div');
+      customRow.style.cssText = 'display:flex;gap:4px;padding:4px 0 0;border-top:1px solid var(--jsie-border);margin-top:4px';
+      customRow.innerHTML = `<input type="text" class="jsie-palette-custom" placeholder="#ffcc00" maxlength="7" spellcheck="false" style="flex:1;height:22px;background:var(--jsie-input-bg);border:1px solid var(--jsie-border);color:var(--jsie-text);border-radius:3px;padding:0 6px;font-size:11px;font-family:monospace">`;
+      palette.appendChild(customRow);
+      const customInput = customRow.querySelector('input');
+
+      // Position near trigger
+      const rect = triggerEl.getBoundingClientRect();
+      const rootRect = this.root.getBoundingClientRect();
+      palette.style.top = (rect.bottom - rootRect.top + 4) + 'px';
+      palette.style.left = Math.min(rect.left - rootRect.left, rootRect.width - 220) + 'px';
+
+      this.root.appendChild(palette);
+
+      const applyColor = (color) => {
+        const colorInput = $(`#${targetId}`, this.root);
+        const hexInput = $(`.jsie-hex-input[data-for="${targetId}"]`, this.root);
+        if (colorInput) { colorInput.value = color; colorInput.dispatchEvent(new Event('input', { bubbles: true })); }
+        if (hexInput) hexInput.value = color;
+        palette.remove();
+      };
+
+      on(palette, 'click', e => {
+        const swatch = e.target.closest('.jsie-swatch');
+        if (swatch) applyColor(swatch.dataset.color);
+      });
+
+      on(customInput, 'keydown', e => {
+        if (e.key === 'Enter') {
+          let v = customInput.value.trim();
+          if (v && !v.startsWith('#')) v = '#' + v;
+          if (/^#[0-9a-fA-F]{3,6}$/.test(v)) applyColor(v);
+        }
+      });
+
+      // Close on click outside
+      const outsideHandler = (e) => {
+        if (!palette.contains(e.target) && e.target !== triggerEl) {
+          palette.remove();
+          document.removeEventListener('mousedown', outsideHandler);
+        }
+      };
+      setTimeout(() => document.addEventListener('mousedown', outsideHandler), 0);
+    }
+
+    _bindColorCombos() {
+      const combos = $$('.jsie-color-combo', this.root);
+      combos.forEach(combo => {
+        const colorInput = combo.querySelector('input[type="color"]');
+        const hexInput = combo.querySelector('.jsie-hex-input');
+        const paletteBtn = combo.querySelector('.jsie-palette-btn');
+        if (colorInput && hexInput) {
+          on(colorInput, 'input', () => { hexInput.value = colorInput.value; });
+          on(hexInput, 'input', () => {
+            let v = hexInput.value.trim();
+            if (v && !v.startsWith('#')) v = '#' + v;
+            if (/^#[0-9a-fA-F]{6}$/.test(v)) {
+              colorInput.value = v;
+              colorInput.dispatchEvent(new Event('input', { bubbles: true }));
+            }
+          });
+        }
+        if (paletteBtn) {
+          on(paletteBtn, 'click', () => this._showColorPalette(paletteBtn.dataset.for, paletteBtn));
+        }
+      });
     }
 
     // ── Export Dialog ────────────────────────────
