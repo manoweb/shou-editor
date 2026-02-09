@@ -4960,8 +4960,13 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
       const a = document.createElement('a');
       a.href = url;
       a.download = (this._projectName || 'project') + '.shoimg';
+      a.style.display = 'none';
+      document.body.appendChild(a);
       a.click();
-      URL.revokeObjectURL(url);
+      setTimeout(() => {
+        a.remove();
+        URL.revokeObjectURL(url);
+      }, 200);
     }
 
     async openProject(file) {
