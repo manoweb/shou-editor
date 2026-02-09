@@ -65,14 +65,29 @@ Bienvenido a la documentación de Shou Editor, un editor visual de páginas web 
 - Pestañas para HTML, CSS y JS
 - Sincronización bidireccional con el canvas visual
 
+### Editor de Imágenes (Photoshop-like)
+- **Layer System**: Capas con opacidad, modos de fusión, visibilidad, reorden drag-and-drop, grupos con carpetas
+- **Selection Tools**: Rectangular, elíptica, polígono, mano alzada y varita mágica con animación marching ants
+- **Drawing Tools**: Lápiz, borrador, rectángulo, círculo, línea, flecha, degradado, relleno, cuentagotas
+- **Text Layers**: Texto re-editable con 80+ Google Fonts via CDN, peso, estilo, espaciado, decoración, alineación
+- **Layer Styles**: Drop shadow, inner shadow, outer glow, stroke, color overlay con vista previa en vivo
+- **Import/Export**: Importar imágenes como layers (botón + drag & drop). Exportar a PNG, JPEG, WebP con slider de calidad
+- **Visual Resize**: 8 handles de redimensión + escalado proporcional con Shift. Zoom in/out, pan, scrollbars
+- **Color Palette**: Selector de color con input hex, paleta de colores web y swatches
+- **Filters**: Brillo, contraste, saturación, desenfoque, escala de grises, sepia, tono en tiempo real
+- **Transforms**: Recortar, redimensionar, rotar, voltear
+- **Context Menu**: Click derecho en layers para estilos, redimensión, duplicar, eliminar
+- **Undo/Redo**: Historial completo con atajos de teclado
+
 ### Otras Características
 - Sin dependencias externas (vanilla JS)
-- Plugin autónomo: un solo archivo `app.js`
+- Plugin autónomo: `app.js` (web editor) + `image-editor.js` (image editor)
 - CSS embebido automáticamente
 - Temas claro y oscuro
 - Guardado automático en LocalStorage
 - Exportar a HTML completo con Bootstrap
 - Importar archivos HTML existentes
+- Versiones minificadas disponibles (`.min.js`)
 
 ## Requisitos
 
@@ -105,13 +120,27 @@ Bienvenido a la documentación de Shou Editor, un editor visual de páginas web 
 
 ## Uso Básico
 
+### Web Editor
 ```html
-<script src="js/app.js"></script>
+<script src="js/app.min.js"></script>
 <script>
   const editor = ShouEditor.init('#editor', {
     theme: 'dark',
     width: '100%',
     height: '100vh'
+  });
+</script>
+```
+
+### Image Editor
+```html
+<script src="js/image-editor.min.js"></script>
+<script>
+  const imgEditor = JSImageEditor.init('#container', {
+    theme: 'dark',
+    lang: 'en',
+    preset: { width: 800, height: 600 },
+    onSave: (base64) => console.log('Saved!', base64)
   });
 </script>
 ```

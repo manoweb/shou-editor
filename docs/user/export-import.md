@@ -112,7 +112,58 @@ localStorage.removeItem('shou-editor-theme');
 2. Comparte el archivo `.html`
 3. El receptor solo necesita abrir en un navegador (Bootstrap se carga desde CDN)
 
+---
+
+## Editor de Imágenes - Import / Export
+
+### Importar Imagen como Layer
+
+1. Click en **Import** en la barra de herramientas del editor de imágenes
+2. Selecciona un archivo de imagen (PNG, JPEG, WebP, GIF, BMP, SVG)
+3. La imagen se añade como un **nuevo layer** encima del layer activo
+
+**Drag & Drop**: También puedes arrastrar una imagen directamente al canvas:
+- Si ya hay layers, se añade como nuevo layer
+- Si el canvas está vacío, se carga como imagen base
+
+### Exportar Imagen
+
+1. Click en **Export** en la barra de herramientas
+2. Se abre un diálogo con opciones:
+
+| Opción | Descripción |
+|--------|-------------|
+| **Formato** | PNG (sin pérdida), JPEG (con compresión), WebP (moderno) |
+| **Calidad** | Slider 0-100% (solo para JPEG y WebP) |
+| **Dimensiones** | Muestra ancho × alto del canvas |
+| **Tamaño estimado** | Estimación del tamaño del archivo resultante |
+
+3. Click en **Download** para descargar la imagen
+
+### API Programática (Image Editor)
+
+```javascript
+const imgEditor = JSImageEditor.init('#container', { theme: 'dark' });
+
+// Obtener imagen como base64
+const base64 = imgEditor.getImage();       // PNG por defecto
+const jpeg = imgEditor.getImage('jpeg', 0.8); // JPEG calidad 80%
+
+// Obtener como Blob
+const blob = await imgEditor.getBlob();    // PNG por defecto
+const webp = await imgEditor.getBlob('webp', 0.9); // WebP calidad 90%
+
+// Importar imagen como layer
+imgEditor.importAsLayer('path/to/image.png');
+
+// Cargar imagen (reemplaza todo)
+imgEditor.loadImage('path/to/image.png');
+```
+
+---
+
 ## Limites
 
 - **LocalStorage**: ~5-10MB dependiendo del navegador
 - **Codificacion**: UTF-8
+- **Image Editor**: El tamaño máximo de imagen depende de la memoria del navegador (típicamente hasta ~4000×4000px)

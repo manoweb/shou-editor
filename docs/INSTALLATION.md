@@ -7,11 +7,14 @@ Shou Editor es un plugin JavaScript vanilla que crea un editor visual de página
 ### 1. Incluir el Script
 
 ```html
-<!-- Archivo local -->
+<!-- Archivo local (versiones minificadas recomendadas) -->
+<script src="js/app.min.js"></script>
+
+<!-- O versiones sin minificar para desarrollo -->
 <script src="js/app.js"></script>
 
 <!-- O desde CDN -->
-<script src="https://cdn.example.com/js-editor/app.js"></script>
+<script src="https://cdn.example.com/js-editor/app.min.js"></script>
 ```
 
 ### 2. Editor de Imagenes (opcional)
@@ -20,8 +23,8 @@ El editor de imagenes es un plugin independiente. Si se incluye, aparece un boto
 
 ```html
 <!-- Opcional: incluir ANTES de app.js -->
-<script src="js/image-editor.js"></script>
-<script src="js/app.js"></script>
+<script src="js/image-editor.min.js"></script>
+<script src="js/app.min.js"></script>
 ```
 
 ### 3. Inicializar el Editor
@@ -53,8 +56,8 @@ O en todo el body:
 El plugin funciona desde cualquier CDN. Solo hay que tener en cuenta que `blocksPath` usa rutas relativas por defecto, asi que desde CDN conviene usar una ruta absoluta:
 
 ```html
-<script src="https://cdn.example.com/js-editor/image-editor.js"></script>
-<script src="https://cdn.example.com/js-editor/app.js"></script>
+<script src="https://cdn.example.com/js-editor/image-editor.min.js"></script>
+<script src="https://cdn.example.com/js-editor/app.min.js"></script>
 <script>
   const editor = ShouEditor.init('#editor', {
     blocksPath: 'https://cdn.example.com/js-editor/blocks/'
@@ -83,8 +86,8 @@ El plugin funciona desde cualquier CDN. Solo hay que tener en cuenta que `blocks
 <body>
   <div id="mi-editor"></div>
 
-  <script src="js/image-editor.js"></script> <!-- Opcional -->
-  <script src="js/app.js"></script>
+  <script src="js/image-editor.min.js"></script> <!-- Opcional -->
+  <script src="js/app.min.js"></script>
   <script>
     const editor = ShouEditor.init('#mi-editor', {
       theme: 'dark',
@@ -919,6 +922,137 @@ No es necesario incluir todos los tokens — los que no estén en el JSON usará
 - Los colores se aplican como CSS custom properties (`--tok-comment`, `--tok-tag`, etc.)
 - Se cargan desde `styles/highlight.json` al inicializar (con fallback si no existe)
 - Opción `stylesPath` configura la ruta base para el JSON
+
+---
+
+## Editor de Imágenes (Standalone)
+
+El editor de imágenes puede usarse de forma independiente como un editor Photoshop-like en el navegador.
+
+### Inicialización
+
+```html
+<script src="js/image-editor.min.js"></script>
+<script>
+  // Modo embebido
+  const imgEditor = JSImageEditor.init('#container', {
+    theme: 'dark',
+    lang: 'en',
+    preset: { width: 800, height: 600 },
+    onSave: (base64) => uploadImage(base64)
+  });
+
+  // O modo modal
+  JSImageEditor.open(existingImageUrl, {
+    onSave: (base64) => updateAvatar(base64)
+  });
+</script>
+```
+
+### Configuración JSON
+
+Se puede usar `js/image-editor-config.json` para configurar herramientas, paneles y filtros:
+
+```json
+{
+  "theme": "dark",
+  "lang": "en",
+  "tools": {
+    "drawing": ["move", "pencil", "eraser", "eyedropper", "fill", "gradient",
+                "rect", "circle", "line", "arrow", "text",
+                {"group": "select", "tools": ["selectRect", "selectEllipse", "selectPoly", "selectFree", "selectWand"]}],
+    "transform": ["crop", "resize", "rotateLeft", "rotateRight", "flipH", "flipV"]
+  },
+  "panels": { "layers": true, "filters": true, "statusBar": true },
+  "filters": ["brightness", "contrast", "saturation", "blur", "grayscale", "sepia", "hue"]
+}
+```
+
+### Herramientas de Selección
+
+5 herramientas de selección con animación marching ants:
+
+| Herramienta | Descripción |
+|-------------|-------------|
+| **selectRect** | Selección rectangular |
+| **selectEllipse** | Selección elíptica |
+| **selectPoly** | Selección poligonal (click para añadir puntos, doble-click para cerrar) |
+| **selectFree** | Selección a mano alzada |
+| **selectWand** | Varita mágica (selecciona por color similar, con tolerancia configurable) |
+
+Acciones de selección: Copiar (`Ctrl+C`), Cortar (`Ctrl+X`), Pegar como nuevo layer (`Ctrl+V`), Seleccionar todo (`Ctrl+A`), Deseleccionar (`Ctrl+D`), Invertir (`Ctrl+Shift+I`).
+
+### Text Layers con Google Fonts
+
+- 80+ fuentes Google Fonts precargadas, cargadas via CDN
+- Diálogo de búsqueda con vista previa de fuentes
+- Soporte para fuentes personalizadas
+- Propiedades avanzadas: peso, estilo, espaciado de letras, altura de línea, decoración, alineación
+
+### Layer Styles (Opciones de Fusión)
+
+Cada capa puede tener efectos de estilo tipo Photoshop:
+
+| Efecto | Propiedades |
+|--------|-------------|
+| **Drop Shadow** | offsetX, offsetY, blur, color, opacity |
+| **Inner Shadow** | offsetX, offsetY, blur, color, opacity |
+| **Outer Glow** | blur, color, opacity |
+| **Stroke** | size, color, position (inside/center/outside) |
+| **Color Overlay** | color, opacity, blendMode |
+
+Accesible via doble-click en layer o click derecho → "Layer Styles".
+
+### Import / Export
+
+**Importar**: Botón "Import" o arrastrar imagen al canvas. Si ya hay layers, la imagen se añade como nuevo layer.
+
+**Exportar**: Diálogo con selección de formato (PNG/JPEG/WebP), slider de calidad para JPEG/WebP, y estimación de tamaño de archivo.
+
+### Color Palette
+
+Todos los selectores de color incluyen:
+- Input nativo `<input type="color">`
+- Campo hex editable (formato `#RRGGBB`)
+- Botón de paleta con 60 colores web predefinidos
+- Input personalizado para cualquier color hex
+
+### Resize Handles
+
+- 8 handles de redimensión (esquinas + centros de aristas)
+- Handle central para mover
+- Shift + arrastre para escalado proporcional
+- Cursor contextual según posición del handle
+
+### Atajos del Image Editor
+
+| Atajo | Acción |
+|-------|--------|
+| `Ctrl+Z` | Deshacer |
+| `Ctrl+Shift+Z` | Rehacer |
+| `Ctrl+C` | Copiar selección |
+| `Ctrl+X` | Cortar selección |
+| `Ctrl+V` | Pegar como nuevo layer |
+| `Ctrl+A` | Seleccionar todo |
+| `Ctrl+D` | Deseleccionar |
+| `Ctrl+Shift+I` | Invertir selección |
+| `Ctrl++` | Zoom in |
+| `Ctrl+-` | Zoom out |
+| `Ctrl+0` | Ajustar a pantalla |
+| `Delete` | Borrar selección |
+
+---
+
+## Versiones Minificadas
+
+Los archivos `.min.js` se generan con [terser](https://github.com/terser/terser):
+
+```bash
+npx terser js/image-editor.js -o js/image-editor.min.js --compress --mangle
+npx terser js/app.js -o js/app.min.js --compress --mangle
+```
+
+Los archivos HTML de demo (`test-js-editor.html`, `test-image-editor.html`) referencian las versiones `.min.js`. Los archivos `.js` sin minificar son la fuente de desarrollo.
 
 ---
 

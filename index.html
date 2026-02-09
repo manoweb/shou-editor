@@ -1020,12 +1020,14 @@
           <ul class="check-list">
             <li><i class="bi bi-check-circle-fill"></i> Multi-layer compositing with blend modes</li>
             <li><i class="bi bi-check-circle-fill"></i> Drawing: pencil, eraser, shapes, arrows, gradients</li>
-            <li><i class="bi bi-check-circle-fill"></i> Eyedropper, flood fill, move tool</li>
-            <li><i class="bi bi-check-circle-fill"></i> Re-editable text layers</li>
-            <li><i class="bi bi-check-circle-fill"></i> Layer groups with folders and expand/collapse</li>
-            <li><i class="bi bi-check-circle-fill"></i> Crop, resize, rotate, flip transforms</li>
-            <li><i class="bi bi-check-circle-fill"></i> Brightness, contrast, saturation, blur, sepia filters</li>
-            <li><i class="bi bi-check-circle-fill"></i> Full undo/redo history</li>
+            <li><i class="bi bi-check-circle-fill"></i> Selection tools: rect, ellipse, polygon, freehand, magic wand</li>
+            <li><i class="bi bi-check-circle-fill"></i> Re-editable text layers with Google Fonts</li>
+            <li><i class="bi bi-check-circle-fill"></i> Layer styles: drop shadow, glow, stroke, color overlay</li>
+            <li><i class="bi bi-check-circle-fill"></i> Import images as layers &amp; export PNG/JPEG/WebP</li>
+            <li><i class="bi bi-check-circle-fill"></i> Visual resize handles, zoom/pan, right-click menu</li>
+            <li><i class="bi bi-check-circle-fill"></i> Crop, resize, rotate, flip &amp; real-time filters</li>
+            <li><i class="bi bi-check-circle-fill"></i> Layer groups, full undo/redo history</li>
+            <li><i class="bi bi-check-circle-fill"></i> Color palette with hex input and web color swatches</li>
           </ul>
           <a href="test-image-editor.html" class="btn btn-accent mt-3">
             <i class="bi bi-brush me-1"></i> Try Image Editor
@@ -1083,42 +1085,63 @@
           <div class="feature-card">
             <div class="feature-icon purple"><i class="bi bi-layers-fill"></i></div>
             <h5>Layer System</h5>
-            <p>Full layer management with opacity, visibility, reorder via drag-and-drop, duplicate, and delete. Just like Photoshop.</p>
+            <p>Full layer management with opacity, blend modes, visibility, reorder via drag-and-drop, groups with folders, and right-click context menu.</p>
           </div>
         </div>
         <div class="col-md-6 col-lg-4">
           <div class="feature-card">
-            <div class="feature-icon blue"><i class="bi bi-stack"></i></div>
-            <h5>Blend Modes</h5>
-            <p>12 blend modes including Multiply, Screen, Overlay, Darken, Lighten, Color Dodge, Difference and more.</p>
+            <div class="feature-icon blue"><i class="bi bi-bounding-box"></i></div>
+            <h5>Selection Tools</h5>
+            <p>Rectangular, elliptical, polygon, freehand and magic wand selections with marching ants animation. Copy, cut, paste selections as new layers.</p>
           </div>
         </div>
         <div class="col-md-6 col-lg-4">
           <div class="feature-card">
             <div class="feature-icon green"><i class="bi bi-fonts"></i></div>
-            <h5>Text Layers</h5>
-            <p>Create text as separate layers. Re-edit text, font, size, color and alignment anytime by double-clicking.</p>
+            <h5>Text &amp; Google Fonts</h5>
+            <p>Re-editable text layers with 80+ Google Fonts loaded via CDN. Weight, style, spacing, line height, decoration and alignment controls.</p>
           </div>
         </div>
         <div class="col-md-6 col-lg-4">
           <div class="feature-card">
-            <div class="feature-icon orange"><i class="bi bi-folder-fill"></i></div>
-            <h5>Layer Groups</h5>
-            <p>Organize layers into folders with expand/collapse. Groups have their own opacity and blend mode applied recursively.</p>
+            <div class="feature-icon orange"><i class="bi bi-magic"></i></div>
+            <h5>Layer Styles</h5>
+            <p>Photoshop-style blending options: drop shadow, inner shadow, outer glow, stroke and color overlay with live preview.</p>
           </div>
         </div>
         <div class="col-md-6 col-lg-4">
           <div class="feature-card">
             <div class="feature-icon pink"><i class="bi bi-brush-fill"></i></div>
             <h5>Drawing Tools</h5>
-            <p>Pencil, eraser, rectangle, circle, line, arrow, gradient, flood fill, eyedropper and move tool with configurable options.</p>
+            <p>Pencil, eraser, shapes, arrows, gradients, flood fill, eyedropper and move tool. Color palette with hex input and web color swatches.</p>
           </div>
         </div>
         <div class="col-md-6 col-lg-4">
           <div class="feature-card">
-            <div class="feature-icon cyan"><i class="bi bi-sliders"></i></div>
-            <h5>Filters & Transforms</h5>
+            <div class="feature-icon cyan"><i class="bi bi-download"></i></div>
+            <h5>Import &amp; Export</h5>
+            <p>Import images as new layers via button or drag &amp; drop. Export to PNG, JPEG or WebP with quality slider and file size estimation.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card">
+            <div class="feature-icon blue"><i class="bi bi-sliders"></i></div>
+            <h5>Filters &amp; Transforms</h5>
             <p>Real-time brightness, contrast, saturation, blur, grayscale, sepia and hue filters. Crop, resize, rotate and flip.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card">
+            <div class="feature-icon purple"><i class="bi bi-arrows-fullscreen"></i></div>
+            <h5>Visual Resize &amp; Zoom</h5>
+            <p>8 resize handles with proportional scaling (Shift). Zoom in/out, fit to screen, pan tool, and scrollbars for large canvases.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card">
+            <div class="feature-icon green"><i class="bi bi-clock-history"></i></div>
+            <h5>History &amp; Shortcuts</h5>
+            <p>Full undo/redo history. Keyboard shortcuts for all tools, copy/paste, zoom, select all, deselect and invert selection.</p>
           </div>
         </div>
       </div>
@@ -1248,15 +1271,15 @@
         <div class="col-6 col-lg-2">
           <h6>Resources</h6>
           <div class="d-flex flex-column gap-2">
-            <a href="#">Documentation</a>
-            <a href="#">Changelog</a>
-            <a href="#">License</a>
+            <a href="https://github.com/manoweb/shou-editor/tree/main/docs">Documentation</a>
+            <a href="https://github.com/manoweb/shou-editor/blob/main/docs/INSTALLATION.md">Installation</a>
+            <a href="https://github.com/manoweb/shou-editor/blob/main/docs/QUICKSTART.md">Quick Start</a>
           </div>
         </div>
         <div class="col-6 col-lg-2">
           <h6>Connect</h6>
           <div class="d-flex flex-column gap-2">
-            <a href="#"><i class="bi bi-github me-2"></i>GitHub</a>
+            <a href="https://github.com/manoweb/shou-editor"><i class="bi bi-github me-2"></i>GitHub</a>
           </div>
         </div>
       </div>
