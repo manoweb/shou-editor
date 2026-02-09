@@ -11,7 +11,7 @@
       "move",
       {
         "group": "select",
-        "tools": ["selectRect", "selectEllipse", "selectPoly", "selectFree"]
+        "tools": ["selectRect", "selectEllipse", "selectPoly", "selectFree", "selectWand"]
       },
       "pencil",
       "eraser",

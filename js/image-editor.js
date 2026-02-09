@@ -63,6 +63,7 @@
       'empty.loadImage': 'Drop an image here or click to load',
       'confirm.reset': 'Reset to original image?',
       'panel.layers': 'Layers',
+      'panel.image': 'Image',
       'layer.add': 'New layer',
       'layer.delete': 'Delete layer',
       'layer.duplicate': 'Duplicate layer',
@@ -70,6 +71,7 @@
       'layer.group': 'New group',
       'opt.blendMode': 'Blend',
       'tool.move': 'Move',
+      'tool.pan': 'Pan',
       'tool.eyedropper': 'Eyedropper',
       'tool.fill': 'Fill',
       'tool.gradient': 'Gradient',
@@ -81,11 +83,16 @@
       'tool.selectEllipse': 'Ellipse select',
       'tool.selectPoly': 'Polygon select',
       'tool.selectFree': 'Free select',
+      'tool.selectWand': 'Magic wand',
+      'opt.tolerance': 'Tolerance',
       'sel.all': 'Select all',
       'sel.deselect': 'Deselect',
       'sel.invert': 'Invert',
       'sel.cropToSel': 'Crop to selection',
       'sel.delete': 'Delete',
+      'tool.zoomIn': 'Zoom in',
+      'tool.zoomOut': 'Zoom out',
+      'tool.zoomFit': 'Fit to window',
     },
     es: {
       'tool.undo': 'Deshacer',
@@ -126,6 +133,7 @@
       'empty.loadImage': 'Arrastra una imagen aquí o haz clic para cargar',
       'confirm.reset': '¿Restablecer imagen original?',
       'panel.layers': 'Capas',
+      'panel.image': 'Imagen',
       'layer.add': 'Nueva capa',
       'layer.delete': 'Eliminar capa',
       'layer.duplicate': 'Duplicar capa',
@@ -133,6 +141,7 @@
       'layer.group': 'Nuevo grupo',
       'opt.blendMode': 'Mezcla',
       'tool.move': 'Mover',
+      'tool.pan': 'Desplazar',
       'tool.eyedropper': 'Cuentagotas',
       'tool.fill': 'Relleno',
       'tool.gradient': 'Degradado',
@@ -144,11 +153,16 @@
       'tool.selectEllipse': 'Selección elíptica',
       'tool.selectPoly': 'Selección poligonal',
       'tool.selectFree': 'Selección libre',
+      'tool.selectWand': 'Varita mágica',
+      'opt.tolerance': 'Tolerancia',
       'sel.all': 'Seleccionar todo',
       'sel.deselect': 'Deseleccionar',
       'sel.invert': 'Invertir',
       'sel.cropToSel': 'Recortar a selección',
       'sel.delete': 'Eliminar',
+      'tool.zoomIn': 'Ampliar',
+      'tool.zoomOut': 'Reducir',
+      'tool.zoomFit': 'Ajustar a ventana',
     }
   };
 
@@ -184,6 +198,7 @@
     layerDelete: '<svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>',
     layerDup:    '<svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>',
     move:        '<svg viewBox="0 0 24 24"><path d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"/></svg>',
+    pan:         '<svg viewBox="0 0 24 24"><path d="M18 24h-6.55c-1.08 0-2.14-.45-2.89-1.23l-5.5-6.04.84-.72c.5-.43 1.21-.51 1.77-.22L9 17.89V3.5a1.5 1.5 0 013 0v5h.5a1.5 1.5 0 013 0V9a1.5 1.5 0 013 0v1.5a1.5 1.5 0 013 0V19c0 2.76-2.24 5-5 5zM5.96 17.27l4.09 4.49c.43.47 1.03.74 1.65.74H18c1.65 0 3-1.35 3-3v-7.5a.5.5 0 00-1 0V14h-1v-3.5a.5.5 0 00-1 0V14h-1v-4a.5.5 0 00-1 0v4h-1V3.5a.5.5 0 00-1 0v10.26l-4.42-2.45c-.18-.1-.4-.08-.56.05l-.23.19 4.17 5.45H11V17l-5.04-2.73V17.27z"/></svg>',
     eyedropper:  '<svg viewBox="0 0 24 24"><path d="M20.71 5.63l-2.34-2.34a1 1 0 00-1.41 0l-3.12 3.12-1.42-1.42-1.41 1.42 1.41 1.41L3.71 16.53c-.2.19-.31.45-.31.72V21h3.75c.27 0 .52-.11.71-.29l8.72-8.72 1.41 1.41 1.42-1.41-1.42-1.42 3.12-3.12a1 1 0 000-1.42zM6.92 19H5v-1.92l8.06-8.06 1.92 1.92L6.92 19z"/></svg>',
     fill:  '<svg viewBox="0 0 24 24"><path d="M16.56 8.94L7.62 0 6.21 1.41l2.38 2.38-5.15 5.15a1.49 1.49 0 000 2.12l5.5 5.5c.29.29.68.44 1.06.44s.77-.15 1.06-.44l5.5-5.5c.59-.58.59-1.53 0-2.12zM5.21 10L10 5.21 14.79 10H5.21zM19 11.5s-2 2.17-2 3.5c0 1.1.9 2 2 2s2-.9 2-2c0-1.33-2-3.5-2-3.5z"/></svg>',
     gradient:    '<svg viewBox="0 0 24 24"><path d="M11 9h2v2h-2V9zm-2 2h2v2H9v-2zm4 0h2v2h-2v-2zm2-2h2v2h-2V9zM7 9h2v2H7V9zm12-6H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 18H7v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2zm2-7h-2v2h2v2h-2v-2h-2v2h-2v-2h-2v2H9v-2H7v2H5v-2h2v-2H5V5h14v6z"/></svg>',
@@ -195,6 +210,10 @@
     selectEllipse:'<svg viewBox="0 0 24 24"><path d="M12 4c4.42 0 8 3.58 8 8s-3.58 8-8 8-8-3.58-8-8 3.58-8 8-8zm0 2c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6z"/><path d="M12 2c-.6 0-1.19.05-1.76.16l.35 1.97A8.1 8.1 0 0112 4c.47 0 .94.04 1.39.13l.37-1.97C13.19 2.05 12.6 2 12 2z" opacity=".5"/></svg>',
     selectPoly:  '<svg viewBox="0 0 24 24"><path d="M2 4l5 16h10l5-12-8-7L2 4zm3.09 1.63L12 3.2l6.18 5.41L14.27 18H7.73L3.09 5.63z"/></svg>',
     selectFree:  '<svg viewBox="0 0 24 24"><path d="M15.5 2C13 2 10.7 3.2 9.3 5.1c-.8-.1-1.5-.1-2.3-.1C3.6 5 1 7.6 1 11c0 2.9 2 5.4 4.8 5.9l.4-2C4.3 14.5 3 13 3 11c0-2.2 1.8-4 4-4 .3 0 .5 0 .8.1C8.6 9.4 10.8 11 13.5 11c.5 0 1-.1 1.5-.2l-.5-2c-.3.1-.7.2-1 .2-1.9 0-3.5-1.1-4.2-2.7C10.4 4.3 12.7 3 15.5 3 18.5 3 21 5.5 21 8.5S18.5 14 15.5 14v2c3.6 0 6.5-2.9 6.5-6.5S19.1 2 15.5 2z"/></svg>',
+    selectWand:  '<svg viewBox="0 0 24 24"><path d="M7.5 5.6L10 7 8.6 4.5 10 2 7.5 3.4 5 2l1.4 2.5L5 7l2.5-1.4zm12 9.8L17 14l1.4 2.5L17 19l2.5-1.4L22 19l-1.4-2.5L22 14l-2.5 1.4zM22 2l-2.5 1.4L17 2l1.4 2.5L17 7l2.5-1.4L22 7l-1.4-2.5L22 2zM14.37 7.29L12.4 9.27l2.34 2.34 1.98-1.98c.39-.39.39-1.02 0-1.41l-.93-.93c-.39-.39-1.03-.39-1.42 0zM11.34 10.34l-7.26 7.26c-.39.39-.39 1.02 0 1.41l.93.93c.39.39 1.02.39 1.41 0l7.26-7.26-2.34-2.34z"/></svg>',
+    zoomIn:      '<svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14zm.5-7H9v2H7v1h2v2h1v-2h2V9h-2z"/></svg>',
+    zoomOut:     '<svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14zM7 9h5v1H7z"/></svg>',
+    zoomFit:     '<svg viewBox="0 0 24 24"><path d="M3 5v4h2V5h4V3H5c-1.1 0-2 .9-2 2zm2 10H3v4c0 1.1.9 2 2 2h4v-2H5v-4zm14 4h-4v2h4c1.1 0 2-.9 2-2v-4h-2v4zm0-16h-4v2h4v4h2V5c0-1.1-.9-2-2-2z"/></svg>',
   };
 
   // ── Layer Class ─────────────────────────────────────
@@ -643,13 +662,26 @@
 .jsie-group-submenu .jsie-tool-btn.active{background:var(--jsie-accent);color:#fff}
 
 /* Center canvas */
-.jsie-canvas-area{flex:1;display:flex;align-items:center;justify-content:center;overflow:auto;background:var(--jsie-bg3);position:relative}
-.jsie-canvas-wrap{position:relative;display:inline-block;box-shadow:0 2px 12px rgba(0,0,0,0.3)}
+.jsie-canvas-area{flex:1;display:flex;overflow:auto;background:var(--jsie-bg3);position:relative}
+.jsie-canvas-wrap{position:relative;display:inline-block;box-shadow:0 2px 12px rgba(0,0,0,0.3);margin:auto;flex-shrink:0;background-color:#fff;background-image:linear-gradient(45deg,#d0d0d0 25%,transparent 25%,transparent 75%,#d0d0d0 75%),linear-gradient(45deg,#d0d0d0 25%,transparent 25%,transparent 75%,#d0d0d0 75%);background-size:16px 16px;background-position:0 0,8px 8px}
 .jsie-canvas-wrap canvas{display:block}
 .jsie-canvas-wrap .jsie-interaction-canvas{position:absolute;top:0;left:0;z-index:5}
 
 /* Right layers panel */
 .jsie-layers-panel{width:220px;background:var(--jsie-bg2);border-left:1px solid var(--jsie-border);display:flex;flex-direction:column;overflow:hidden;flex-shrink:0}
+.jsie-rpanel-tabs{display:flex;border-bottom:1px solid var(--jsie-border);flex-shrink:0}
+.jsie-rpanel-tab{flex:1;padding:7px 0;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;text-align:center;color:var(--jsie-text2);cursor:pointer;background:none;border:none;border-bottom:2px solid transparent;transition:color .15s,border-color .15s}
+.jsie-rpanel-tab:hover{color:var(--jsie-text)}
+.jsie-rpanel-tab.active{color:var(--jsie-accent);border-bottom-color:var(--jsie-accent)}
+.jsie-rpanel-content{display:none;flex-direction:column;flex:1;overflow:hidden}
+.jsie-rpanel-content.active{display:flex}
+.jsie-filters-vertical{flex:1;overflow-y:auto;padding:8px 10px;display:flex;flex-direction:column;gap:10px}
+.jsie-filters-vertical .jsie-filter-item{display:flex;flex-direction:column;gap:3px;font-size:11px;color:var(--jsie-text2)}
+.jsie-filters-vertical .jsie-filter-item .jsie-filter-row{display:flex;align-items:center;gap:6px}
+.jsie-filters-vertical .jsie-filter-item input[type="range"]{flex:1;height:4px;-webkit-appearance:none;appearance:none;background:var(--jsie-slider-track);border-radius:2px;outline:none;cursor:pointer}
+.jsie-filters-vertical .jsie-filter-item input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--jsie-slider-thumb);cursor:pointer;border:2px solid var(--jsie-bg)}
+.jsie-filters-vertical .jsie-filter-item input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--jsie-slider-thumb);cursor:pointer;border:2px solid var(--jsie-bg)}
+.jsie-filters-vertical .jsie-filter-val{width:30px;text-align:right;font-variant-numeric:tabular-nums}
 .jsie-layers-header{padding:8px 10px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--jsie-border);color:var(--jsie-text2)}
 .jsie-layers-controls{padding:6px 10px;display:flex;align-items:center;gap:6px;border-bottom:1px solid var(--jsie-border);font-size:11px}
 .jsie-layers-controls label{color:var(--jsie-text2);white-space:nowrap;font-size:10px}
@@ -766,17 +798,20 @@
       return `<button class="jsie-tool-btn" data-tool="${tool}" title="${t('tool.' + tool)}">${Icons[tool] || ''}</button>`;
     }).join('');
 
-    // Transform tool buttons (some are actions, some are tools)
+    // Transform tool buttons (some are actions, some are tools, some are groups)
     const actionTools = ['resize', 'rotateLeft', 'rotateRight', 'flipH', 'flipV'];
     const transBtns = transformTools.map(tool => {
+      if (typeof tool === 'object' && tool.group) {
+        const first = tool.tools[0];
+        return `<div class="jsie-tool-group jsie-action-group" data-group="${tool.group}">
+          <button class="jsie-tool-btn" data-action="${first}" data-group="${tool.group}" title="${t('tool.' + first)}">
+            ${Icons[first] || ''}
+            <span class="jsie-group-arrow"></span>
+          </button>
+        </div>`;
+      }
       const attr = actionTools.includes(tool) ? `data-action="${tool}"` : `data-tool="${tool}"`;
       return `<button class="jsie-tool-btn" ${attr} title="${t('tool.' + tool)}">${Icons[tool] || ''}</button>`;
-    }).join('');
-
-    // Filter items
-    const filterItems = filterList.map(f => {
-      const d = filterDefaults[f] || { min: 0, max: 100, value: 0 };
-      return `<div class="jsie-filter-item"><span>${t('filter.' + f)}</span><input type="range" data-filter="${f}" min="${d.min}" max="${d.max}" value="${d.value}"><span class="jsie-filter-val">${d.value}</span></div>`;
     }).join('');
 
     return `
@@ -799,6 +834,10 @@
     ${drawBtns}
     <div class="jsie-tool-sep"></div>
     ${transBtns}
+    <div class="jsie-tool-sep"></div>
+    <button class="jsie-tool-btn" data-action="zoomIn" title="${t('tool.zoomIn')}">${Icons.zoomIn}</button>
+    <button class="jsie-tool-btn" data-action="zoomOut" title="${t('tool.zoomOut')}">${Icons.zoomOut}</button>
+    <button class="jsie-tool-btn" data-action="zoomFit" title="${t('tool.zoomFit')}">${Icons.zoomFit}</button>
   </div>
 
   <div class="jsie-canvas-area" id="jsie-canvas-area">
@@ -812,9 +851,13 @@
     </div>
   </div>
 
-  ${showLayers ? `
+  ${showLayers || showFilters ? `
   <div class="jsie-layers-panel" id="jsie-layers-panel">
-    <div class="jsie-layers-header">${t('panel.layers')}</div>
+    ${showLayers && showFilters ? `<div class="jsie-rpanel-tabs">
+      <button type="button" class="jsie-rpanel-tab active" data-rpanel="layers">${t('panel.layers')}</button>
+      <button type="button" class="jsie-rpanel-tab" data-rpanel="image">${t('panel.image')}</button>
+    </div>` : ''}
+    ${showLayers ? `<div class="jsie-rpanel-content${!showFilters || (showLayers && showFilters) ? ' active' : ''}" data-rpanel-content="layers">
     <div class="jsie-layers-controls">
       <label>${t('opt.blendMode')}</label>
       <select id="jsie-layer-blend" class="jsie-blend-select">
@@ -844,11 +887,16 @@
       <button class="jsie-btn" data-layer-action="delete" title="${t('layer.delete')}">${Icons.layerDelete}</button>
       <button class="jsie-btn" data-layer-action="duplicate" title="${t('layer.duplicate')}">${Icons.layerDup}</button>
     </div>
+    </div>` : ''}
+    ${showFilters ? `<div class="jsie-rpanel-content${!showLayers ? ' active' : ''}" data-rpanel-content="image">
+      <div class="jsie-filters-vertical">${filterList.map(f => {
+        const d = filterDefaults[f] || { min: 0, max: 100, value: 0 };
+        return `<div class="jsie-filter-item"><span>${t('filter.' + f)}</span><div class="jsie-filter-row"><input type="range" data-filter="${f}" min="${d.min}" max="${d.max}" value="${d.value}"><span class="jsie-filter-val">${d.value}</span></div></div>`;
+      }).join('')}</div>
+    </div>` : ''}
   </div>` : ''}
 </div>
-
-${showFilters ? `<div class="jsie-filters">${filterItems}</div>` : ''}
-${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></span><span id="jsie-status-cursor"></span><span id="jsie-status-tool"></span></div>` : ''}`;
+${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></span><span id="jsie-status-cursor"></span><span id="jsie-status-tool"></span><span id="jsie-status-zoom" style="margin-left:auto"></span></div>` : ''}`;
   }
 
   // ── ImageEditor Class ─────────────────────────────
@@ -893,6 +941,9 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
       this._selectionPreview = null;
       this._clipboard = null;
       this._toolGroupSelection = {};
+      this.wandTolerance = 30;
+      this.zoomLevel = 1.0;
+      this._fitScale = 1.0;
       this._init();
     }
 
@@ -907,8 +958,8 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
         outputQuality: 0.92,
         lang: 'en',
         tools: {
-          drawing: ['move', { group: 'select', tools: ['selectRect', 'selectEllipse', 'selectPoly', 'selectFree'] }, 'pencil', 'eraser', 'eyedropper', 'fill', 'gradient', 'rect', 'circle', 'line', 'arrow', 'text'],
-          transform: ['crop', 'resize', 'rotateLeft', 'rotateRight', 'flipH', 'flipV'],
+          drawing: ['move', 'pan', { group: 'select', tools: ['selectRect', 'selectEllipse', 'selectPoly', 'selectFree', 'selectWand'] }, 'pencil', 'eraser', 'eyedropper', 'fill', 'gradient', { group: 'shapes', tools: ['rect', 'circle', 'line', 'arrow'] }, 'text'],
+          transform: ['crop', 'resize', { group: 'orient', tools: ['rotateLeft', 'rotateRight', 'flipH', 'flipV'] }],
         },
         panels: { layers: true, filters: true, statusBar: true },
         filters: ['brightness', 'contrast', 'saturation', 'blur', 'grayscale', 'sepia', 'hue'],
@@ -975,6 +1026,7 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
       this.statusDims = $('#jsie-status-dims', this.root);
       this.statusCursor = $('#jsie-status-cursor', this.root);
       this.statusTool = $('#jsie-status-tool', this.root);
+      this.statusZoom = $('#jsie-status-zoom', this.root);
 
       // Interaction canvas for mouse events (transparent overlay)
       this.interactionCanvas = document.createElement('canvas');
@@ -987,6 +1039,8 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
 
       // Actions (undo, redo, transforms, save, cancel, reset)
       on(r, 'click', '[data-action]', (e, btn) => {
+        if (e.target.closest('.jsie-group-arrow')) return;
+        if (btn._longPressed) { btn._longPressed = false; return; }
         const action = btn.dataset.action;
         if (action === 'undo') this.undo();
         else if (action === 'redo') this.redo();
@@ -995,14 +1049,18 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
         else if (action === 'flipH') this.flip('horizontal');
         else if (action === 'flipV') this.flip('vertical');
         else if (action === 'resize') this.showResizePanel();
+        else if (action === 'zoomIn') this._zoom(1.25);
+        else if (action === 'zoomOut') this._zoom(0.8);
+        else if (action === 'zoomFit') this._zoomFit();
         else if (action === 'reset') this.reset();
         else if (action === 'cancel') this._onCancel();
         else if (action === 'save') this._onSave();
       });
 
-      // Tool selection (ignore clicks on group arrow)
+      // Tool selection (ignore clicks on group arrow or after long-press)
       on(r, 'click', '.jsie-tool-btn[data-tool]', (e, btn) => {
         if (e.target.closest('.jsie-group-arrow')) return;
+        if (btn._longPressed) { btn._longPressed = false; return; }
         const tool = btn.dataset.tool;
         this.setTool(tool === this.currentTool ? null : tool);
       });
@@ -1013,6 +1071,23 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
         const groupDiv = arrow.closest('.jsie-tool-group');
         if (!groupDiv) return;
         this._toggleGroupSubmenu(groupDiv.dataset.group, groupDiv);
+      });
+
+      // Long-press on tool group button opens submenu (>1s)
+      on(r, 'mousedown', '.jsie-tool-group > .jsie-tool-btn', (e, btn) => {
+        if (e.target.closest('.jsie-group-arrow')) return;
+        const groupDiv = btn.closest('.jsie-tool-group');
+        if (!groupDiv) return;
+        btn._longPressTimer = setTimeout(() => {
+          btn._longPressed = true;
+          this._toggleGroupSubmenu(groupDiv.dataset.group, groupDiv);
+        }, 1000);
+      });
+      on(r, 'mouseup', '.jsie-tool-group > .jsie-tool-btn', (e, btn) => {
+        clearTimeout(btn._longPressTimer);
+      });
+      on(r, 'mouseleave', '.jsie-tool-group > .jsie-tool-btn', (e, btn) => {
+        clearTimeout(btn._longPressTimer);
       });
 
       // Close submenu on click outside
@@ -1274,6 +1349,28 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
 
       ic.addEventListener('mousedown', e => {
         if (!this.currentTool || !this.layerManager) return;
+
+        // Pan tool — scrolls the canvas area, no layer needed
+        if (this.currentTool === 'pan') {
+          e.preventDefault();
+          const area = this.canvasArea;
+          const startX = e.clientX, startY = e.clientY;
+          const scrollL = area.scrollLeft, scrollT = area.scrollTop;
+          ic.style.cursor = 'grabbing';
+          const onMove = ev => {
+            area.scrollLeft = scrollL - (ev.clientX - startX);
+            area.scrollTop = scrollT - (ev.clientY - startY);
+          };
+          const onUp = () => {
+            ic.style.cursor = 'grab';
+            document.removeEventListener('mousemove', onMove);
+            document.removeEventListener('mouseup', onUp);
+          };
+          document.addEventListener('mousemove', onMove);
+          document.addEventListener('mouseup', onUp);
+          return;
+        }
+
         const active = this.layerManager.activeLayer;
         if (!active) return;
 
@@ -1302,6 +1399,10 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
         } else if (this.currentTool === 'selectFree') {
           this.drawing = true;
           this._selectionPoints = [{ x: pos.x, y: pos.y }];
+          return;
+        } else if (this.currentTool === 'selectWand') {
+          this.drawing = false;
+          this._magicWandSelect(pos.x, pos.y);
           return;
         } else if (this.currentTool === 'move') {
           this._moveStart = pos;
@@ -1511,6 +1612,12 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
         }
       });
 
+      // Mouse wheel zoom
+      ic.addEventListener('wheel', e => {
+        e.preventDefault();
+        this._zoom(e.deltaY < 0 ? 1.1 : 0.9);
+      }, { passive: false });
+
       // Double-click closes polygon selection
       ic.addEventListener('dblclick', e => {
         if (this.currentTool === 'selectPoly' && this._selectionPoints.length > 2) {
@@ -1584,22 +1691,46 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
       this.interactionCanvas.width = w;
       this.interactionCanvas.height = h;
 
-      // Fit to container
+      // Calculate fit scale and set as initial zoom
       const area = this.canvasArea.getBoundingClientRect();
       const maxW = area.width - 40;
       const maxH = area.height - 40;
-      const scale = Math.min(1, maxW / w, maxH / h);
-      const cssW = Math.round(w * scale);
-      const cssH = Math.round(h * scale);
-      this.mainCanvas.style.width = cssW + 'px';
-      this.mainCanvas.style.height = cssH + 'px';
-      this.interactionCanvas.style.width = cssW + 'px';
-      this.interactionCanvas.style.height = cssH + 'px';
+      this._fitScale = Math.min(1, maxW / w, maxH / h);
+      this.zoomLevel = this._fitScale;
+      this._applyZoom();
 
       // Ensure interaction canvas is in the DOM
       if (!this.interactionCanvas.parentNode) {
         this.canvasWrap.appendChild(this.interactionCanvas);
       }
+    }
+
+    _applyZoom() {
+      const w = this.mainCanvas.width;
+      const h = this.mainCanvas.height;
+      const cssW = Math.round(w * this.zoomLevel) + 'px';
+      const cssH = Math.round(h * this.zoomLevel) + 'px';
+      this.mainCanvas.style.width = cssW;
+      this.mainCanvas.style.height = cssH;
+      this.interactionCanvas.style.width = cssW;
+      this.interactionCanvas.style.height = cssH;
+      if (this.statusZoom) this.statusZoom.textContent = Math.round(this.zoomLevel * 100) + '%';
+    }
+
+    _zoom(factor) {
+      if (!this.layerManager) return;
+      this.zoomLevel = Math.max(0.05, Math.min(32, this.zoomLevel * factor));
+      this._applyZoom();
+    }
+
+    _zoomFit() {
+      if (!this.layerManager) return;
+      const area = this.canvasArea.getBoundingClientRect();
+      const maxW = area.width - 40;
+      const maxH = area.height - 40;
+      this._fitScale = Math.min(1, maxW / this.mainCanvas.width, maxH / this.mainCanvas.height);
+      this.zoomLevel = this._fitScale;
+      this._applyZoom();
     }
 
     // ── Rendering ─────────────────────────────────
@@ -1651,7 +1782,7 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
         this._hideCropOverlay();
       }
       // Selection: clear poly points when switching away, manage marching ants
-      const selTools = ['selectRect', 'selectEllipse', 'selectPoly', 'selectFree'];
+      const selTools = ['selectRect', 'selectEllipse', 'selectPoly', 'selectFree', 'selectWand'];
       if (!selTools.includes(tool)) {
         this._selectionPoints = [];
         if (this.selection && this._selectionPath) {
@@ -1662,15 +1793,15 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
         this._startMarchingAnts();
       }
       // Cursor
-      const cursors = { move: 'move', eyedropper: 'crosshair', fill: 'crosshair', gradient: 'crosshair', pencil: 'crosshair', eraser: 'crosshair', text: 'text', crop: 'default', selectRect: 'crosshair', selectEllipse: 'crosshair', selectPoly: 'crosshair', selectFree: 'crosshair' };
+      const cursors = { move: 'move', pan: 'grab', eyedropper: 'crosshair', fill: 'crosshair', gradient: 'crosshair', pencil: 'crosshair', eraser: 'crosshair', text: 'text', crop: 'default', selectRect: 'crosshair', selectEllipse: 'crosshair', selectPoly: 'crosshair', selectFree: 'crosshair', selectWand: 'crosshair' };
       this.interactionCanvas.style.cursor = tool ? (cursors[tool] || 'crosshair') : 'default';
       // Status
       this._updateStatusTool();
     }
 
     _getGroupTools(groupName) {
-      const drawing = this.config.tools.drawing;
-      for (const item of drawing) {
+      const all = [...(this.config.tools.drawing || []), ...(this.config.tools.transform || [])];
+      for (const item of all) {
         if (typeof item === 'object' && item.group === groupName) {
           return item.tools;
         }
@@ -1687,16 +1818,31 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
       // Get tools for this group
       const tools = this._getGroupTools(groupName);
       if (!tools) return;
+      const isActionGroup = groupDiv.classList.contains('jsie-action-group');
       // Create submenu
       const submenu = document.createElement('div');
       submenu.className = 'jsie-group-submenu';
       submenu.innerHTML = tools.map(toolId => {
+        if (isActionGroup) {
+          return `<button class="jsie-tool-btn" data-subaction="${toolId}" title="${t('tool.' + toolId)}">${Icons[toolId] || ''}</button>`;
+        }
         const isActive = this.currentTool === toolId;
         return `<button class="jsie-tool-btn${isActive ? ' active' : ''}" data-subtool="${toolId}" title="${t('tool.' + toolId)}">${Icons[toolId] || ''}</button>`;
       }).join('');
       groupDiv.appendChild(submenu);
       // Bind submenu clicks
       submenu.addEventListener('click', (e) => {
+        if (isActionGroup) {
+          const btn = e.target.closest('[data-subaction]');
+          if (!btn) return;
+          const action = btn.dataset.subaction;
+          if (action === 'rotateLeft') this.rotate(-90);
+          else if (action === 'rotateRight') this.rotate(90);
+          else if (action === 'flipH') this.flip('horizontal');
+          else if (action === 'flipV') this.flip('vertical');
+          submenu.remove();
+          return;
+        }
         const btn = e.target.closest('[data-subtool]');
         if (!btn) return;
         const toolId = btn.dataset.subtool;
@@ -1732,7 +1878,11 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
         html += `<label>${t('opt.color2')}</label><input type="color" id="jsie-opt-grad2" value="${this.gradientColor2}">`;
       } else if (tool === 'eyedropper') {
         html += `<label>${t('opt.color')}</label><input type="color" id="jsie-opt-color" value="${this.drawColor}" disabled>`;
-      } else if (['selectRect', 'selectEllipse', 'selectPoly', 'selectFree'].includes(tool)) {
+      } else if (['selectRect', 'selectEllipse', 'selectPoly', 'selectFree', 'selectWand'].includes(tool)) {
+        if (tool === 'selectWand') {
+          html += `<label>${t('opt.tolerance')}</label><input type="range" id="jsie-opt-wand-tolerance" min="0" max="100" value="${this.wandTolerance}"><span id="jsie-wand-tol-val" style="min-width:24px;text-align:center">${this.wandTolerance}</span>`;
+          html += `<span style="width:1px;height:16px;background:var(--jsie-border);margin:0 4px;display:inline-block"></span>`;
+        }
         html += `<button class="jsie-btn-text secondary" id="jsie-sel-all">${t('sel.all')}</button>`;
         html += `<button class="jsie-btn-text secondary" id="jsie-sel-deselect">${t('sel.deselect')}</button>`;
         html += `<button class="jsie-btn-text secondary" id="jsie-sel-invert">${t('sel.invert')}</button>`;
@@ -1768,6 +1918,11 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
       if (optTolerance) on(optTolerance, 'input', () => { this.fillTolerance = parseInt(optTolerance.value); });
       if (optGrad1) on(optGrad1, 'input', () => { this.gradientColor1 = optGrad1.value; });
       if (optGrad2) on(optGrad2, 'input', () => { this.gradientColor2 = optGrad2.value; });
+
+      // Wand tolerance
+      const wandTol = $('#jsie-opt-wand-tolerance', this.root);
+      const wandTolVal = $('#jsie-wand-tol-val', this.root);
+      if (wandTol) on(wandTol, 'input', () => { this.wandTolerance = parseInt(wandTol.value); if (wandTolVal) wandTolVal.textContent = wandTol.value; });
 
       // Selection buttons
       const selAll = $('#jsie-sel-all', this.root);
@@ -1849,6 +2004,23 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
           }
           path.closePath();
         }
+      } else if (s.type === 'wand' && s.mask) {
+        // Convert bitmap mask to Path2D using horizontal run-length scanning
+        const w = s.width;
+        const h = s.height;
+        const mask = s.mask;
+        for (let y = 0; y < h; y++) {
+          let x = 0;
+          while (x < w) {
+            if (mask[y * w + x]) {
+              const startX = x;
+              while (x < w && mask[y * w + x]) x++;
+              path.rect(startX, y, x - startX, 1);
+            } else {
+              x++;
+            }
+          }
+        }
       }
       this._selectionPath = path;
     }
@@ -1856,6 +2028,7 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
     _clearSelection() {
       this.selection = null;
       this._selectionPath = null;
+      this._selectionContourPath = null;
       this._selectionPoints = [];
       this._selectionPreview = null;
       this._selectionStart = null;
@@ -1876,6 +2049,22 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
           maxX = Math.max(maxX, p.x); maxY = Math.max(maxY, p.y);
         }
         return { x: Math.round(minX), y: Math.round(minY), width: Math.round(maxX - minX), height: Math.round(maxY - minY) };
+      } else if (s.type === 'wand' && s.mask) {
+        let minX = s.width, minY = s.height, maxX = 0, maxY = 0;
+        for (let y = 0; y < s.height; y++) {
+          for (let x = 0; x < s.width; x++) {
+            if (s.mask[y * s.width + x]) {
+              if (x < minX) minX = x;
+              if (x > maxX) maxX = x;
+              if (y < minY) minY = y;
+              if (y > maxY) maxY = y;
+            }
+          }
+        }
+        if (maxX >= minX && maxY >= minY) {
+          return { x: minX, y: minY, width: maxX - minX + 1, height: maxY - minY + 1 };
+        }
+        return null;
       } else if (s.type === 'inverted') {
         return { x: 0, y: 0, width: s.docWidth, height: s.docHeight };
       }
@@ -1928,14 +2117,25 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
       const ictx = ic.getContext('2d');
       ictx.clearRect(0, 0, ic.width, ic.height);
       ictx.save();
-      ictx.strokeStyle = '#ffffff';
-      ictx.lineWidth = 1;
-      ictx.setLineDash([4, 4]);
-      ictx.lineDashOffset = -this._selectionAntsOffset;
-      ictx.stroke(this._selectionPath);
-      ictx.strokeStyle = '#000000';
-      ictx.lineDashOffset = -(this._selectionAntsOffset + 4);
-      ictx.stroke(this._selectionPath);
+      if (this._selectionContourPath) {
+        // Wand: static double-line contour (no animation — avoids flicker on many short segments)
+        ictx.lineWidth = 2;
+        ictx.strokeStyle = '#000000';
+        ictx.stroke(this._selectionContourPath);
+        ictx.lineWidth = 1;
+        ictx.strokeStyle = '#ffffff';
+        ictx.stroke(this._selectionContourPath);
+      } else {
+        // Other selections: classic marching ants
+        ictx.strokeStyle = '#ffffff';
+        ictx.lineWidth = 1;
+        ictx.setLineDash([4, 4]);
+        ictx.lineDashOffset = -this._selectionAntsOffset;
+        ictx.stroke(this._selectionPath);
+        ictx.strokeStyle = '#000000';
+        ictx.lineDashOffset = -(this._selectionAntsOffset + 4);
+        ictx.stroke(this._selectionPath);
+      }
       ictx.restore();
     }
 
@@ -2168,6 +2368,133 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
         }
       }
       layer.ctx.putImageData(imgData, 0, 0);
+    }
+
+    // ── Magic Wand Selection ──────────────────────────
+    _magicWandSelect(startX, startY) {
+      const lm = this.layerManager;
+      if (!lm) return;
+      const w = lm.docWidth;
+      const h = lm.docHeight;
+      startX = Math.round(startX);
+      startY = Math.round(startY);
+      if (startX < 0 || startX >= w || startY < 0 || startY >= h) return;
+
+      // Get composite image data from all visible layers
+      const flat = lm.flatten();
+      const imgData = flat.getContext('2d').getImageData(0, 0, w, h);
+      const data = imgData.data;
+
+      const idx = (startY * w + startX) * 4;
+      const targetR = data[idx], targetG = data[idx + 1], targetB = data[idx + 2], targetA = data[idx + 3];
+
+      // Map tolerance 0-100 → 0-255
+      const tol = Math.round(this.wandTolerance * 2.55);
+      const mask = new Uint8Array(w * h);
+      const visited = new Uint8Array(w * h);
+
+      const match = (i) => {
+        const dr = Math.abs(data[i] - targetR);
+        const dg = Math.abs(data[i + 1] - targetG);
+        const db = Math.abs(data[i + 2] - targetB);
+        const da = Math.abs(data[i + 3] - targetA);
+        return Math.max(dr, dg, db, da) <= tol;
+      };
+
+      // Scanline flood fill — builds mask instead of painting pixels
+      const stack = [[startX, startY]];
+      while (stack.length > 0) {
+        let [x, y] = stack.pop();
+        if (visited[y * w + x]) continue;
+
+        // Scan left
+        while (x >= 0 && match((y * w + x) * 4)) x--;
+        x++;
+        let spanAbove = false, spanBelow = false;
+        while (x < w && match((y * w + x) * 4)) {
+          const pi = y * w + x;
+          mask[pi] = 1;
+          visited[pi] = 1;
+
+          if (y > 0) {
+            const aboveMatch = match(((y - 1) * w + x) * 4);
+            if (!spanAbove && aboveMatch && !visited[(y - 1) * w + x]) {
+              stack.push([x, y - 1]);
+              spanAbove = true;
+            } else if (!aboveMatch) {
+              spanAbove = false;
+            }
+          }
+          if (y < h - 1) {
+            const belowMatch = match(((y + 1) * w + x) * 4);
+            if (!spanBelow && belowMatch && !visited[(y + 1) * w + x]) {
+              stack.push([x, y + 1]);
+              spanBelow = true;
+            } else if (!belowMatch) {
+              spanBelow = false;
+            }
+          }
+          x++;
+        }
+      }
+
+      this.selection = { type: 'wand', mask, width: w, height: h };
+      this._buildSelectionPath();
+      // Build contour-only path for marching ants (the rect-based _selectionPath is for clip)
+      this._selectionContourPath = this._buildWandContour(mask, w, h);
+      this._startMarchingAnts();
+    }
+
+    _buildWandContour(mask, w, h) {
+      const path = new Path2D();
+      for (let y = 0; y < h; y++) {
+        // Horizontal top edges: merge consecutive segments
+        let rx = -1;
+        for (let x = 0; x <= w; x++) {
+          const sel = x < w && mask[y * w + x];
+          const above = y > 0 && x < w && mask[(y - 1) * w + x];
+          if (sel && !above) {
+            if (rx < 0) rx = x;
+          } else {
+            if (rx >= 0) { path.moveTo(rx, y); path.lineTo(x, y); rx = -1; }
+          }
+        }
+        // Horizontal bottom edges
+        rx = -1;
+        for (let x = 0; x <= w; x++) {
+          const sel = x < w && mask[y * w + x];
+          const below = y < h - 1 && x < w && mask[(y + 1) * w + x];
+          if (sel && !below) {
+            if (rx < 0) rx = x;
+          } else {
+            if (rx >= 0) { path.moveTo(rx, y + 1); path.lineTo(x, y + 1); rx = -1; }
+          }
+        }
+      }
+      // Vertical left & right edges: merge consecutive segments
+      for (let x = 0; x < w; x++) {
+        let ry = -1;
+        for (let y = 0; y <= h; y++) {
+          const sel = y < h && mask[y * w + x];
+          const left = x > 0 && y < h && mask[y * w + x - 1];
+          if (sel && !left) {
+            if (ry < 0) ry = y;
+          } else {
+            if (ry >= 0) { path.moveTo(x, ry); path.lineTo(x, y); ry = -1; }
+          }
+        }
+        ry = -1;
+        for (let y = 0; y <= h; y++) {
+          const sel = y < h && mask[y * w + x];
+          const right = x < w - 1 && y < h && mask[y * w + x + 1];
+          if (sel && !right) {
+            if (ry < 0) ry = y;
+          } else {
+            if (ry >= 0) { path.moveTo(x + 1, ry); path.lineTo(x + 1, y); ry = -1; }
+          }
+        }
+      }
+      return path;
     }
 
     _hexToRgb(hex) {
