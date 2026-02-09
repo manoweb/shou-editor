@@ -93,6 +93,12 @@
       'tool.zoomIn': 'Zoom in',
       'tool.zoomOut': 'Zoom out',
       'tool.zoomFit': 'Fit to window',
+      'opt.fontWeight': 'Weight',
+      'opt.fontStyle': 'Style',
+      'opt.letterSpacing': 'Spacing',
+      'opt.lineHeight': 'Line height',
+      'opt.textDecoration': 'Decoration',
+      'opt.align': 'Align',
     },
     es: {
       'tool.undo': 'Deshacer',
@@ -163,6 +169,12 @@
       'tool.zoomIn': 'Ampliar',
       'tool.zoomOut': 'Reducir',
       'tool.zoomFit': 'Ajustar a ventana',
+      'opt.fontWeight': 'Grosor',
+      'opt.fontStyle': 'Estilo',
+      'opt.letterSpacing': 'Espaciado',
+      'opt.lineHeight': 'Interlineado',
+      'opt.textDecoration': 'Decoración',
+      'opt.align': 'Alinear',
     }
   };
 
@@ -262,19 +274,64 @@
     _renderText() {
       if (!this.textData) return;
       const td = this.textData;
-      this.ctx.clearRect(0, 0, this.width, this.height);
-      this.ctx.fillStyle = td.color || '#000000';
-      this.ctx.font = `${td.fontSize || 24}px ${td.fontFamily || 'Arial'}`;
-      this.ctx.textBaseline = 'top';
-      this.ctx.textAlign = td.align || 'left';
-      const lineHeight = (td.fontSize || 24) * (td.lineHeight || 1.2);
+      const ctx = this.ctx;
+      ctx.clearRect(0, 0, this.width, this.height);
+      ctx.fillStyle = td.color || '#000000';
+      const fStyle = td.fontStyle || 'normal';
+      const fWeight = td.fontWeight || 'normal';
+      const fSize = td.fontSize || 24;
+      const fFamily = td.fontFamily || 'Arial';
+      ctx.font = `${fStyle} ${fWeight} ${fSize}px ${fFamily}`;
+      ctx.textBaseline = 'top';
+      ctx.textAlign = td.align || 'left';
+      const lSpacing = td.letterSpacing || 0;
+      if (typeof ctx.letterSpacing !== 'undefined') {
+        ctx.letterSpacing = lSpacing + 'px';
+      }
+      const lineH = fSize * (td.lineHeight || 1.2);
       const lines = (td.text || '').split('\n');
       let xBase = td.x || 0;
       if (td.align === 'center') xBase = this.width / 2;
       else if (td.align === 'right') xBase = this.width;
+      const deco = td.textDecoration || 'none';
       lines.forEach((line, i) => {
-        this.ctx.fillText(line, xBase, (td.y || 0) + i * lineHeight);
+        const yPos = (td.y || 0) + i * lineH;
+        // Manual letter spacing fallback if API not supported
+        if (lSpacing !== 0 && typeof ctx.letterSpacing === 'undefined') {
+          let cx = xBase;
+          const align = td.align || 'left';
+          if (align === 'center' || align === 'right') {
+            let totalW = 0;
+            for (let c = 0; c < line.length; c++) totalW += ctx.measureText(line[c]).width + (c < line.length - 1 ? lSpacing : 0);
+            if (align === 'center') cx -= totalW / 2;
+            else cx -= totalW;
+          }
+          const savedAlign = ctx.textAlign;
+          ctx.textAlign = 'left';
+          for (let c = 0; c < line.length; c++) {
+            ctx.fillText(line[c], cx, yPos);
+            cx += ctx.measureText(line[c]).width + lSpacing;
+          }
+          ctx.textAlign = savedAlign;
+        } else {
+          ctx.fillText(line, xBase, yPos);
+        }
+        // Text decoration
+        if (deco !== 'none' && line.length > 0) {
+          const metrics = ctx.measureText(line);
+          let lx = xBase;
+          const tw = metrics.width;
+          const align = td.align || 'left';
+          if (align === 'center') lx -= tw / 2;
+          else if (align === 'right') lx -= tw;
+          let dy = 0;
+          if (deco === 'underline') dy = yPos + fSize * 0.95;
+          else if (deco === 'line-through') dy = yPos + fSize * 0.55;
+          ctx.fillRect(lx, dy, tw, Math.max(1, fSize / 16));
+        }
       });
+      // Reset letterSpacing
+      if (typeof ctx.letterSpacing !== 'undefined') ctx.letterSpacing = '0px';
     }
 
     resize(w, h) {
@@ -632,6 +689,15 @@
 .jsie-tool-options select{height:24px;background:var(--jsie-input-bg);border:1px solid var(--jsie-border);color:var(--jsie-text);border-radius:3px;padding:0 4px;font-size:11px}
 .jsie-tool-options .jsie-opt-check{display:flex;align-items:center;gap:3px}
 .jsie-tool-options .jsie-opt-check input[type="checkbox"]{width:auto;height:auto}
+.jsie-text-opts{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
+.jsie-text-opts label{color:var(--jsie-text2);font-size:10px;white-space:nowrap}
+.jsie-text-opts select{height:22px;background:var(--jsie-input-bg);border:1px solid var(--jsie-border);color:var(--jsie-text);border-radius:3px;padding:0 4px;font-size:10px;max-width:120px}
+.jsie-text-opts input[type="color"]{width:24px;height:22px;border:1px solid var(--jsie-border);border-radius:3px;padding:1px;cursor:pointer;background:transparent}
+.jsie-text-opts input[type="number"]{width:46px;height:22px;background:var(--jsie-input-bg);border:1px solid var(--jsie-border);color:var(--jsie-text);border-radius:3px;padding:0 4px;font-size:10px}
+.jsie-text-opts .jsie-sep-v{width:1px;height:16px;background:var(--jsie-border);display:inline-block}
+.jsie-text-opts .jsie-align-btn{width:24px;height:22px;border:1px solid var(--jsie-border);background:var(--jsie-input-bg);color:var(--jsie-text);border-radius:3px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0}
+.jsie-text-opts .jsie-align-btn.active{background:var(--jsie-accent);color:#fff;border-color:var(--jsie-accent)}
+.jsie-text-opts .jsie-align-btn svg{width:14px;height:14px;fill:currentColor}
 
 /* Buttons */
 .jsie-btn{display:flex;align-items:center;justify-content:center;width:30px;height:30px;border:none;background:transparent;color:var(--jsie-text);border-radius:4px;cursor:pointer;padding:0;transition:background .15s}
@@ -921,6 +987,12 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
       this.strokeSize = 3;
       this.fontSize = 24;
       this.fontFamily = 'Arial';
+      this.fontWeight = 'normal';
+      this.fontStyle = 'normal';
+      this.letterSpacing = 0;
+      this.lineHeight = 1.2;
+      this.textAlign = 'left';
+      this.textDecoration = 'none';
       this.history = [];
       this.historyIndex = -1;
       this.shapeStart = null;
@@ -1178,6 +1250,7 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
         this.layerManager.setActive(id);
         this._renderLayersList();
         this._updateLayerOpacityUI();
+        this._redraw();
       });
 
       // Toggle visibility
@@ -1435,8 +1508,14 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
           ctx.lineCap = 'round';
           ctx.lineJoin = 'round';
         } else if (this.currentTool === 'text') {
-          this._placeText(pos);
           this.drawing = false;
+          const hitText = this._findTextLayerAt(pos);
+          if (hitText) {
+            this.layerManager.setActive(hitText.id);
+            this._editTextLayer(hitText);
+          } else {
+            this._placeText(pos);
+          }
         } else if (this.currentTool === 'crop') {
           this.drawing = false;
         } else {
@@ -1629,6 +1708,14 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
       ic.addEventListener('dblclick', e => {
         if (this.currentTool === 'selectPoly' && this._selectionPoints.length > 2) {
           this._finalizePolySelection();
+          return;
+        }
+        const pos = this._canvasPos(e);
+        const hitText = this._findTextLayerAt(pos);
+        if (hitText) {
+          this.layerManager.setActive(hitText.id);
+          this._renderLayersList();
+          this._editTextLayer(hitText);
         }
       });
     }
@@ -1745,6 +1832,12 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
       if (!this.layerManager) return;
       this.layerManager.composite(this.mainCtx);
       this._applyFilters();
+      // Draw layer bounds when no selection is active (no marching ants to conflict with)
+      if (!this._selectionAnimFrame && this.interactionCanvas) {
+        const ictx = this.interactionCanvas.getContext('2d');
+        ictx.clearRect(0, 0, this.interactionCanvas.width, this.interactionCanvas.height);
+        this._drawLayerBounds(ictx);
+      }
     }
 
     _applyFilters() {
@@ -1756,6 +1849,41 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
       } else {
         this.mainCanvas.style.filter = '';
       }
+    }
+
+    // ── Layer bounds ──────────────────────────────
+    _getLayerContentBounds(layer) {
+      if (!layer || layer.type === 'group') return null;
+      const w = layer.width, h = layer.height;
+      if (!w || !h) return null;
+      const data = layer.ctx.getImageData(0, 0, w, h).data;
+      let minX = w, minY = h, maxX = -1, maxY = -1;
+      for (let y = 0; y < h; y++) {
+        for (let x = 0; x < w; x++) {
+          if (data[(y * w + x) * 4 + 3] > 0) {
+            if (x < minX) minX = x;
+            if (x > maxX) maxX = x;
+            if (y < minY) minY = y;
+            if (y > maxY) maxY = y;
+          }
+        }
+      }
+      if (maxX < 0) return null;
+      return { x: minX, y: minY, width: maxX - minX + 1, height: maxY - minY + 1 };
+    }
+
+    _drawLayerBounds(ictx) {
+      if (!this.layerManager) return;
+      const layer = this.layerManager.activeLayer;
+      if (!layer || !layer.visible) return;
+      const bounds = this._getLayerContentBounds(layer);
+      if (!bounds) return;
+      ictx.save();
+      ictx.strokeStyle = 'rgba(0,150,255,0.7)';
+      ictx.lineWidth = 1;
+      ictx.setLineDash([4, 4]);
+      ictx.strokeRect(bounds.x + 0.5, bounds.y + 0.5, bounds.width - 1, bounds.height - 1);
+      ictx.restore();
     }
 
     // ── Tools ─────────────────────────────────────
@@ -1874,9 +2002,19 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
           html += `<input type="color" id="jsie-opt-fill-color" value="${this.fillColor}">`;
         }
       } else if (tool === 'text') {
-        html += `<label>${t('opt.color')}</label><input type="color" id="jsie-opt-color" value="${this.drawColor}">`;
-        html += `<label>${t('opt.font')}</label><select id="jsie-opt-font"><option value="Arial">Arial</option><option value="Georgia">Georgia</option><option value="Courier New">Courier New</option><option value="Times New Roman">Times New Roman</option><option value="Verdana">Verdana</option></select>`;
-        html += `<label>${t('opt.fontSize')}</label><input type="number" id="jsie-opt-fontsize" value="${this.fontSize}" min="8" max="200">`;
+        const fonts = ['Arial','Helvetica','Verdana','Tahoma','Trebuchet MS','Georgia','Times New Roman','Courier New','Lucida Console','Impact','Comic Sans MS','Palatino','Garamond','Bookman'];
+        const fontOpts = fonts.map(f => `<option value="${f}"${f === this.fontFamily ? ' selected' : ''}>${f}</option>`).join('');
+        html += `<div class="jsie-text-opts">`;
+        html += `<div class="jsie-text-row"><label>${t('opt.color')}</label><input type="color" id="jsie-opt-color" value="${this.drawColor}"></div>`;
+        html += `<div class="jsie-text-row"><label>${t('opt.font')}</label><select id="jsie-opt-font">${fontOpts}</select></div>`;
+        html += `<div class="jsie-text-row"><label>${t('opt.fontWeight')}</label><select id="jsie-opt-weight"><option value="300"${this.fontWeight==='300'?' selected':''}>Light</option><option value="normal"${this.fontWeight==='normal'?' selected':''}>Regular</option><option value="500"${this.fontWeight==='500'?' selected':''}>Medium</option><option value="bold"${this.fontWeight==='bold'?' selected':''}>Bold</option><option value="900"${this.fontWeight==='900'?' selected':''}>Black</option></select></div>`;
+        html += `<div class="jsie-text-row"><label>${t('opt.fontStyle')}</label><select id="jsie-opt-style"><option value="normal"${this.fontStyle==='normal'?' selected':''}>Normal</option><option value="italic"${this.fontStyle==='italic'?' selected':''}>Italic</option></select></div>`;
+        html += `<div class="jsie-text-row"><label>${t('opt.fontSize')}</label><input type="number" id="jsie-opt-fontsize" value="${this.fontSize}" min="8" max="200" style="width:56px"></div>`;
+        html += `<div class="jsie-text-row"><label>${t('opt.letterSpacing')}</label><input type="number" id="jsie-opt-spacing" value="${this.letterSpacing}" min="-5" max="20" step="0.5" style="width:56px"></div>`;
+        html += `<div class="jsie-text-row"><label>${t('opt.lineHeight')}</label><input type="number" id="jsie-opt-lineheight" value="${this.lineHeight}" min="0.5" max="3" step="0.1" style="width:56px"></div>`;
+        html += `<div class="jsie-text-row"><label>${t('opt.textDecoration')}</label><select id="jsie-opt-decoration"><option value="none"${this.textDecoration==='none'?' selected':''}>None</option><option value="underline"${this.textDecoration==='underline'?' selected':''}>Underline</option><option value="line-through"${this.textDecoration==='line-through'?' selected':''}>Strikethrough</option></select></div>`;
+        html += `<div class="jsie-text-row"><label>${t('opt.align')}</label><span class="jsie-align-btns"><button type="button" class="jsie-align-btn${this.textAlign==='left'?' active':''}" data-align="left" title="Left">&#9776;</button><button type="button" class="jsie-align-btn${this.textAlign==='center'?' active':''}" data-align="center" title="Center">&#9776;</button><button type="button" class="jsie-align-btn${this.textAlign==='right'?' active':''}" data-align="right" title="Right">&#9776;</button></span></div>`;
+        html += `</div>`;
       } else if (tool === 'fill') {
         html += `<label>${t('opt.color')}</label><input type="color" id="jsie-opt-color" value="${this.drawColor}">`;
         html += `<label>${t('opt.tolerance')}</label><input type="range" id="jsie-opt-tolerance" min="0" max="100" value="${this.fillTolerance}">`;
@@ -1922,6 +2060,27 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
         on(optFont, 'change', () => { this.fontFamily = optFont.value; });
       }
       if (optFontSize) on(optFontSize, 'input', () => { this.fontSize = parseInt(optFontSize.value); });
+
+      // Text advanced options
+      const optWeight = $('#jsie-opt-weight', this.root);
+      const optStyle = $('#jsie-opt-style', this.root);
+      const optSpacing = $('#jsie-opt-spacing', this.root);
+      const optLineH = $('#jsie-opt-lineheight', this.root);
+      const optDeco = $('#jsie-opt-decoration', this.root);
+      if (optWeight) on(optWeight, 'change', () => { this.fontWeight = optWeight.value; });
+      if (optStyle) on(optStyle, 'change', () => { this.fontStyle = optStyle.value; });
+      if (optSpacing) on(optSpacing, 'input', () => { this.letterSpacing = parseFloat(optSpacing.value); });
+      if (optLineH) on(optLineH, 'input', () => { this.lineHeight = parseFloat(optLineH.value); });
+      if (optDeco) on(optDeco, 'change', () => { this.textDecoration = optDeco.value; });
+      // Align buttons
+      const alignBtns = $$('.jsie-align-btn', this.root);
+      alignBtns.forEach(btn => {
+        on(btn, 'click', () => {
+          this.textAlign = btn.dataset.align;
+          alignBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+        });
+      });
       if (optTolerance) on(optTolerance, 'input', () => { this.fillTolerance = parseInt(optTolerance.value); });
       if (optGrad1) on(optGrad1, 'input', () => { this.gradientColor1 = optGrad1.value; });
       if (optGrad2) on(optGrad2, 'input', () => { this.gradientColor2 = optGrad2.value; });
@@ -2115,6 +2274,7 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
       if (this.interactionCanvas) {
         const ictx = this.interactionCanvas.getContext('2d');
         ictx.clearRect(0, 0, this.interactionCanvas.width, this.interactionCanvas.height);
+        this._drawLayerBounds(ictx);
       }
     }
 
@@ -2123,6 +2283,7 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
       const ic = this.interactionCanvas;
       const ictx = ic.getContext('2d');
       ictx.clearRect(0, 0, ic.width, ic.height);
+      this._drawLayerBounds(ictx);
       ictx.save();
       if (this._selectionContourPath) {
         // Wand: static double-line contour (no animation — avoids flicker on many short segments)
@@ -2536,6 +2697,22 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
     }
 
     // ── Text Tool ─────────────────────────────────
+    _findTextLayerAt(pos) {
+      if (!this.layerManager) return null;
+      const layers = this.layerManager.layers;
+      // Search from top to bottom (last = topmost)
+      for (let i = layers.length - 1; i >= 0; i--) {
+        const l = layers[i];
+        if (l.type !== 'text' || !l.visible || !l.textData) continue;
+        const bounds = this._getLayerContentBounds(l);
+        if (!bounds) continue;
+        if (pos.x >= bounds.x && pos.x <= bounds.x + bounds.width &&
+            pos.y >= bounds.y && pos.y <= bounds.y + bounds.height) {
+          return l;
+        }
+      }
+      return null;
+    }
     _placeText(pos) {
       const existing = $('.jsie-text-input-overlay', this.canvasWrap);
       if (existing) existing.remove();
@@ -2552,6 +2729,12 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
       ta.style.fontSize = (this.fontSize * scaleY) + 'px';
       ta.style.fontFamily = this.fontFamily;
       ta.style.color = this.drawColor;
+      ta.style.fontWeight = this.fontWeight;
+      ta.style.fontStyle = this.fontStyle;
+      ta.style.letterSpacing = this.letterSpacing + 'px';
+      ta.style.textDecoration = this.textDecoration;
+      ta.style.textAlign = this.textAlign;
+      ta.style.lineHeight = this.lineHeight;
       ta.rows = 1;
       ta.cols = 20;
       overlay.appendChild(ta);
@@ -2581,8 +2764,12 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
         color: this.drawColor,
         fontSize: this.fontSize,
         fontFamily: this.fontFamily,
-        align: 'left',
-        lineHeight: 1.2
+        align: this.textAlign,
+        lineHeight: this.lineHeight,
+        fontWeight: this.fontWeight,
+        fontStyle: this.fontStyle,
+        letterSpacing: this.letterSpacing,
+        textDecoration: this.textDecoration
       };
       const layer = new Layer({
         name: 'T: ' + text.substring(0, 15),
@@ -2616,10 +2803,28 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
       overlay.style.left = (td.x * scaleX) + 'px';
       overlay.style.top = (td.y * scaleY) + 'px';
 
+      // Load saved text properties into current controls
+      this.drawColor = td.color || this.drawColor;
+      this.fontFamily = td.fontFamily || this.fontFamily;
+      this.fontSize = td.fontSize || this.fontSize;
+      this.fontWeight = td.fontWeight || 'normal';
+      this.fontStyle = td.fontStyle || 'normal';
+      this.letterSpacing = td.letterSpacing || 0;
+      this.lineHeight = td.lineHeight || 1.2;
+      this.textAlign = td.align || 'left';
+      this.textDecoration = td.textDecoration || 'none';
+      this._renderToolOptions();
+
       const ta = document.createElement('textarea');
       ta.style.fontSize = (td.fontSize * scaleY) + 'px';
       ta.style.fontFamily = td.fontFamily;
       ta.style.color = td.color;
+      ta.style.fontWeight = td.fontWeight || 'normal';
+      ta.style.fontStyle = td.fontStyle || 'normal';
+      ta.style.letterSpacing = (td.letterSpacing || 0) + 'px';
+      ta.style.textDecoration = td.textDecoration || 'none';
+      ta.style.textAlign = td.align || 'left';
+      ta.style.lineHeight = td.lineHeight || 1.2;
       ta.value = td.text;
       ta.rows = 2;
       ta.cols = 20;
@@ -2637,6 +2842,12 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
             td.color = this.drawColor;
             td.fontSize = this.fontSize;
             td.fontFamily = this.fontFamily;
+            td.fontWeight = this.fontWeight;
+            td.fontStyle = this.fontStyle;
+            td.letterSpacing = this.letterSpacing;
+            td.lineHeight = this.lineHeight;
+            td.align = this.textAlign;
+            td.textDecoration = this.textDecoration;
             layer.name = 'T: ' + text.substring(0, 15);
             layer._renderText();
             this.pushHistory();
