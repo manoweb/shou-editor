@@ -114,6 +114,19 @@
       'effect.outerGlow': 'Outer Glow',
       'effect.stroke': 'Stroke',
       'effect.colorOverlay': 'Color Overlay',
+      'effect.border': 'Border',
+      'effect.gradientOverlay': 'Gradient Overlay',
+      'effect.borderStyle': 'Style',
+      'effect.borderRadius': 'Radius',
+      'effect.gradientType': 'Type',
+      'effect.gradientAngle': 'Angle',
+      'effect.color1': 'Color 1',
+      'effect.color2': 'Color 2',
+      'effect.linear': 'Linear',
+      'effect.radial': 'Radial',
+      'effect.solid': 'Solid',
+      'effect.dashed': 'Dashed',
+      'effect.dotted': 'Dotted',
       'effect.color': 'Color',
       'effect.opacity': 'Opacity',
       'effect.blur': 'Blur',
@@ -129,6 +142,33 @@
       'fonts.loading': 'Loading…',
       'fonts.loaded': 'Loaded fonts',
       'fonts.popular': 'Popular fonts',
+      'menu.file': 'File',
+      'menu.edit': 'Edit',
+      'menu.image': 'Image',
+      'menu.layer': 'Layer',
+      'menu.select': 'Select',
+      'menu.view': 'View',
+      'menu.help': 'Help',
+      'menu.about': 'About Shou Editor',
+      'menu.shortcuts': 'Keyboard Shortcuts',
+      'menu.newLayer': 'New Layer',
+      'menu.deleteLayer': 'Delete Layer',
+      'menu.duplicateLayer': 'Duplicate Layer',
+      'menu.newGroup': 'New Group',
+      'menu.layerStyles': 'Layer Styles',
+      'menu.resizeLayer': 'Resize Layer',
+      'menu.transform': 'Transform',
+      'menu.filters': 'Filters',
+      'menu.panels': 'Panels',
+      'menu.showLayers': 'Layers Panel',
+      'menu.showFilters': 'Filters Panel',
+      'menu.showStatusBar': 'Status Bar',
+      'menu.cut': 'Cut',
+      'menu.copy': 'Copy',
+      'menu.paste': 'Paste',
+      'menu.delete': 'Delete',
+      'menu.saveProject': 'Save Project',
+      'menu.openProject': 'Open Project',
     },
     es: {
       'tool.undo': 'Deshacer',
@@ -220,6 +260,19 @@
       'effect.outerGlow': 'Resplandor Exterior',
       'effect.stroke': 'Trazo',
       'effect.colorOverlay': 'Superposición de Color',
+      'effect.border': 'Borde',
+      'effect.gradientOverlay': 'Degradado',
+      'effect.borderStyle': 'Estilo',
+      'effect.borderRadius': 'Radio',
+      'effect.gradientType': 'Tipo',
+      'effect.gradientAngle': 'Ángulo',
+      'effect.color1': 'Color 1',
+      'effect.color2': 'Color 2',
+      'effect.linear': 'Lineal',
+      'effect.radial': 'Radial',
+      'effect.solid': 'Sólido',
+      'effect.dashed': 'Discontinuo',
+      'effect.dotted': 'Punteado',
       'effect.color': 'Color',
       'effect.opacity': 'Opacidad',
       'effect.blur': 'Desenfoque',
@@ -235,6 +288,33 @@
       'fonts.loading': 'Cargando…',
       'fonts.loaded': 'Fuentes cargadas',
       'fonts.popular': 'Fuentes populares',
+      'menu.file': 'Archivo',
+      'menu.edit': 'Editar',
+      'menu.image': 'Imagen',
+      'menu.layer': 'Capa',
+      'menu.select': 'Selección',
+      'menu.view': 'Vista',
+      'menu.help': 'Ayuda',
+      'menu.about': 'Acerca de Shou Editor',
+      'menu.shortcuts': 'Atajos de teclado',
+      'menu.newLayer': 'Nueva capa',
+      'menu.deleteLayer': 'Eliminar capa',
+      'menu.duplicateLayer': 'Duplicar capa',
+      'menu.newGroup': 'Nuevo grupo',
+      'menu.layerStyles': 'Estilos de capa',
+      'menu.resizeLayer': 'Redimensionar capa',
+      'menu.transform': 'Transformar',
+      'menu.filters': 'Filtros',
+      'menu.panels': 'Paneles',
+      'menu.showLayers': 'Panel de capas',
+      'menu.showFilters': 'Panel de filtros',
+      'menu.showStatusBar': 'Barra de estado',
+      'menu.cut': 'Cortar',
+      'menu.copy': 'Copiar',
+      'menu.paste': 'Pegar',
+      'menu.delete': 'Eliminar',
+      'menu.saveProject': 'Guardar proyecto',
+      'menu.openProject': 'Abrir proyecto',
     }
   };
 
@@ -307,7 +387,9 @@
         innerShadow:  { enabled: false, offsetX: 5, offsetY: 5, blur: 10, color: '#000000', opacity: 0.75 },
         outerGlow:    { enabled: false, blur: 10, color: '#ffffff', opacity: 0.75 },
         stroke:       { enabled: false, size: 3, color: '#000000', position: 'outside' },
-        colorOverlay: { enabled: false, color: '#ff0000', opacity: 0.5, blendMode: 'normal' }
+        colorOverlay: { enabled: false, color: '#ff0000', opacity: 0.5, blendMode: 'normal' },
+        border:       { enabled: false, size: 2, color: '#000000', style: 'solid', radius: 0, opacity: 1 },
+        gradientOverlay: { enabled: false, color1: '#000000', color2: '#ffffff', type: 'linear', angle: 0, opacity: 0.75 }
       };
       this.width = options.width || 0;
       this.height = options.height || 0;
@@ -468,6 +550,68 @@
         s.imageData = this.ctx.getImageData(0, 0, this.width, this.height);
       }
       return s;
+    }
+
+    serializeForProject() {
+      const s = {
+        id: this.id,
+        name: this.name,
+        visible: this.visible,
+        opacity: this.opacity,
+        locked: this.locked,
+        blendMode: this.blendMode,
+        width: this.width,
+        height: this.height,
+        type: this.type,
+        textData: this.textData ? { ...this.textData } : null,
+        parentId: this.parentId,
+        collapsed: this.collapsed,
+        effects: JSON.parse(JSON.stringify(this.effects)),
+      };
+      if (this.type === 'group') {
+        s.children = this.children.map(c => c.serializeForProject());
+      } else {
+        s.imageDataURL = this.canvas.toDataURL('image/png');
+      }
+      return s;
+    }
+
+    static deserializeFromProject(data) {
+      return new Promise(resolve => {
+        const layer = new Layer({
+          name: data.name,
+          width: data.width,
+          height: data.height,
+          visible: data.visible,
+          opacity: data.opacity,
+          blendMode: data.blendMode,
+          type: data.type || 'raster',
+          textData: data.textData ? { ...data.textData } : null,
+          parentId: data.parentId || null,
+          effects: data.effects || undefined,
+        });
+        layer.id = data.id;
+        layer.locked = data.locked;
+        layer.collapsed = !!data.collapsed;
+        if (data.type === 'group' && data.children) {
+          Promise.all(data.children.map(c => Layer.deserializeFromProject(c))).then(children => {
+            layer.children = children;
+            resolve(layer);
+          });
+        } else if (data.imageDataURL) {
+          const img = new Image();
+          img.onload = () => {
+            layer.ctx.drawImage(img, 0, 0);
+            if (layer.type === 'text' && layer.textData) layer._renderText();
+            resolve(layer);
+          };
+          img.onerror = () => resolve(layer);
+          img.src = data.imageDataURL;
+        } else {
+          if (layer.type === 'text' && layer.textData) layer._renderText();
+          resolve(layer);
+        }
+      });
     }
 
     static deserialize(data) {
@@ -831,6 +975,89 @@
         rctx.globalCompositeOperation = 'source-over';
       }
 
+      // 6. Gradient Overlay (on top, masked to layer content)
+      if (fx.gradientOverlay && fx.gradientOverlay.enabled) {
+        const go = fx.gradientOverlay;
+        const goC = document.createElement('canvas');
+        goC.width = w; goC.height = h;
+        const gctx = goC.getContext('2d');
+        let grad;
+        if (go.type === 'radial') {
+          const cx = w / 2, cy = h / 2, r = Math.max(w, h) / 2;
+          grad = gctx.createRadialGradient(cx, cy, 0, cx, cy, r);
+        } else {
+          const angle = (go.angle || 0) * Math.PI / 180;
+          const cx = w / 2, cy = h / 2;
+          const len = Math.max(w, h) / 2;
+          const x1 = cx - Math.cos(angle) * len;
+          const y1 = cy - Math.sin(angle) * len;
+          const x2 = cx + Math.cos(angle) * len;
+          const y2 = cy + Math.sin(angle) * len;
+          grad = gctx.createLinearGradient(x1, y1, x2, y2);
+        }
+        grad.addColorStop(0, go.color1);
+        grad.addColorStop(1, go.color2);
+        gctx.fillStyle = grad;
+        gctx.fillRect(0, 0, w, h);
+        // Mask to layer content
+        gctx.globalCompositeOperation = 'destination-in';
+        gctx.drawImage(src, 0, 0);
+        rctx.globalAlpha = go.opacity;
+        rctx.drawImage(goC, 0, 0);
+        rctx.globalAlpha = 1;
+      }
+
+      // 7. Border (on top, drawn around layer bounds)
+      if (fx.border && fx.border.enabled) {
+        const bd = fx.border;
+        rctx.save();
+        rctx.globalAlpha = bd.opacity;
+        // Find bounding box of non-transparent pixels
+        const imgData = src.getContext('2d').getImageData(0, 0, w, h);
+        const alpha = imgData.data;
+        let minX = w, minY = h, maxX = 0, maxY = 0;
+        for (let y = 0; y < h; y++) {
+          for (let x = 0; x < w; x++) {
+            if (alpha[(y * w + x) * 4 + 3] > 0) {
+              if (x < minX) minX = x;
+              if (x > maxX) maxX = x;
+              if (y < minY) minY = y;
+              if (y > maxY) maxY = y;
+            }
+          }
+        }
+        if (maxX >= minX && maxY >= minY) {
+          const bw = maxX - minX + 1;
+          const bh = maxY - minY + 1;
+          rctx.strokeStyle = bd.color;
+          rctx.lineWidth = bd.size;
+          if (bd.style === 'dashed') rctx.setLineDash([bd.size * 3, bd.size * 2]);
+          else if (bd.style === 'dotted') rctx.setLineDash([bd.size, bd.size]);
+          else rctx.setLineDash([]);
+          const half = bd.size / 2;
+          if (bd.radius > 0) {
+            const r = Math.min(bd.radius, bw / 2, bh / 2);
+            const rx = minX - half, ry = minY - half, rw = bw + bd.size, rh = bh + bd.size;
+            rctx.beginPath();
+            rctx.moveTo(rx + r, ry);
+            rctx.lineTo(rx + rw - r, ry);
+            rctx.quadraticCurveTo(rx + rw, ry, rx + rw, ry + r);
+            rctx.lineTo(rx + rw, ry + rh - r);
+            rctx.quadraticCurveTo(rx + rw, ry + rh, rx + rw - r, ry + rh);
+            rctx.lineTo(rx + r, ry + rh);
+            rctx.quadraticCurveTo(rx, ry + rh, rx, ry + rh - r);
+            rctx.lineTo(rx, ry + r);
+            rctx.quadraticCurveTo(rx, ry, rx + r, ry);
+            rctx.closePath();
+            rctx.stroke();
+          } else {
+            rctx.strokeRect(minX - half, minY - half, bw + bd.size, bh + bd.size);
+          }
+          rctx.setLineDash([]);
+        }
+        rctx.restore();
+      }
+
       return result;
     }
 
@@ -900,6 +1127,22 @@
       this.activeLayerId = data.activeLayerId;
       this.layers = data.layers.map(d => Layer.deserialize(d));
     }
+
+    serializeForProject() {
+      return {
+        docWidth: this.docWidth,
+        docHeight: this.docHeight,
+        activeLayerId: this.activeLayerId,
+        layers: this.layers.map(l => l.serializeForProject())
+      };
+    }
+
+    async restoreFromProject(data) {
+      this.docWidth = data.docWidth;
+      this.docHeight = data.docHeight;
+      this.activeLayerId = data.activeLayerId;
+      this.layers = await Promise.all(data.layers.map(d => Layer.deserializeFromProject(d)));
+    }
   }
 
   // ── CSS ───────────────────────────────────────────
@@ -911,6 +1154,25 @@
 /* Theme vars */
 .jsie-editor.theme-dark{--jsie-bg:#1e1e1e;--jsie-bg2:#252526;--jsie-bg3:#2d2d2d;--jsie-text:#d4d4d4;--jsie-text2:#858585;--jsie-border:#3c3c3c;--jsie-accent:#007acc;--jsie-hover:#2a2d2e;--jsie-btn:#3c3c3c;--jsie-btn-hover:#4c4c4c;--jsie-input-bg:#3c3c3c;--jsie-slider-track:#555;--jsie-slider-thumb:#007acc;--jsie-layer-active:#094771}
 .jsie-editor.theme-light{--jsie-bg:#ffffff;--jsie-bg2:#f3f3f3;--jsie-bg3:#e8e8e8;--jsie-text:#1e1e1e;--jsie-text2:#666;--jsie-border:#e0e0e0;--jsie-accent:#007acc;--jsie-hover:#e8e8e8;--jsie-btn:#e0e0e0;--jsie-btn-hover:#d0d0d0;--jsie-input-bg:#fff;--jsie-slider-track:#ccc;--jsie-slider-thumb:#007acc;--jsie-layer-active:#c8e1ff}
+
+/* Menu bar */
+.jsie-menubar{display:flex;align-items:center;padding:0 4px;background:var(--jsie-bg2);border-bottom:1px solid var(--jsie-border);height:26px;gap:0;position:relative;z-index:10004;flex-shrink:0}
+.jsie-menu-item{padding:3px 10px;cursor:pointer;font-size:12px;color:var(--jsie-text);border-radius:3px;white-space:nowrap;user-select:none;position:relative}
+.jsie-menu-item:hover{background:var(--jsie-hover)}
+.jsie-menu-item.open{background:var(--jsie-accent);color:#fff}
+.jsie-menu-dropdown{position:absolute;top:100%;left:0;min-width:220px;background:var(--jsie-bg2);border:1px solid var(--jsie-border);border-radius:4px;box-shadow:0 6px 20px rgba(0,0,0,.35);z-index:10005;padding:4px 0;margin-top:1px}
+.jsie-menu-entry{display:flex;align-items:center;padding:5px 12px 5px 10px;cursor:pointer;font-size:12px;color:var(--jsie-text);gap:8px;white-space:nowrap;position:relative}
+.jsie-menu-entry:hover{background:var(--jsie-hover)}
+.jsie-menu-entry.disabled{opacity:.4;pointer-events:none}
+.jsie-menu-entry svg{width:16px;height:16px;fill:currentColor;flex-shrink:0}
+.jsie-menu-entry-icon{width:16px;height:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.jsie-menu-entry-label{flex:1}
+.jsie-menu-shortcut{margin-left:auto;font-size:11px;color:var(--jsie-text2);padding-left:20px}
+.jsie-menu-separator{height:1px;background:var(--jsie-border);margin:4px 8px}
+.jsie-menu-sub-arrow{margin-left:auto;font-size:10px;color:var(--jsie-text2)}
+.jsie-menu-has-sub{position:relative}
+.jsie-menu-submenu{position:absolute;left:100%;top:-4px;min-width:180px;background:var(--jsie-bg2);border:1px solid var(--jsie-border);border-radius:4px;box-shadow:0 6px 20px rgba(0,0,0,.35);z-index:10006;padding:4px 0}
+.jsie-menu-check{width:16px;text-align:center;font-size:12px;flex-shrink:0}
 
 /* Options bar (top) */
 .jsie-options-bar{display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--jsie-bg2);border-bottom:1px solid var(--jsie-border);min-height:38px;gap:4px}
@@ -1131,6 +1393,15 @@
     }).join('');
 
     return `
+<div class="jsie-menubar">
+  <div class="jsie-menu-item" data-menu="file">${t('menu.file')}</div>
+  <div class="jsie-menu-item" data-menu="edit">${t('menu.edit')}</div>
+  <div class="jsie-menu-item" data-menu="image">${t('menu.image')}</div>
+  <div class="jsie-menu-item" data-menu="layer">${t('menu.layer')}</div>
+  <div class="jsie-menu-item" data-menu="select">${t('menu.select')}</div>
+  <div class="jsie-menu-item" data-menu="view">${t('menu.view')}</div>
+  <div class="jsie-menu-item" data-menu="help">${t('menu.help')}</div>
+</div>
 <div class="jsie-options-bar">
   <div class="jsie-options-left">
     <button class="jsie-btn" data-action="undo" title="${t('tool.undo')}">${Icons.undo}</button>
@@ -1166,7 +1437,7 @@
     <div class="jsie-empty" id="jsie-empty">
       ${Icons.upload}
       <span>${t('empty.loadImage')}</span>
-      <input type="file" accept="image/*" id="jsie-file-input" style="display:none">
+      <input type="file" accept="image/*,.shoimg" id="jsie-file-input" style="display:none">
     </div>
   </div>
 
@@ -1363,6 +1634,73 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
     bindEvents() {
       const r = this.root;
 
+      // ── Menu bar events ──
+      on(r, 'click', '.jsie-menu-item', (e, item) => {
+        const menuId = item.dataset.menu;
+        if (this._menuOpen === menuId) {
+          this._closeMenus();
+        } else {
+          this._openMenu(menuId, item);
+        }
+        e.stopPropagation();
+      });
+
+      on(r, 'mouseenter', '.jsie-menu-item', (e, item) => {
+        if (this._menuOpen && this._menuOpen !== item.dataset.menu) {
+          this._openMenu(item.dataset.menu, item);
+        }
+      });
+
+      on(r, 'click', '.jsie-menu-entry[data-maction]', (e, entry) => {
+        e.stopPropagation();
+        this._handleMenuAction(entry.dataset.maction, entry.dataset.mparam);
+      });
+
+      on(r, 'click', '.jsie-menu-entry[data-mtool]', (e, entry) => {
+        e.stopPropagation();
+        const tool = entry.dataset.mtool;
+        this.setTool(tool);
+        this._closeMenus();
+      });
+
+      // Submenu hover
+      on(r, 'mouseenter', '.jsie-menu-has-sub', (e, entry) => {
+        // Remove any existing submenus
+        $$('.jsie-menu-submenu', r).forEach(s => s.remove());
+        const submenuId = entry.dataset.submenu;
+        const html = this._buildMenuDropdown(submenuId);
+        if (!html) return;
+        const sub = document.createElement('div');
+        sub.className = 'jsie-menu-submenu';
+        sub.innerHTML = html;
+        entry.appendChild(sub);
+        // Adjust if off-screen
+        const rect = sub.getBoundingClientRect();
+        if (rect.right > window.innerWidth) {
+          sub.style.left = 'auto';
+          sub.style.right = '100%';
+        }
+        if (rect.bottom > window.innerHeight) {
+          sub.style.top = 'auto';
+          sub.style.bottom = '0';
+        }
+      });
+
+      // Close menus on click outside
+      this._closeMenuOnOutside = (e) => {
+        if (this._menuOpen && !e.target.closest('.jsie-menubar')) {
+          this._closeMenus();
+        }
+      };
+      document.addEventListener('mousedown', this._closeMenuOnOutside);
+
+      // Close menus on Escape (handled via existing key handler, but also here)
+      on(r, 'keydown', (e) => {
+        if (e.key === 'Escape' && this._menuOpen) {
+          this._closeMenus();
+        }
+      });
+
       // Actions (undo, redo, transforms, save, cancel, reset)
       on(r, 'click', '[data-action]', (e, btn) => {
         if (e.target.closest('.jsie-group-arrow')) return;
@@ -1445,7 +1783,12 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
       // Empty state / file input
       on(this.emptyState, 'click', () => this.fileInput.click());
       on(this.fileInput, 'change', () => {
-        if (this.fileInput.files[0]) this.loadImage(this.fileInput.files[0]);
+        const file = this.fileInput.files[0];
+        if (file && file.name.endsWith('.shoimg')) {
+          this.openProject(file);
+        } else if (file) {
+          this.loadImage(file);
+        }
       });
 
       // Drag and drop image
@@ -1453,7 +1796,9 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
       on(this.canvasArea, 'drop', e => {
         e.preventDefault();
         const file = e.dataTransfer.files?.[0];
-        if (file && file.type.startsWith('image/')) {
+        if (file && file.name.endsWith('.shoimg')) {
+          this.openProject(file);
+        } else if (file && file.type.startsWith('image/')) {
           if (this.layerManager) {
             this.importAsLayer(file);
           } else {
@@ -4292,6 +4637,392 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
       });
     }
 
+    // ── Menu Bar ────────────────────────────
+    _getMenuDefinition() {
+      const isMac = /Mac/.test(navigator.platform);
+      const mod = isMac ? '⌘' : 'Ctrl';
+      return {
+        file: [
+          { label: t('btn.import'), icon: Icons.importImg, action: 'import' },
+          { label: t('btn.export'), icon: Icons.download, action: 'export' },
+          { type: 'separator' },
+          { label: t('menu.openProject'), action: 'openProject' },
+          { label: t('menu.saveProject'), action: 'saveProject' },
+          { type: 'separator' },
+          { label: t('btn.reset'), icon: Icons.reset, action: 'reset' },
+          { type: 'separator' },
+          { label: t('btn.save'), icon: Icons.save, action: 'save' },
+          { label: t('btn.cancel'), icon: Icons.cancel, action: 'cancel' },
+        ],
+        edit: [
+          { label: t('tool.undo'), icon: Icons.undo, action: 'undo', shortcut: `${mod}+Z` },
+          { label: t('tool.redo'), icon: Icons.redo, action: 'redo', shortcut: `${mod}+Y` },
+          { type: 'separator' },
+          { label: t('menu.cut'), action: 'cut', shortcut: `${mod}+X` },
+          { label: t('menu.copy'), action: 'copy', shortcut: `${mod}+C` },
+          { label: t('menu.paste'), action: 'paste', shortcut: `${mod}+V` },
+          { label: t('menu.delete'), action: 'deletesel', shortcut: 'Del' },
+          { type: 'separator' },
+          { label: t('sel.all'), action: 'selectAll', shortcut: `${mod}+A` },
+        ],
+        image: [
+          { label: t('tool.resize'), icon: Icons.resize, action: 'resize' },
+          { label: t('tool.crop'), icon: Icons.crop, tool: 'crop' },
+          { type: 'separator' },
+          { label: t('tool.rotateLeft'), icon: Icons.rotateLeft, action: 'rotateLeft' },
+          { label: t('tool.rotateRight'), icon: Icons.rotateRight, action: 'rotateRight' },
+          { label: t('tool.flipH'), icon: Icons.flipH, action: 'flipH' },
+          { label: t('tool.flipV'), icon: Icons.flipV, action: 'flipV' },
+          { type: 'separator' },
+          { label: t('menu.filters'), submenu: 'filters' },
+        ],
+        layer: [
+          { label: t('menu.newLayer'), icon: Icons.layerAdd, action: 'addLayer' },
+          { label: t('menu.duplicateLayer'), icon: Icons.layerDup, action: 'dupLayer' },
+          { label: t('menu.deleteLayer'), icon: Icons.layerDelete, action: 'delLayer' },
+          { type: 'separator' },
+          { label: t('menu.newGroup'), icon: Icons.folder, action: 'addGroup' },
+          { type: 'separator' },
+          { label: t('menu.layerStyles'), icon: Icons.layerStyles, action: 'layerStyles' },
+          { label: t('menu.resizeLayer'), action: 'resizeLayer' },
+        ],
+        select: [
+          { label: t('sel.all'), action: 'selectAll', shortcut: `${mod}+A` },
+          { label: t('sel.deselect'), action: 'deselect', shortcut: `${mod}+D` },
+          { label: t('sel.invert'), action: 'invertSel', shortcut: `${mod}+Shift+I` },
+          { type: 'separator' },
+          { label: t('sel.cropToSel'), action: 'cropToSel' },
+          { label: t('sel.delete'), action: 'deleteSel', shortcut: 'Del' },
+        ],
+        view: [
+          { label: t('tool.zoomIn'), icon: Icons.zoomIn, action: 'zoomIn', shortcut: '+' },
+          { label: t('tool.zoomOut'), icon: Icons.zoomOut, action: 'zoomOut', shortcut: '-' },
+          { label: t('tool.zoomFit'), icon: Icons.zoomFit, action: 'zoomFit' },
+          { type: 'separator' },
+          { label: t('menu.panels'), submenu: 'panels' },
+        ],
+        help: [
+          { label: t('menu.shortcuts'), action: 'showShortcuts' },
+          { type: 'separator' },
+          { label: t('menu.about'), action: 'showAbout' },
+        ],
+        // Submenus
+        filters: (this.config.filters || ['brightness', 'contrast', 'saturation', 'blur', 'grayscale', 'sepia', 'hue']).map(f => ({
+          label: t('filter.' + f), action: 'showFilter', param: f,
+        })),
+        panels: [
+          { label: t('menu.showLayers'), action: 'toggleLayers', check: true },
+          { label: t('menu.showFilters'), action: 'toggleFilters', check: true },
+          { label: t('menu.showStatusBar'), action: 'toggleStatusBar', check: true },
+        ],
+      };
+    }
+
+    _buildMenuDropdown(menuId) {
+      const menus = this._getMenuDefinition();
+      const items = menus[menuId];
+      if (!items) return '';
+      let html = '';
+      for (const item of items) {
+        if (item.type === 'separator') {
+          html += '<div class="jsie-menu-separator"></div>';
+          continue;
+        }
+        if (item.submenu) {
+          html += `<div class="jsie-menu-entry jsie-menu-has-sub" data-submenu="${item.submenu}">
+            <span class="jsie-menu-entry-icon"></span>
+            <span class="jsie-menu-entry-label">${item.label}</span>
+            <span class="jsie-menu-sub-arrow">▶</span>
+          </div>`;
+          continue;
+        }
+        const iconHtml = item.icon ? `<span class="jsie-menu-entry-icon">${item.icon}</span>` : (item.check !== undefined ? `<span class="jsie-menu-check" data-check="${item.action}"></span>` : '<span class="jsie-menu-entry-icon"></span>');
+        const shortcutHtml = item.shortcut ? `<span class="jsie-menu-shortcut">${item.shortcut}</span>` : '';
+        const actionAttr = item.action ? `data-maction="${item.action}"` : '';
+        const toolAttr = item.tool ? `data-mtool="${item.tool}"` : '';
+        const paramAttr = item.param ? `data-mparam="${item.param}"` : '';
+        html += `<div class="jsie-menu-entry" ${actionAttr} ${toolAttr} ${paramAttr}>
+          ${iconHtml}
+          <span class="jsie-menu-entry-label">${item.label}</span>
+          ${shortcutHtml}
+        </div>`;
+      }
+      return html;
+    }
+
+    _openMenu(menuId, anchorEl) {
+      // Close any existing
+      this._closeMenus();
+      const dropdown = document.createElement('div');
+      dropdown.className = 'jsie-menu-dropdown';
+      dropdown.dataset.menuDropdown = menuId;
+      dropdown.innerHTML = this._buildMenuDropdown(menuId);
+      anchorEl.classList.add('open');
+      anchorEl.appendChild(dropdown);
+      this._menuOpen = menuId;
+
+      // Update panel check marks
+      this._updateMenuChecks(dropdown);
+
+      // Position adjustment if off-screen right
+      const rect = dropdown.getBoundingClientRect();
+      if (rect.right > window.innerWidth) {
+        dropdown.style.left = 'auto';
+        dropdown.style.right = '0';
+      }
+    }
+
+    _closeMenus() {
+      if (!this.root) return;
+      $$('.jsie-menu-dropdown', this.root).forEach(d => d.remove());
+      $$('.jsie-menu-submenu', this.root).forEach(d => d.remove());
+      $$('.jsie-menu-item.open', this.root).forEach(el => el.classList.remove('open'));
+      this._menuOpen = null;
+    }
+
+    _updateMenuChecks(container) {
+      const checks = $$('[data-check]', container);
+      for (const c of checks) {
+        const action = c.dataset.check;
+        let visible = false;
+        if (action === 'toggleLayers') {
+          const lp = $('#jsie-layers-panel', this.root);
+          visible = lp && lp.style.display !== 'none';
+        } else if (action === 'toggleFilters') {
+          const tab = $('[data-rpanel="image"]', this.root);
+          visible = tab && tab.classList.contains('active');
+        } else if (action === 'toggleStatusBar') {
+          const sb = $('.jsie-status-bar', this.root);
+          visible = sb && sb.style.display !== 'none';
+        }
+        c.textContent = visible ? '✓' : '';
+      }
+    }
+
+    _handleMenuAction(action, param) {
+      this._closeMenus();
+      switch (action) {
+        // File
+        case 'import': this._triggerImport(); break;
+        case 'export': this._showExportDialog(); break;
+        case 'openProject': this._triggerOpenProject(); break;
+        case 'saveProject': this.saveProject(); break;
+        case 'reset': this.reset(); break;
+        case 'save': this._onSave(); break;
+        case 'cancel': this._onCancel(); break;
+        // Edit
+        case 'undo': this.undo(); break;
+        case 'redo': this.redo(); break;
+        case 'cut': this._cutSelection(); break;
+        case 'copy': this._copySelection(); break;
+        case 'paste': this._pasteSelection(); break;
+        case 'deletesel':
+        case 'deleteSel': this._deleteSelection(); break;
+        case 'selectAll': this._selectAll(); break;
+        // Image
+        case 'resize': this.showResizePanel(); break;
+        case 'rotateLeft': this.rotate(-90); break;
+        case 'rotateRight': this.rotate(90); break;
+        case 'flipH': this.flip('horizontal'); break;
+        case 'flipV': this.flip('vertical'); break;
+        // Layer
+        case 'addLayer':
+          if (this.layerManager) this.layerManager.addLayer('Layer');
+          this._redraw();
+          break;
+        case 'dupLayer':
+          if (this.layerManager) this.layerManager.duplicateLayer(this.layerManager.activeLayerId);
+          this._redraw();
+          break;
+        case 'delLayer':
+          if (this.layerManager) this.layerManager.deleteLayer(this.layerManager.activeLayerId);
+          this._redraw();
+          break;
+        case 'addGroup':
+          if (this.layerManager) this.layerManager.addGroup('Group');
+          this._redraw();
+          break;
+        case 'layerStyles': this._showLayerStylesDialog(); break;
+        case 'resizeLayer':
+          if (this.layerManager) {
+            const layer = this.layerManager.getActive();
+            if (layer) this._showResizeLayerDialog(layer);
+          }
+          break;
+        // Select
+        case 'deselect': this._clearSelection(); break;
+        case 'invertSel': this._invertSelection(); break;
+        case 'cropToSel': this._cropToSelection(); break;
+        // View
+        case 'zoomIn': this._zoom(1.25); break;
+        case 'zoomOut': this._zoom(0.8); break;
+        case 'zoomFit': this._zoomFit(); break;
+        case 'toggleLayers': {
+          const lp = $('#jsie-layers-panel', this.root);
+          if (lp) lp.style.display = lp.style.display === 'none' ? '' : 'none';
+          break;
+        }
+        case 'toggleFilters': {
+          const tab = $('[data-rpanel="image"]', this.root);
+          if (tab) tab.click();
+          break;
+        }
+        case 'toggleStatusBar': {
+          const sb = $('.jsie-status-bar', this.root);
+          if (sb) sb.style.display = sb.style.display === 'none' ? '' : 'none';
+          break;
+        }
+        case 'showFilter': {
+          // Switch to Image tab and focus the filter
+          const tab = $('[data-rpanel="image"]', this.root);
+          if (tab && !tab.classList.contains('active')) tab.click();
+          if (param) {
+            const inp = $(`input[data-filter="${param}"]`, this.root);
+            if (inp) inp.focus();
+          }
+          break;
+        }
+        // Help
+        case 'showShortcuts': this._showShortcutsDialog(); break;
+        case 'showAbout': this._showAboutDialog(); break;
+      }
+    }
+
+    _showShortcutsDialog() {
+      const isMac = /Mac/.test(navigator.platform);
+      const mod = isMac ? '⌘' : 'Ctrl';
+      const shortcuts = [
+        [t('tool.undo'), `${mod}+Z`],
+        [t('tool.redo'), `${mod}+Y`],
+        [t('sel.all'), `${mod}+A`],
+        [t('sel.deselect'), `${mod}+D`],
+        [t('sel.invert'), `${mod}+Shift+I`],
+        [t('menu.cut'), `${mod}+X`],
+        [t('menu.copy'), `${mod}+C`],
+        [t('menu.paste'), `${mod}+V`],
+        [t('menu.delete'), 'Del / Backspace'],
+        [t('tool.zoomIn'), '+ / Wheel up'],
+        [t('tool.zoomOut'), '- / Wheel down'],
+        [t('tool.zoomFit'), `${mod}+0`],
+      ];
+      const rows = shortcuts.map(([label, key]) =>
+        `<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--jsie-border)">
+          <span>${label}</span><span style="color:var(--jsie-text2)">${key}</span>
+        </div>`
+      ).join('');
+      const overlay = document.createElement('div');
+      overlay.className = 'jsie-modal-overlay';
+      overlay.style.cssText = 'position:absolute;inset:0;background:rgba(0,0,0,.5);z-index:10010;display:flex;align-items:center;justify-content:center';
+      overlay.innerHTML = `<div style="background:var(--jsie-bg2);border:1px solid var(--jsie-border);border-radius:8px;padding:20px;min-width:320px;max-width:400px;box-shadow:0 8px 30px rgba(0,0,0,.4)">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <strong style="font-size:14px">${t('menu.shortcuts')}</strong>
+          <button class="jsie-btn jsie-modal-close" style="width:24px;height:24px">${Icons.cancel}</button>
+        </div>
+        <div style="font-size:12px">${rows}</div>
+      </div>`;
+      overlay.addEventListener('click', e => {
+        if (e.target === overlay || e.target.closest('.jsie-modal-close')) overlay.remove();
+      });
+      this.root.appendChild(overlay);
+    }
+
+    _showAboutDialog() {
+      const overlay = document.createElement('div');
+      overlay.className = 'jsie-modal-overlay';
+      overlay.style.cssText = 'position:absolute;inset:0;background:rgba(0,0,0,.5);z-index:10010;display:flex;align-items:center;justify-content:center';
+      overlay.innerHTML = `<div style="background:var(--jsie-bg2);border:1px solid var(--jsie-border);border-radius:8px;padding:24px;min-width:280px;text-align:center;box-shadow:0 8px 30px rgba(0,0,0,.4)">
+        <div style="font-size:24px;font-weight:700;margin-bottom:4px;color:var(--jsie-accent)">Shou Editor</div>
+        <div style="font-size:12px;color:var(--jsie-text2);margin-bottom:12px">Image Editor</div>
+        <div style="font-size:11px;color:var(--jsie-text2);margin-bottom:16px">Vanilla JavaScript ES6+ — Zero Dependencies</div>
+        <button class="jsie-btn-text jsie-modal-close" style="margin:0 auto">OK</button>
+      </div>`;
+      overlay.addEventListener('click', e => {
+        if (e.target === overlay || e.target.closest('.jsie-modal-close')) overlay.remove();
+      });
+      this.root.appendChild(overlay);
+    }
+
+    // ── Project Save / Open (.shoimg) ────────────────
+    saveProject() {
+      if (!this.layerManager) return;
+      const project = {
+        format: 'shoimg',
+        version: 1,
+        timestamp: Date.now(),
+        layerManager: this.layerManager.serializeForProject(),
+        filters: { ...this.filters },
+        zoom: this.zoom || 1,
+        theme: this.config.theme || 'dark',
+      };
+      const json = JSON.stringify(project);
+      const blob = new Blob([json], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = (this._projectName || 'project') + '.shoimg';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    async openProject(file) {
+      const text = await file.text();
+      let project;
+      try {
+        project = JSON.parse(text);
+      } catch (e) {
+        console.error('Invalid .shoimg file');
+        return;
+      }
+      if (!project.format || project.format !== 'shoimg' || !project.layerManager) {
+        console.error('Not a valid .shoimg project file');
+        return;
+      }
+
+      // Store project name from filename
+      this._projectName = file.name.replace(/\.shoimg$/i, '');
+
+      // Restore filters
+      if (project.filters) {
+        this.filters = { ...this.filters, ...project.filters };
+        this._resetFilterSliders();
+      }
+
+      // Restore layers
+      await this.layerManager.restoreFromProject(project.layerManager);
+
+      // Setup canvas with project dimensions
+      this._setupCanvas(this.layerManager.docWidth, this.layerManager.docHeight);
+
+      // Show canvas, hide empty screen
+      const wrap = $('#jsie-canvas-wrap', this.root);
+      const empty = $('#jsie-empty', this.root);
+      if (wrap) wrap.style.display = '';
+      if (empty) empty.style.display = 'none';
+
+      this._applyFilters();
+      this._redraw();
+      this._renderLayersList();
+      this._updateLayerOpacityUI();
+      this._updateStatusDims();
+
+      // Reset history with new state
+      this.history = [];
+      this.historyIndex = -1;
+      this.pushHistory();
+    }
+
+    _triggerOpenProject() {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = '.shoimg';
+      input.addEventListener('change', () => {
+        if (input.files && input.files[0]) {
+          this.openProject(input.files[0]);
+        }
+      });
+      input.click();
+    }
+
     // ── Export Dialog ────────────────────────────
     _showExportDialog() {
       if (!this.layerManager) return;
@@ -4466,6 +5197,10 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
       const layer = this.layerManager.activeLayer;
       if (layer.type === 'group') return;
 
+      // Ensure new effect keys exist for layers created before these effects were added
+      if (!layer.effects.border) layer.effects.border = { enabled: false, size: 2, color: '#000000', style: 'solid', radius: 0, opacity: 1 };
+      if (!layer.effects.gradientOverlay) layer.effects.gradientOverlay = { enabled: false, color1: '#000000', color2: '#ffffff', type: 'linear', angle: 0, opacity: 0.75 };
+
       const originalEffects = JSON.parse(JSON.stringify(layer.effects));
       const work = layer.effects;
       let selectedFx = 'dropShadow';
@@ -4489,7 +5224,9 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
         { key: 'innerShadow', label: t('effect.innerShadow') },
         { key: 'outerGlow', label: t('effect.outerGlow') },
         { key: 'stroke', label: t('effect.stroke') },
-        { key: 'colorOverlay', label: t('effect.colorOverlay') }
+        { key: 'colorOverlay', label: t('effect.colorOverlay') },
+        { key: 'border', label: t('effect.border') },
+        { key: 'gradientOverlay', label: t('effect.gradientOverlay') }
       ];
 
       // Left panel
@@ -4552,6 +5289,22 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
             { v: 'normal', l: 'Normal' }, { v: 'multiply', l: 'Multiply' },
             { v: 'screen', l: 'Screen' }, { v: 'overlay', l: 'Overlay' }
           ], fx.blendMode);
+        } else if (fxKey === 'border') {
+          html += makeColor(t('effect.color'), 'color', fx.color);
+          html += makeSlider(t('effect.size'), 'size', fx.size, 1, 30, 1);
+          html += makeSlider(t('effect.opacity'), 'opacity', fx.opacity, 0, 100, 1);
+          html += makeSlider(t('effect.borderRadius'), 'radius', fx.radius, 0, 100, 1);
+          html += makeSelect(t('effect.borderStyle'), 'style', [
+            { v: 'solid', l: t('effect.solid') }, { v: 'dashed', l: t('effect.dashed') }, { v: 'dotted', l: t('effect.dotted') }
+          ], fx.style);
+        } else if (fxKey === 'gradientOverlay') {
+          html += makeColor(t('effect.color1'), 'color1', fx.color1);
+          html += makeColor(t('effect.color2'), 'color2', fx.color2);
+          html += makeSlider(t('effect.opacity'), 'opacity', fx.opacity, 0, 100, 1);
+          html += makeSlider(t('effect.gradientAngle'), 'angle', fx.angle, 0, 360, 1);
+          html += makeSelect(t('effect.gradientType'), 'type', [
+            { v: 'linear', l: t('effect.linear') }, { v: 'radial', l: t('effect.radial') }
+          ], fx.type);
         }
         right.innerHTML = html;
         // Bind
@@ -4560,7 +5313,7 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
             const prop = inp.dataset.pr;
             let val = inp.value;
             if (prop === 'opacity') val = parseFloat(val) / 100;
-            else if (['offsetX', 'offsetY', 'blur', 'size'].includes(prop)) val = parseFloat(val);
+            else if (['offsetX', 'offsetY', 'blur', 'size', 'radius', 'angle'].includes(prop)) val = parseFloat(val);
             work[fxKey][prop] = val;
             const vlSpan = right.querySelector(`[data-vl="${prop}"]`);
             if (vlSpan) vlSpan.textContent = prop === 'opacity' ? Math.round(val * 100) : val;
@@ -4636,6 +5389,10 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
       if (this._closeGroupSubmenu) {
         document.removeEventListener('click', this._closeGroupSubmenu);
         this._closeGroupSubmenu = null;
+      }
+      if (this._closeMenuOnOutside) {
+        document.removeEventListener('mousedown', this._closeMenuOnOutside);
+        this._closeMenuOnOutside = null;
       }
       this._stopMarchingAnts();
       if (this.root && this.root.parentNode) {
