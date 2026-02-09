@@ -99,6 +99,7 @@
       'opt.lineHeight': 'Line height',
       'opt.textDecoration': 'Decoration',
       'opt.align': 'Align',
+      'layer.resize': 'Resize Layer',
       'btn.import': 'Import',
       'btn.export': 'Export',
       'export.title': 'Export Image',
@@ -197,6 +198,7 @@
       'opt.lineHeight': 'Interlineado',
       'opt.textDecoration': 'Decoración',
       'opt.align': 'Alinear',
+      'layer.resize': 'Redimensionar capa',
       'btn.import': 'Importar',
       'btn.export': 'Exportar',
       'export.title': 'Exportar Imagen',
@@ -1493,6 +1495,53 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
         }
       });
 
+      // Right-click context menu on layers
+      this.layersList.addEventListener('contextmenu', e => {
+        e.preventDefault();
+        const item = e.target.closest('.jsie-layer-item');
+        if (!item) return;
+        const id = parseInt(item.dataset.layerId);
+        const layer = this._findLayerById(id);
+        if (!layer) return;
+        // Remove any existing context menu
+        const old = $('.jsie-layer-ctx', this.root);
+        if (old) old.remove();
+        // Activate this layer
+        this.layerManager.setActive(id);
+        this._renderLayersList();
+        this._updateLayerOpacityUI();
+        // Build menu
+        const menu = document.createElement('div');
+        menu.className = 'jsie-layer-ctx';
+        menu.style.cssText = `position:fixed;left:${e.clientX}px;top:${e.clientY}px;z-index:10002;background:var(--jsie-bg);border:1px solid var(--jsie-border);border-radius:4px;padding:4px 0;min-width:150px;box-shadow:0 4px 12px rgba(0,0,0,0.3);font-size:12px`;
+        const notGroup = layer.type !== 'group';
+        const items = [
+          { label: t('layer.styles'), action: 'styles', disabled: !notGroup },
+          { label: t('layer.resize'), action: 'resizeLayer', disabled: !notGroup },
+          { label: t('layer.duplicate'), action: 'duplicate' },
+          { label: t('layer.delete'), action: 'delete' },
+        ];
+        items.forEach(mi => {
+          const btn = document.createElement('div');
+          btn.textContent = mi.label;
+          btn.style.cssText = `padding:6px 14px;cursor:pointer;color:var(--jsie-text)${mi.disabled ? ';opacity:0.4;pointer-events:none' : ''}`;
+          btn.addEventListener('mouseenter', () => { if (!mi.disabled) btn.style.background = 'var(--jsie-hover)'; });
+          btn.addEventListener('mouseleave', () => btn.style.background = '');
+          btn.addEventListener('click', () => {
+            menu.remove();
+            if (mi.action === 'styles') this._showLayerStylesDialog();
+            else if (mi.action === 'resizeLayer') this._showResizeLayerDialog(layer);
+            else if (mi.action === 'duplicate') { this.layerManager.duplicateLayer(id); this.pushHistory(); this._redraw(); this._renderLayersList(); }
+            else if (mi.action === 'delete') { this.layerManager.removeLayer(id); this.pushHistory(); this._redraw(); this._renderLayersList(); this._updateLayerOpacityUI(); }
+          });
+          menu.appendChild(btn);
+        });
+        this.root.appendChild(menu);
+        // Close on click outside
+        const closeCtx = (ev) => { if (!menu.contains(ev.target)) { menu.remove(); document.removeEventListener('mousedown', closeCtx, true); } };
+        setTimeout(() => document.addEventListener('mousedown', closeCtx, true), 0);
+      });
+
       // Toggle visibility
       on(this.layersList, 'click', '.jsie-layer-vis', (e, vis) => {
         e.stopPropagation();
@@ -1691,6 +1740,21 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
           return;
         }
 
+        // Visual resize handles — check before any tool logic
+        {
+          const hpos = this._canvasPos(e);
+          // Recompute bounds fresh so handles work right after import/edits
+          if (this.layerManager && this.layerManager.activeLayer) {
+            const fb = this._getLayerContentBounds(this.layerManager.activeLayer);
+            if (fb) this._lastLayerBounds = fb;
+          }
+          const handleHit = this._hitTestHandle(hpos);
+          if (handleHit) {
+            this._startVisualResize(handleHit, hpos, e);
+            return;
+          }
+        }
+
         const active = this.layerManager.activeLayer;
         if (!active) return;
 
@@ -1771,6 +1835,15 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
       ic.addEventListener('mousemove', e => {
         const pos = this._canvasPos(e);
         this._updateStatusCursor(pos);
+
+        // Resize handles: show appropriate cursor on hover
+        const hoverHandle = this._hitTestHandle(pos);
+        if (hoverHandle && !this.drawing) {
+          const cursors = { tl: 'nw-resize', tc: 'n-resize', tr: 'ne-resize', ml: 'w-resize', mc: 'move', mr: 'e-resize', bl: 'sw-resize', bc: 's-resize', br: 'se-resize' };
+          ic.style.cursor = cursors[hoverHandle] || 'default';
+        } else if (!this.drawing) {
+          ic.style.cursor = '';
+        }
 
         // Polygon tool: rubber-band preview even when not dragging
         if (this.currentTool === 'selectPoly' && this._selectionPoints.length > 0) {
@@ -2084,6 +2157,14 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
       if (!this.layerManager) return;
       this.layerManager.composite(this.mainCtx);
       this._applyFilters();
+      // Always keep _lastLayerBounds fresh for resize handles
+      if (this.layerManager.activeLayer && this.layerManager.activeLayer.visible) {
+        const fb = this._getLayerContentBounds(this.layerManager.activeLayer);
+        if (fb) this._lastLayerBounds = fb;
+        else this._lastLayerBounds = null;
+      } else {
+        this._lastLayerBounds = null;
+      }
       // Draw layer bounds when no selection is active (no marching ants to conflict with)
       if (!this._selectionAnimFrame && this.interactionCanvas) {
         const ictx = this.interactionCanvas.getContext('2d');
@@ -2130,11 +2211,177 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
       if (!layer || !layer.visible) return;
       const bounds = this._getLayerContentBounds(layer);
       if (!bounds) return;
+      this._lastLayerBounds = bounds;
+      const bx = bounds.x, by = bounds.y, bw = bounds.width, bh = bounds.height;
       ictx.save();
       ictx.strokeStyle = 'rgba(0,150,255,0.7)';
       ictx.lineWidth = 1;
       ictx.setLineDash([4, 4]);
-      ictx.strokeRect(bounds.x + 0.5, bounds.y + 0.5, bounds.width - 1, bounds.height - 1);
+      ictx.strokeRect(bx + 0.5, by + 0.5, bw - 1, bh - 1);
+      ictx.setLineDash([]);
+      // Draw 9 handles
+      const hs = 5; // half-size
+      const handles = this._getResizeHandles(bounds);
+      ictx.fillStyle = '#ffffff';
+      ictx.strokeStyle = 'rgba(0,150,255,1)';
+      ictx.lineWidth = 1.5;
+      handles.forEach(h => {
+        ictx.fillRect(h.x - hs, h.y - hs, hs * 2, hs * 2);
+        ictx.strokeRect(h.x - hs, h.y - hs, hs * 2, hs * 2);
+      });
+      ictx.restore();
+    }
+
+    _getResizeHandles(b) {
+      const cx = b.x + b.width / 2, cy = b.y + b.height / 2;
+      return [
+        { id: 'tl', x: b.x, y: b.y },
+        { id: 'tc', x: cx, y: b.y },
+        { id: 'tr', x: b.x + b.width, y: b.y },
+        { id: 'ml', x: b.x, y: cy },
+        { id: 'mc', x: cx, y: cy },
+        { id: 'mr', x: b.x + b.width, y: cy },
+        { id: 'bl', x: b.x, y: b.y + b.height },
+        { id: 'bc', x: cx, y: b.y + b.height },
+        { id: 'br', x: b.x + b.width, y: b.y + b.height },
+      ];
+    }
+
+    _hitTestHandle(pos) {
+      if (!this._lastLayerBounds) return null;
+      const handles = this._getResizeHandles(this._lastLayerBounds);
+      const threshold = 7;
+      for (const h of handles) {
+        if (Math.abs(pos.x - h.x) <= threshold && Math.abs(pos.y - h.y) <= threshold) {
+          return h.id;
+        }
+      }
+      return null;
+    }
+
+    _startVisualResize(handleId, startPos, e) {
+      const layer = this.layerManager.activeLayer;
+      if (!layer) return;
+      const bounds = { ...this._lastLayerBounds };
+      const ic = this.interactionCanvas;
+      const ictx = ic.getContext('2d');
+
+      // Snapshot the layer content within bounds
+      const snap = document.createElement('canvas');
+      snap.width = bounds.width;
+      snap.height = bounds.height;
+      snap.getContext('2d').drawImage(layer.canvas, bounds.x, bounds.y, bounds.width, bounds.height, 0, 0, bounds.width, bounds.height);
+
+      const origBounds = { ...bounds };
+      let curBounds = { ...bounds };
+
+      const cursors = { tl: 'nw-resize', tc: 'n-resize', tr: 'ne-resize', ml: 'w-resize', mc: 'move', mr: 'e-resize', bl: 'sw-resize', bc: 's-resize', br: 'se-resize' };
+      ic.style.cursor = cursors[handleId] || 'default';
+
+      const drawPreview = () => {
+        ictx.clearRect(0, 0, ic.width, ic.height);
+        this._drawLayerBoundsCustom(ictx, curBounds);
+        // Draw scaled preview on interaction canvas
+        ictx.save();
+        ictx.globalAlpha = 0.6;
+        ictx.drawImage(snap, 0, 0, snap.width, snap.height, curBounds.x, curBounds.y, curBounds.width, curBounds.height);
+        ictx.restore();
+      };
+
+      const onMove = (ev) => {
+        const pos = this._canvasPos(ev);
+        const dx = pos.x - startPos.x;
+        const dy = pos.y - startPos.y;
+        const shift = ev.shiftKey;
+        const ratio = origBounds.width / origBounds.height;
+
+        let nx = origBounds.x, ny = origBounds.y;
+        let nw = origBounds.width, nh = origBounds.height;
+
+        if (handleId === 'mc') {
+          // Move
+          nx = origBounds.x + dx;
+          ny = origBounds.y + dy;
+        } else if (handleId === 'br') {
+          nw = Math.max(4, origBounds.width + dx);
+          nh = Math.max(4, origBounds.height + dy);
+          if (shift) nh = nw / ratio;
+        } else if (handleId === 'bl') {
+          nw = Math.max(4, origBounds.width - dx);
+          nh = Math.max(4, origBounds.height + dy);
+          if (shift) nh = nw / ratio;
+          nx = origBounds.x + origBounds.width - nw;
+        } else if (handleId === 'tr') {
+          nw = Math.max(4, origBounds.width + dx);
+          nh = Math.max(4, origBounds.height - dy);
+          if (shift) nh = nw / ratio;
+          ny = origBounds.y + origBounds.height - nh;
+        } else if (handleId === 'tl') {
+          nw = Math.max(4, origBounds.width - dx);
+          nh = Math.max(4, origBounds.height - dy);
+          if (shift) nh = nw / ratio;
+          nx = origBounds.x + origBounds.width - nw;
+          ny = origBounds.y + origBounds.height - nh;
+        } else if (handleId === 'mr') {
+          nw = Math.max(4, origBounds.width + dx);
+          if (shift) { nh = nw / ratio; ny = origBounds.y + (origBounds.height - nh) / 2; }
+        } else if (handleId === 'ml') {
+          nw = Math.max(4, origBounds.width - dx);
+          if (shift) { nh = nw / ratio; ny = origBounds.y + (origBounds.height - nh) / 2; }
+          nx = origBounds.x + origBounds.width - nw;
+        } else if (handleId === 'bc') {
+          nh = Math.max(4, origBounds.height + dy);
+          if (shift) { nw = nh * ratio; nx = origBounds.x + (origBounds.width - nw) / 2; }
+        } else if (handleId === 'tc') {
+          nh = Math.max(4, origBounds.height - dy);
+          if (shift) { nw = nh * ratio; nx = origBounds.x + (origBounds.width - nw) / 2; }
+          ny = origBounds.y + origBounds.height - nh;
+        }
+
+        curBounds = { x: Math.round(nx), y: Math.round(ny), width: Math.round(nw), height: Math.round(nh) };
+        drawPreview();
+      };
+
+      const onUp = () => {
+        document.removeEventListener('mousemove', onMove);
+        document.removeEventListener('mouseup', onUp);
+        ic.style.cursor = '';
+
+        // Apply the resize
+        if (curBounds.width !== origBounds.width || curBounds.height !== origBounds.height || curBounds.x !== origBounds.x || curBounds.y !== origBounds.y) {
+          layer.ctx.clearRect(0, 0, layer.width, layer.height);
+          layer.ctx.drawImage(snap, 0, 0, snap.width, snap.height, curBounds.x, curBounds.y, curBounds.width, curBounds.height);
+          if (layer.type === 'text' && layer.textData) {
+            layer.textData.x = curBounds.x;
+            layer.textData.y = curBounds.y;
+          }
+          this.pushHistory();
+        }
+        this._redraw();
+        this._renderLayersList();
+      };
+
+      document.addEventListener('mousemove', onMove);
+      document.addEventListener('mouseup', onUp);
+      drawPreview();
+    }
+
+    _drawLayerBoundsCustom(ictx, b) {
+      ictx.save();
+      ictx.strokeStyle = 'rgba(0,150,255,0.7)';
+      ictx.lineWidth = 1;
+      ictx.setLineDash([4, 4]);
+      ictx.strokeRect(b.x + 0.5, b.y + 0.5, b.width - 1, b.height - 1);
+      ictx.setLineDash([]);
+      const hs = 5;
+      const handles = this._getResizeHandles(b);
+      ictx.fillStyle = '#ffffff';
+      ictx.strokeStyle = 'rgba(0,150,255,1)';
+      ictx.lineWidth = 1.5;
+      handles.forEach(h => {
+        ictx.fillRect(h.x - hs, h.y - hs, hs * 2, hs * 2);
+        ictx.strokeRect(h.x - hs, h.y - hs, hs * 2, hs * 2);
+      });
       ictx.restore();
     }
 
@@ -3714,6 +3961,8 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
         const idx = lm.activeIndex;
         lm.layers.splice(idx + 1, 0, layer);
         lm.activeLayerId = layer.id;
+        // Clear any active selection so handles are immediately visible
+        this._clearSelection();
         this.pushHistory();
         this._redraw();
         this._renderLayersList();
@@ -3813,6 +4062,84 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
     }
 
     // ── Layer Styles Dialog ─────────────────────
+    _showResizeLayerDialog(layer) {
+      if (!layer || layer.type === 'group') return;
+      const bounds = this._getLayerContentBounds(layer);
+      if (!bounds) return;
+
+      const origW = bounds.width;
+      const origH = bounds.height;
+      const ratio = origW / origH;
+
+      const modal = document.createElement('div');
+      modal.className = 'jsie-modal-overlay';
+      modal.style.zIndex = '10001';
+      const box = document.createElement('div');
+      box.style.cssText = 'background:var(--jsie-bg);padding:20px;border-radius:8px;width:300px;max-width:90vw;color:var(--jsie-text)';
+      box.innerHTML = `
+        <h3 style="margin:0 0 16px;font-size:15px">${t('layer.resize')}: ${layer.name}</h3>
+        <div style="margin-bottom:8px;font-size:11px;color:var(--jsie-text2)">Current: ${origW} × ${origH}px</div>
+        <div class="jsie-row" style="display:flex;gap:8px;align-items:center;margin-bottom:8px">
+          <label style="font-size:12px;min-width:44px">${t('opt.width')}</label>
+          <input type="number" id="jsie-rlw" value="${origW}" min="1" max="9999" style="width:80px;height:28px;background:var(--jsie-input-bg);border:1px solid var(--jsie-border);color:var(--jsie-text);border-radius:3px;padding:0 6px;font-size:12px">
+        </div>
+        <div class="jsie-row" style="display:flex;gap:8px;align-items:center;margin-bottom:10px">
+          <label style="font-size:12px;min-width:44px">${t('opt.height')}</label>
+          <input type="number" id="jsie-rlh" value="${origH}" min="1" max="9999" style="width:80px;height:28px;background:var(--jsie-input-bg);border:1px solid var(--jsie-border);color:var(--jsie-text);border-radius:3px;padding:0 6px;font-size:12px">
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:16px">
+          <input type="checkbox" id="jsie-rl-lock" checked><label for="jsie-rl-lock" style="font-size:12px">${t('opt.lockRatio')}</label>
+        </div>
+        <div style="display:flex;gap:8px;justify-content:flex-end">
+          <button class="jsie-btn-text secondary" id="jsie-rl-cancel">${t('btn.cancel')}</button>
+          <button class="jsie-btn-text" id="jsie-rl-apply">${t('btn.apply')}</button>
+        </div>
+      `;
+      modal.appendChild(box);
+      this.root.appendChild(modal);
+
+      const wI = box.querySelector('#jsie-rlw');
+      const hI = box.querySelector('#jsie-rlh');
+      const lock = box.querySelector('#jsie-rl-lock');
+      wI.addEventListener('input', () => { if (lock.checked) hI.value = Math.round(parseInt(wI.value) / ratio) || 1; });
+      hI.addEventListener('input', () => { if (lock.checked) wI.value = Math.round(parseInt(hI.value) * ratio) || 1; });
+
+      box.querySelector('#jsie-rl-cancel').addEventListener('click', () => modal.remove());
+      modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+
+      box.querySelector('#jsie-rl-apply').addEventListener('click', () => {
+        const nw = parseInt(wI.value);
+        const nh = parseInt(hI.value);
+        if (nw > 0 && nh > 0 && (nw !== origW || nh !== origH)) {
+          // Extract content, scale it, and place back
+          const lm = this.layerManager;
+          const temp = document.createElement('canvas');
+          temp.width = bounds.width;
+          temp.height = bounds.height;
+          temp.getContext('2d').drawImage(layer.canvas, bounds.x, bounds.y, bounds.width, bounds.height, 0, 0, bounds.width, bounds.height);
+
+          layer.ctx.clearRect(0, 0, layer.width, layer.height);
+          // Center the resized content at same center point
+          const cx = bounds.x + bounds.width / 2;
+          const cy = bounds.y + bounds.height / 2;
+          const nx = Math.round(cx - nw / 2);
+          const ny = Math.round(cy - nh / 2);
+          layer.ctx.drawImage(temp, 0, 0, bounds.width, bounds.height, nx, ny, nw, nh);
+
+          // Update textData position if text layer
+          if (layer.type === 'text' && layer.textData) {
+            layer.textData.x = nx;
+            layer.textData.y = ny;
+          }
+
+          this.pushHistory();
+          this._redraw();
+          this._renderLayersList();
+        }
+        modal.remove();
+      });
+    }
+
     _showLayerStylesDialog() {
       if (!this.layerManager || !this.layerManager.activeLayer) return;
       const layer = this.layerManager.activeLayer;
