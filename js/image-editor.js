@@ -99,6 +99,28 @@
       'opt.lineHeight': 'Line height',
       'opt.textDecoration': 'Decoration',
       'opt.align': 'Align',
+      'btn.import': 'Import',
+      'btn.export': 'Export',
+      'export.title': 'Export Image',
+      'export.format': 'Format',
+      'export.quality': 'Quality',
+      'export.dimensions': 'Dimensions',
+      'export.fileSize': 'Estimated Size',
+      'export.download': 'Download',
+      'layer.styles': 'Layer Styles',
+      'effect.dropShadow': 'Drop Shadow',
+      'effect.innerShadow': 'Inner Shadow',
+      'effect.outerGlow': 'Outer Glow',
+      'effect.stroke': 'Stroke',
+      'effect.colorOverlay': 'Color Overlay',
+      'effect.color': 'Color',
+      'effect.opacity': 'Opacity',
+      'effect.blur': 'Blur',
+      'effect.offsetX': 'Offset X',
+      'effect.offsetY': 'Offset Y',
+      'effect.size': 'Size',
+      'effect.position': 'Position',
+      'effect.blendMode': 'Blend Mode',
     },
     es: {
       'tool.undo': 'Deshacer',
@@ -175,6 +197,28 @@
       'opt.lineHeight': 'Interlineado',
       'opt.textDecoration': 'Decoración',
       'opt.align': 'Alinear',
+      'btn.import': 'Importar',
+      'btn.export': 'Exportar',
+      'export.title': 'Exportar Imagen',
+      'export.format': 'Formato',
+      'export.quality': 'Calidad',
+      'export.dimensions': 'Dimensiones',
+      'export.fileSize': 'Tamaño estimado',
+      'export.download': 'Descargar',
+      'layer.styles': 'Estilos de Capa',
+      'effect.dropShadow': 'Sombra Paralela',
+      'effect.innerShadow': 'Sombra Interior',
+      'effect.outerGlow': 'Resplandor Exterior',
+      'effect.stroke': 'Trazo',
+      'effect.colorOverlay': 'Superposición de Color',
+      'effect.color': 'Color',
+      'effect.opacity': 'Opacidad',
+      'effect.blur': 'Desenfoque',
+      'effect.offsetX': 'Desplazamiento X',
+      'effect.offsetY': 'Desplazamiento Y',
+      'effect.size': 'Tamaño',
+      'effect.position': 'Posición',
+      'effect.blendMode': 'Modo de Fusión',
     }
   };
 
@@ -226,6 +270,9 @@
     zoomIn:      '<svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14zm.5-7H9v2H7v1h2v2h1v-2h2V9h-2z"/></svg>',
     zoomOut:     '<svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14zM7 9h5v1H7z"/></svg>',
     zoomFit:     '<svg viewBox="0 0 24 24"><path d="M3 5v4h2V5h4V3H5c-1.1 0-2 .9-2 2zm2 10H3v4c0 1.1.9 2 2 2h4v-2H5v-4zm14 4h-4v2h4c1.1 0 2-.9 2-2v-4h-2v4zm0-16h-4v2h4v4h2V5c0-1.1-.9-2-2-2z"/></svg>',
+    download:    '<svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>',
+    importImg:   '<svg viewBox="0 0 24 24"><path d="M21 15v4c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2v-4h2v4h14v-4h2zM7 10l1.41 1.41L11 8.83V16h2V8.83l2.59 2.58L17 10l-5-5-5 5z"/></svg>',
+    layerStyles: '<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.94-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>',
   };
 
   // ── Layer Class ─────────────────────────────────────
@@ -239,6 +286,13 @@
       this.opacity = options.opacity !== undefined ? options.opacity : 1.0;
       this.locked = false;
       this.blendMode = options.blendMode || 'normal';
+      this.effects = options.effects ? JSON.parse(JSON.stringify(options.effects)) : {
+        dropShadow:   { enabled: false, offsetX: 5, offsetY: 5, blur: 10, color: '#000000', opacity: 0.75 },
+        innerShadow:  { enabled: false, offsetX: 5, offsetY: 5, blur: 10, color: '#000000', opacity: 0.75 },
+        outerGlow:    { enabled: false, blur: 10, color: '#ffffff', opacity: 0.75 },
+        stroke:       { enabled: false, size: 3, color: '#000000', position: 'outside' },
+        colorOverlay: { enabled: false, color: '#ff0000', opacity: 0.5, blendMode: 'normal' }
+      };
       this.width = options.width || 0;
       this.height = options.height || 0;
 
@@ -601,14 +655,181 @@
       return blendMode === 'normal' ? 'source-over' : blendMode;
     }
 
+    _hexToRgba(hex, opacity) {
+      const r = parseInt(hex.substr(1, 2), 16);
+      const g = parseInt(hex.substr(3, 2), 16);
+      const b = parseInt(hex.substr(5, 2), 16);
+      return `rgba(${r},${g},${b},${opacity})`;
+    }
+
+    _applyLayerEffects(layer) {
+      const fx = layer.effects;
+      const src = layer.canvas;
+      const w = src.width, h = src.height;
+
+      const result = document.createElement('canvas');
+      result.width = w; result.height = h;
+      const rctx = result.getContext('2d');
+
+      // 1. Drop Shadow (behind)
+      if (fx.dropShadow && fx.dropShadow.enabled) {
+        const ds = fx.dropShadow;
+        rctx.save();
+        rctx.shadowOffsetX = ds.offsetX;
+        rctx.shadowOffsetY = ds.offsetY;
+        rctx.shadowBlur = ds.blur;
+        rctx.shadowColor = this._hexToRgba(ds.color, ds.opacity);
+        rctx.drawImage(src, 0, 0);
+        rctx.restore();
+        // Clear original pixels, keep only shadow
+        rctx.save();
+        rctx.globalCompositeOperation = 'destination-out';
+        rctx.drawImage(src, 0, 0);
+        rctx.restore();
+      }
+
+      // 2. Outer Glow (behind)
+      if (fx.outerGlow && fx.outerGlow.enabled) {
+        const og = fx.outerGlow;
+        rctx.save();
+        rctx.shadowOffsetX = 0;
+        rctx.shadowOffsetY = 0;
+        rctx.shadowBlur = og.blur;
+        rctx.shadowColor = this._hexToRgba(og.color, og.opacity);
+        rctx.drawImage(src, 0, 0);
+        rctx.restore();
+        rctx.save();
+        rctx.globalCompositeOperation = 'destination-out';
+        rctx.drawImage(src, 0, 0);
+        rctx.restore();
+      }
+
+      // Draw original on top
+      rctx.drawImage(src, 0, 0);
+
+      // 3. Stroke
+      if (fx.stroke && fx.stroke.enabled) {
+        const st = fx.stroke;
+        const strokeC = document.createElement('canvas');
+        strokeC.width = w; strokeC.height = h;
+        const sctx = strokeC.getContext('2d');
+        // Dilate alpha mask
+        const imgData = layer.ctx.getImageData(0, 0, w, h);
+        const alpha = imgData.data;
+        const dilated = new ImageData(w, h);
+        const dd = dilated.data;
+        const sz = st.size;
+        for (let y = 0; y < h; y++) {
+          for (let x = 0; x < w; x++) {
+            let maxA = 0;
+            for (let dy = -sz; dy <= sz; dy++) {
+              for (let dx = -sz; dx <= sz; dx++) {
+                if (dx * dx + dy * dy <= sz * sz) {
+                  const nx = x + dx, ny = y + dy;
+                  if (nx >= 0 && nx < w && ny >= 0 && ny < h) {
+                    maxA = Math.max(maxA, alpha[(ny * w + nx) * 4 + 3]);
+                  }
+                }
+              }
+            }
+            const idx = (y * w + x) * 4;
+            dd[idx] = dd[idx + 1] = dd[idx + 2] = 255;
+            dd[idx + 3] = maxA;
+          }
+        }
+        sctx.putImageData(dilated, 0, 0);
+        sctx.globalCompositeOperation = 'source-in';
+        sctx.fillStyle = st.color;
+        sctx.fillRect(0, 0, w, h);
+
+        if (st.position === 'outside') {
+          // Remove original shape from stroke
+          sctx.globalCompositeOperation = 'destination-out';
+          sctx.drawImage(src, 0, 0);
+          sctx.globalCompositeOperation = 'source-over';
+          // Draw stroke behind
+          const tmp = document.createElement('canvas');
+          tmp.width = w; tmp.height = h;
+          const tctx = tmp.getContext('2d');
+          tctx.drawImage(strokeC, 0, 0);
+          tctx.drawImage(result, 0, 0);
+          rctx.clearRect(0, 0, w, h);
+          rctx.drawImage(tmp, 0, 0);
+        } else if (st.position === 'inside') {
+          sctx.globalCompositeOperation = 'destination-in';
+          sctx.drawImage(src, 0, 0);
+          // Subtract original opaque pixels, keep edge
+          const edgeC = document.createElement('canvas');
+          edgeC.width = w; edgeC.height = h;
+          const ectx = edgeC.getContext('2d');
+          ectx.drawImage(strokeC, 0, 0);
+          ectx.globalCompositeOperation = 'destination-out';
+          // Shrink: draw original offset inward
+          const shrunk = document.createElement('canvas');
+          shrunk.width = w; shrunk.height = h;
+          const shctx = shrunk.getContext('2d');
+          // Simply mask to original and draw on top
+          rctx.drawImage(strokeC, 0, 0);
+        } else { // center
+          rctx.drawImage(strokeC, 0, 0);
+          rctx.drawImage(src, 0, 0);
+        }
+      }
+
+      // 4. Inner Shadow (on top, masked)
+      if (fx.innerShadow && fx.innerShadow.enabled) {
+        const is = fx.innerShadow;
+        const isC = document.createElement('canvas');
+        isC.width = w; isC.height = h;
+        const ictx = isC.getContext('2d');
+        ictx.fillStyle = this._hexToRgba(is.color, is.opacity);
+        ictx.fillRect(0, 0, w, h);
+        ictx.globalCompositeOperation = 'destination-out';
+        ictx.shadowOffsetX = -is.offsetX;
+        ictx.shadowOffsetY = -is.offsetY;
+        ictx.shadowBlur = is.blur;
+        ictx.shadowColor = 'rgba(0,0,0,1)';
+        ictx.drawImage(src, 0, 0);
+        ictx.globalCompositeOperation = 'destination-in';
+        ictx.shadowOffsetX = 0;
+        ictx.shadowOffsetY = 0;
+        ictx.shadowBlur = 0;
+        ictx.drawImage(src, 0, 0);
+        rctx.drawImage(isC, 0, 0);
+      }
+
+      // 5. Color Overlay (on top, masked)
+      if (fx.colorOverlay && fx.colorOverlay.enabled) {
+        const co = fx.colorOverlay;
+        const coC = document.createElement('canvas');
+        coC.width = w; coC.height = h;
+        const cctx = coC.getContext('2d');
+        cctx.drawImage(src, 0, 0);
+        cctx.globalCompositeOperation = 'source-in';
+        cctx.fillStyle = co.color;
+        cctx.fillRect(0, 0, w, h);
+        rctx.globalAlpha = co.opacity;
+        rctx.globalCompositeOperation = co.blendMode === 'normal' ? 'source-over' : co.blendMode;
+        rctx.drawImage(coC, 0, 0);
+        rctx.globalAlpha = 1;
+        rctx.globalCompositeOperation = 'source-over';
+      }
+
+      return result;
+    }
+
     _compositeLayer(layer, targetCtx) {
       if (!layer.visible || layer.opacity === 0) return;
       if (layer.type === 'group') {
         this._compositeGroup(layer, targetCtx);
       } else {
+        const hasEffects = layer.effects && Object.values(layer.effects).some(fx => fx.enabled);
+        const sourceCanvas = hasEffects ? this._applyLayerEffects(layer) : layer.canvas;
         targetCtx.globalAlpha = layer.opacity;
         targetCtx.globalCompositeOperation = this._getBlendOp(layer.blendMode);
-        targetCtx.drawImage(layer.canvas, 0, 0);
+        targetCtx.drawImage(sourceCanvas, 0, 0);
+        targetCtx.globalAlpha = 1;
+        targetCtx.globalCompositeOperation = 'source-over';
       }
     }
 
@@ -889,6 +1110,9 @@
     <div class="jsie-tool-options" id="jsie-tool-options"></div>
   </div>
   <div class="jsie-options-right">
+    <button class="jsie-btn-text secondary" data-action="import">${Icons.importImg} ${t('btn.import')}</button>
+    <button class="jsie-btn-text secondary" data-action="export">${Icons.download} ${t('btn.export')}</button>
+    <div class="jsie-sep"></div>
     <button class="jsie-btn-text secondary" data-action="reset">${Icons.reset} ${t('btn.reset')}</button>
     <button class="jsie-btn-text secondary" data-action="cancel">${Icons.cancel} ${t('btn.cancel')}</button>
     <button class="jsie-btn-text" data-action="save">${Icons.save} ${t('btn.save')}</button>
@@ -952,6 +1176,7 @@
       <button class="jsie-btn" data-layer-action="group" title="${t('layer.group')}">${Icons.folder}</button>
       <button class="jsie-btn" data-layer-action="delete" title="${t('layer.delete')}">${Icons.layerDelete}</button>
       <button class="jsie-btn" data-layer-action="duplicate" title="${t('layer.duplicate')}">${Icons.layerDup}</button>
+      <button class="jsie-btn" data-action="layerStyles" title="${t('layer.styles')}">${Icons.layerStyles}</button>
     </div>
     </div>` : ''}
     ${showFilters ? `<div class="jsie-rpanel-content${!showLayers ? ' active' : ''}" data-rpanel-content="image">
@@ -1124,6 +1349,9 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
         else if (action === 'zoomIn') this._zoom(1.25);
         else if (action === 'zoomOut') this._zoom(0.8);
         else if (action === 'zoomFit') this._zoomFit();
+        else if (action === 'import') this._triggerImport();
+        else if (action === 'export') this._showExportDialog();
+        else if (action === 'layerStyles') this._showLayerStylesDialog();
         else if (action === 'reset') this.reset();
         else if (action === 'cancel') this._onCancel();
         else if (action === 'save') this._onSave();
@@ -1196,7 +1424,13 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
       on(this.canvasArea, 'drop', e => {
         e.preventDefault();
         const file = e.dataTransfer.files?.[0];
-        if (file && file.type.startsWith('image/')) this.loadImage(file);
+        if (file && file.type.startsWith('image/')) {
+          if (this.layerManager) {
+            this.importAsLayer(file);
+          } else {
+            this.loadImage(file);
+          }
+        }
       });
 
       // Layer panel events
@@ -3434,6 +3668,303 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
         this.historyIndex = 0;
         this._restoreHistory(this.history[0]);
       }
+    }
+
+    // ── Import as Layer ───────────────────────────
+    _triggerImport() {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+      input.style.display = 'none';
+      input.onchange = () => {
+        if (input.files[0]) this.importAsLayer(input.files[0]);
+        input.remove();
+      };
+      document.body.appendChild(input);
+      input.click();
+    }
+
+    importAsLayer(src) {
+      if (!this.layerManager) {
+        this.loadImage(src);
+        return;
+      }
+      if (src instanceof File) {
+        const reader = new FileReader();
+        reader.onload = e => this._importImageAsLayer(e.target.result);
+        reader.readAsDataURL(src);
+      } else {
+        this._importImageAsLayer(src);
+      }
+    }
+
+    _importImageAsLayer(url) {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = () => {
+        const lm = this.layerManager;
+        const layer = new Layer({
+          name: 'Imported',
+          width: lm.docWidth,
+          height: lm.docHeight
+        });
+        const x = Math.max(0, Math.floor((lm.docWidth - img.width) / 2));
+        const y = Math.max(0, Math.floor((lm.docHeight - img.height) / 2));
+        layer.ctx.drawImage(img, x, y, Math.min(img.width, lm.docWidth), Math.min(img.height, lm.docHeight));
+        const idx = lm.activeIndex;
+        lm.layers.splice(idx + 1, 0, layer);
+        lm.activeLayerId = layer.id;
+        this.pushHistory();
+        this._redraw();
+        this._renderLayersList();
+        this._updateLayerOpacityUI();
+      };
+      img.src = url;
+    }
+
+    // ── Export Dialog ────────────────────────────
+    _showExportDialog() {
+      if (!this.layerManager) return;
+      const lm = this.layerManager;
+
+      const modal = document.createElement('div');
+      modal.className = 'jsie-modal-overlay';
+      modal.style.zIndex = '10001';
+      const box = document.createElement('div');
+      box.style.cssText = 'background:var(--jsie-bg);padding:24px;border-radius:8px;width:380px;max-width:90vw;color:var(--jsie-text)';
+      box.innerHTML = `
+        <h3 style="margin:0 0 20px;font-size:16px">${t('export.title')}</h3>
+        <div style="margin-bottom:14px">
+          <label style="display:block;margin-bottom:4px;color:var(--jsie-text2);font-size:12px">${t('export.format')}</label>
+          <select id="jsie-exp-fmt" style="width:100%;height:30px;background:var(--jsie-input-bg);border:1px solid var(--jsie-border);color:var(--jsie-text);border-radius:4px;padding:0 8px;font-size:13px">
+            <option value="png">PNG</option>
+            <option value="jpeg">JPEG</option>
+            <option value="webp">WebP</option>
+          </select>
+        </div>
+        <div id="jsie-exp-qrow" style="margin-bottom:14px;display:none">
+          <label style="display:block;margin-bottom:4px;color:var(--jsie-text2);font-size:12px">${t('export.quality')}: <span id="jsie-exp-qval">92</span>%</label>
+          <input type="range" id="jsie-exp-quality" min="1" max="100" value="92" style="width:100%">
+        </div>
+        <div style="margin-bottom:20px;padding:12px;background:var(--jsie-bg2);border-radius:4px;font-size:12px">
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+            <span style="color:var(--jsie-text2)">${t('export.dimensions')}</span>
+            <span>${lm.docWidth} × ${lm.docHeight}</span>
+          </div>
+          <div style="display:flex;justify-content:space-between">
+            <span style="color:var(--jsie-text2)">${t('export.fileSize')}</span>
+            <span id="jsie-exp-size">…</span>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;justify-content:flex-end">
+          <button class="jsie-btn-text secondary" id="jsie-exp-cancel">${t('btn.cancel')}</button>
+          <button class="jsie-btn-text" id="jsie-exp-dl">${Icons.download} ${t('export.download')}</button>
+        </div>
+      `;
+      modal.appendChild(box);
+      this.root.appendChild(modal);
+
+      const fmt = box.querySelector('#jsie-exp-fmt');
+      const qrow = box.querySelector('#jsie-exp-qrow');
+      const qinput = box.querySelector('#jsie-exp-quality');
+      const qval = box.querySelector('#jsie-exp-qval');
+      const sizeSpan = box.querySelector('#jsie-exp-size');
+
+      const updateSize = () => {
+        const format = fmt.value;
+        const quality = parseInt(qinput.value) / 100;
+        qrow.style.display = format === 'png' ? 'none' : 'block';
+        sizeSpan.textContent = '…';
+        const canvas = this._flatten();
+        const mime = format === 'jpeg' ? 'image/jpeg' : format === 'webp' ? 'image/webp' : 'image/png';
+        canvas.toBlob(blob => {
+          if (blob) {
+            const kb = (blob.size / 1024).toFixed(1);
+            const mb = (blob.size / 1048576).toFixed(2);
+            sizeSpan.textContent = blob.size > 1048576 ? mb + ' MB' : kb + ' KB';
+          }
+        }, mime, quality);
+      };
+
+      fmt.addEventListener('change', updateSize);
+      qinput.addEventListener('input', () => { qval.textContent = qinput.value; updateSize(); });
+      box.querySelector('#jsie-exp-cancel').addEventListener('click', () => modal.remove());
+      modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+
+      box.querySelector('#jsie-exp-dl').addEventListener('click', () => {
+        const format = fmt.value;
+        const quality = parseInt(qinput.value) / 100;
+        const mime = format === 'jpeg' ? 'image/jpeg' : format === 'webp' ? 'image/webp' : 'image/png';
+        const canvas = this._flatten();
+        canvas.toBlob(blob => {
+          if (blob) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `image-${Date.now()}.${format === 'jpeg' ? 'jpg' : format}`;
+            a.click();
+            URL.revokeObjectURL(url);
+            modal.remove();
+          }
+        }, mime, quality);
+      });
+
+      updateSize();
+    }
+
+    // ── Layer Styles Dialog ─────────────────────
+    _showLayerStylesDialog() {
+      if (!this.layerManager || !this.layerManager.activeLayer) return;
+      const layer = this.layerManager.activeLayer;
+      if (layer.type === 'group') return;
+
+      const originalEffects = JSON.parse(JSON.stringify(layer.effects));
+      const work = layer.effects;
+      let selectedFx = 'dropShadow';
+
+      const modal = document.createElement('div');
+      modal.className = 'jsie-modal-overlay';
+      modal.style.zIndex = '10001';
+
+      const box = document.createElement('div');
+      box.style.cssText = 'background:var(--jsie-bg);border-radius:8px;width:560px;max-width:92vw;height:460px;max-height:80vh;display:flex;flex-direction:column;overflow:hidden;color:var(--jsie-text)';
+
+      const header = document.createElement('div');
+      header.style.cssText = 'padding:14px 18px;border-bottom:1px solid var(--jsie-border);font-size:15px;font-weight:600';
+      header.textContent = t('layer.styles') + ': ' + layer.name;
+
+      const body = document.createElement('div');
+      body.style.cssText = 'flex:1;display:flex;overflow:hidden';
+
+      const effectDefs = [
+        { key: 'dropShadow', label: t('effect.dropShadow') },
+        { key: 'innerShadow', label: t('effect.innerShadow') },
+        { key: 'outerGlow', label: t('effect.outerGlow') },
+        { key: 'stroke', label: t('effect.stroke') },
+        { key: 'colorOverlay', label: t('effect.colorOverlay') }
+      ];
+
+      // Left panel
+      const left = document.createElement('div');
+      left.style.cssText = 'width:170px;border-right:1px solid var(--jsie-border);overflow-y:auto;background:var(--jsie-bg2)';
+      left.innerHTML = effectDefs.map(e =>
+        `<div class="jsie-fx-item" data-fx="${e.key}" style="padding:8px 12px;cursor:pointer;display:flex;align-items:center;gap:6px;border-bottom:1px solid var(--jsie-border);font-size:12px">
+          <input type="checkbox" ${work[e.key].enabled ? 'checked' : ''} style="margin:0;cursor:pointer">
+          <span style="flex:1">${e.label}</span>
+        </div>`
+      ).join('');
+
+      // Right panel
+      const right = document.createElement('div');
+      right.style.cssText = 'flex:1;overflow-y:auto;padding:16px';
+
+      const makeSlider = (label, prop, val, min, max, step) =>
+        `<div style="margin-bottom:10px">
+          <label style="display:block;margin-bottom:3px;color:var(--jsie-text2);font-size:11px">${label}: <span data-vl="${prop}">${prop === 'opacity' ? Math.round(val * 100) : val}</span>${prop === 'opacity' ? '%' : 'px'}</label>
+          <input type="range" data-pr="${prop}" min="${min}" max="${max}" step="${step || 1}" value="${prop === 'opacity' ? val * 100 : val}" style="width:100%">
+        </div>`;
+      const makeColor = (label, prop, val) =>
+        `<div style="margin-bottom:10px">
+          <label style="display:block;margin-bottom:3px;color:var(--jsie-text2);font-size:11px">${label}</label>
+          <input type="color" data-pr="${prop}" value="${val}" style="width:100%;height:30px;border:1px solid var(--jsie-border);border-radius:3px;cursor:pointer">
+        </div>`;
+      const makeSelect = (label, prop, options, val) =>
+        `<div style="margin-bottom:10px">
+          <label style="display:block;margin-bottom:3px;color:var(--jsie-text2);font-size:11px">${label}</label>
+          <select data-pr="${prop}" style="width:100%;height:28px;background:var(--jsie-input-bg);border:1px solid var(--jsie-border);color:var(--jsie-text);border-radius:3px;padding:0 6px;font-size:12px">
+            ${options.map(o => `<option value="${o.v}"${o.v === val ? ' selected' : ''}>${o.l}</option>`).join('')}
+          </select>
+        </div>`;
+
+      const renderProps = (fxKey) => {
+        selectedFx = fxKey;
+        const fx = work[fxKey];
+        $$('.jsie-fx-item', left).forEach(it => it.style.background = it.dataset.fx === fxKey ? 'var(--jsie-layer-active)' : '');
+        let html = `<h4 style="margin:0 0 14px;font-size:13px;font-weight:600">${effectDefs.find(e => e.key === fxKey).label}</h4>`;
+        if (fxKey === 'dropShadow' || fxKey === 'innerShadow') {
+          html += makeColor(t('effect.color'), 'color', fx.color);
+          html += makeSlider(t('effect.opacity'), 'opacity', fx.opacity, 0, 100, 1);
+          html += makeSlider(t('effect.offsetX'), 'offsetX', fx.offsetX, -50, 50, 1);
+          html += makeSlider(t('effect.offsetY'), 'offsetY', fx.offsetY, -50, 50, 1);
+          html += makeSlider(t('effect.blur'), 'blur', fx.blur, 0, 50, 1);
+        } else if (fxKey === 'outerGlow') {
+          html += makeColor(t('effect.color'), 'color', fx.color);
+          html += makeSlider(t('effect.opacity'), 'opacity', fx.opacity, 0, 100, 1);
+          html += makeSlider(t('effect.blur'), 'blur', fx.blur, 0, 50, 1);
+        } else if (fxKey === 'stroke') {
+          html += makeColor(t('effect.color'), 'color', fx.color);
+          html += makeSlider(t('effect.size'), 'size', fx.size, 1, 20, 1);
+          html += makeSelect(t('effect.position'), 'position', [
+            { v: 'outside', l: 'Outside' }, { v: 'center', l: 'Center' }, { v: 'inside', l: 'Inside' }
+          ], fx.position);
+        } else if (fxKey === 'colorOverlay') {
+          html += makeColor(t('effect.color'), 'color', fx.color);
+          html += makeSlider(t('effect.opacity'), 'opacity', fx.opacity, 0, 100, 1);
+          html += makeSelect(t('effect.blendMode'), 'blendMode', [
+            { v: 'normal', l: 'Normal' }, { v: 'multiply', l: 'Multiply' },
+            { v: 'screen', l: 'Screen' }, { v: 'overlay', l: 'Overlay' }
+          ], fx.blendMode);
+        }
+        right.innerHTML = html;
+        // Bind
+        $$('[data-pr]', right).forEach(inp => {
+          inp.addEventListener('input', () => {
+            const prop = inp.dataset.pr;
+            let val = inp.value;
+            if (prop === 'opacity') val = parseFloat(val) / 100;
+            else if (['offsetX', 'offsetY', 'blur', 'size'].includes(prop)) val = parseFloat(val);
+            work[fxKey][prop] = val;
+            const vlSpan = right.querySelector(`[data-vl="${prop}"]`);
+            if (vlSpan) vlSpan.textContent = prop === 'opacity' ? Math.round(val * 100) : val;
+            this._redraw();
+          });
+          inp.addEventListener('change', () => this._redraw());
+        });
+      };
+
+      // Left panel clicks
+      left.addEventListener('click', e => {
+        const item = e.target.closest('.jsie-fx-item');
+        if (!item) return;
+        if (e.target.type === 'checkbox') {
+          work[item.dataset.fx].enabled = e.target.checked;
+          this._redraw();
+        } else {
+          renderProps(item.dataset.fx);
+        }
+      });
+
+      body.appendChild(left);
+      body.appendChild(right);
+
+      const footer = document.createElement('div');
+      footer.style.cssText = 'padding:10px 18px;border-top:1px solid var(--jsie-border);display:flex;gap:8px;justify-content:flex-end';
+      footer.innerHTML = `<button class="jsie-btn-text secondary" id="jsie-ls-cancel">${t('btn.cancel')}</button><button class="jsie-btn-text" id="jsie-ls-ok">OK</button>`;
+
+      box.appendChild(header);
+      box.appendChild(body);
+      box.appendChild(footer);
+      modal.appendChild(box);
+      this.root.appendChild(modal);
+
+      renderProps('dropShadow');
+
+      footer.querySelector('#jsie-ls-cancel').addEventListener('click', () => {
+        layer.effects = originalEffects;
+        this._redraw();
+        modal.remove();
+      });
+      footer.querySelector('#jsie-ls-ok').addEventListener('click', () => {
+        this.pushHistory();
+        modal.remove();
+      });
+      modal.addEventListener('click', e => {
+        if (e.target === modal) {
+          layer.effects = originalEffects;
+          this._redraw();
+          modal.remove();
+        }
+      });
     }
 
     _onSave() {
