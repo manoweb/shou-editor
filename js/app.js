@@ -780,7 +780,7 @@ input[type="checkbox"]:checked+.jse-toggle::after{transform:translateX(12px);bac
 .jse-image-modal{position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.8);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
 .jse-image-modal-content{width:90vw;height:90vh;border-radius:8px;overflow:hidden}
 /* Fullscreen mode */
-.jse-editor.jse-fullscreen{position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;z-index:99999!important;border-radius:0!important;box-shadow:none!important}
+.jse-editor.jse-fullscreen{position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;border-radius:0!important;box-shadow:none!important}
 /* Resize handles */
 .jse-resize-handle{width:5px;cursor:col-resize;background:transparent;flex-shrink:0;position:relative;z-index:10;transition:background .15s}
 .jse-resize-handle:hover,.jse-resize-handle.dragging{background:var(--jse-accent)}
@@ -1822,13 +1822,20 @@ input[type="checkbox"]:checked+.jse-toggle::after{transform:translateX(12px);bac
       const btn = this.root.querySelector('.jse-fullscreen-btn');
       if (btn) btn.innerHTML = isFs ? Icons.exitFullscreen : Icons.fullscreen;
       if (btn) btn.title = isFs ? 'Exit fullscreen' : t('btn.fullscreen');
-      // Store original inline dimensions to restore later
       if (isFs) {
         this._origWidth = this.root.style.width;
         this._origHeight = this.root.style.height;
+        // Detect highest z-index on the page and go above it
+        let maxZ = 0;
+        for (const el of document.querySelectorAll('*')) {
+          const z = parseInt(getComputedStyle(el).zIndex, 10);
+          if (z > maxZ) maxZ = z;
+        }
+        this.root.style.zIndex = maxZ + 10;
       } else {
         this.root.style.width = this._origWidth || '';
         this.root.style.height = this._origHeight || '';
+        this.root.style.zIndex = '';
       }
     }
 
