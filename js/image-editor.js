@@ -1635,32 +1635,45 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
       const r = this.root;
 
       // ── Menu bar events ──
-      on(r, 'click', '.jsie-menu-item', (e, item) => {
-        const menuId = item.dataset.menu;
-        if (this._menuOpen === menuId) {
+      // Single delegated click handler for entire menubar to avoid ordering issues
+      on(r, 'click', (e) => {
+        // 1. Click on a menu entry (action) — handle before anything else
+        const entry = e.target.closest('.jsie-menu-entry[data-maction]');
+        if (entry && r.contains(entry)) {
+          e.stopPropagation();
+          const action = entry.dataset.maction;
+          const param = entry.dataset.mparam;
           this._closeMenus();
-        } else {
-          this._openMenu(menuId, item);
+          this._handleMenuAction(action, param);
+          return;
         }
-        e.stopPropagation();
+        // 2. Click on a menu entry (tool)
+        const toolEntry = e.target.closest('.jsie-menu-entry[data-mtool]');
+        if (toolEntry && r.contains(toolEntry)) {
+          e.stopPropagation();
+          const tool = toolEntry.dataset.mtool;
+          this._closeMenus();
+          this.setTool(tool);
+          return;
+        }
+        // 3. Click on a top-level menu item (File, Edit, etc.)
+        const menuItem = e.target.closest('.jsie-menu-item');
+        if (menuItem && r.contains(menuItem)) {
+          e.stopPropagation();
+          const menuId = menuItem.dataset.menu;
+          if (this._menuOpen === menuId) {
+            this._closeMenus();
+          } else {
+            this._openMenu(menuId, menuItem);
+          }
+          return;
+        }
       });
 
       on(r, 'mouseenter', '.jsie-menu-item', (e, item) => {
         if (this._menuOpen && this._menuOpen !== item.dataset.menu) {
           this._openMenu(item.dataset.menu, item);
         }
-      });
-
-      on(r, 'click', '.jsie-menu-entry[data-maction]', (e, entry) => {
-        e.stopPropagation();
-        this._handleMenuAction(entry.dataset.maction, entry.dataset.mparam);
-      });
-
-      on(r, 'click', '.jsie-menu-entry[data-mtool]', (e, entry) => {
-        e.stopPropagation();
-        const tool = entry.dataset.mtool;
-        this.setTool(tool);
-        this._closeMenus();
       });
 
       // Submenu hover
@@ -1694,7 +1707,7 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
       };
       document.addEventListener('mousedown', this._closeMenuOnOutside);
 
-      // Close menus on Escape (handled via existing key handler, but also here)
+      // Close menus on Escape
       on(r, 'keydown', (e) => {
         if (e.key === 'Escape' && this._menuOpen) {
           this._closeMenus();
@@ -4943,30 +4956,54 @@ ${showStatusBar ? `<div class="jsie-status-bar"><span id="jsie-status-dims"></sp
     }
 
     // ── Project Save / Open (.shoimg) ────────────────
-    saveProject() {
-      if (!this.layerManager) return;
-      const project = {
-        format: 'shoimg',
-        version: 1,
-        timestamp: Date.now(),
-        layerManager: this.layerManager.serializeForProject(),
-        filters: { ...this.filters },
-        zoom: this.zoom || 1,
-        theme: this.config.theme || 'dark',
-      };
-      const json = JSON.stringify(project);
-      const blob = new Blob([json], { type: 'application/json' });
+    async saveProject() {
+      if (!this.layerManager) { console.warn('saveProject: no layerManager'); return; }
+      let blob;
+      try {
+        const project = {
+          format: 'shoimg',
+          version: 1,
+          timestamp: Date.now(),
+          layerManager: this.layerManager.serializeForProject(),
+          filters: { ...this.filters },
+          zoom: this.zoom || 1,
+          theme: this.config.theme || 'dark',
+        };
+        const json = JSON.stringify(project);
+        blob = new Blob([json], { type: 'application/octet-stream' });
+      } catch (err) {
+        console.error('saveProject serialize error:', err);
+        return;
+      }
+      const fileName = (this._projectName || 'project') + '.shoimg';
+
+      // Try modern File System Access API (shows native save dialog)
+      if (window.showSaveFilePicker) {
+        try {
+          const handle = await window.showSaveFilePicker({
+            suggestedName: fileName,
+            types: [{ description: 'Shou Image Project', accept: { 'application/octet-stream': ['.shoimg'] } }]
+          });
+          const writable = await handle.createWritable();
+          await writable.write(blob);
+          await writable.close();
+          return;
+        } catch (e) {
+          // User cancelled or API failed — fall through to anchor download
+          if (e.name === 'AbortError') return;
+          console.warn('showSaveFilePicker failed, using fallback:', e.message);
+        }
+      }
+
+      // Fallback: anchor download
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = (this._projectName || 'project') + '.shoimg';
+      a.download = fileName;
       a.style.display = 'none';
       document.body.appendChild(a);
       a.click();
-      setTimeout(() => {
-        a.remove();
-        URL.revokeObjectURL(url);
-      }, 200);
+      setTimeout(() => { a.remove(); URL.revokeObjectURL(url); }, 1000);
     }
 
     async openProject(file) {
