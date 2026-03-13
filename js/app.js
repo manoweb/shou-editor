@@ -78,6 +78,9 @@
       'toolbar.drag': 'Drag to move', 'toolbar.duplicate': 'Duplicate',
       'toolbar.delete': 'Delete',
       'toolbar.editImage': 'Edit image',
+      'toolbar.addRowAbove': 'Add row above', 'toolbar.addRowBelow': 'Add row below',
+      'toolbar.deleteRow': 'Delete row', 'toolbar.addColLeft': 'Add column left',
+      'toolbar.addColRight': 'Add column right', 'toolbar.deleteCol': 'Delete column',
       'toolbar.moveUp': 'Move up', 'toolbar.moveDown': 'Move down',
       'toolbar.moveOut': 'Move to parent', 'toolbar.moveInto': 'Move into container',
       'confirm.newProject': 'Create new project?',
@@ -133,6 +136,9 @@
       'toolbar.drag': 'Arrastrar para mover', 'toolbar.duplicate': 'Duplicar',
       'toolbar.delete': 'Eliminar',
       'toolbar.editImage': 'Editar imagen',
+      'toolbar.addRowAbove': 'Añadir fila arriba', 'toolbar.addRowBelow': 'Añadir fila abajo',
+      'toolbar.deleteRow': 'Eliminar fila', 'toolbar.addColLeft': 'Añadir columna izquierda',
+      'toolbar.addColRight': 'Añadir columna derecha', 'toolbar.deleteCol': 'Eliminar columna',
       'toolbar.moveUp': 'Mover arriba', 'toolbar.moveDown': 'Mover abajo',
       'toolbar.moveOut': 'Sacar del contenedor', 'toolbar.moveInto': 'Meter en contenedor',
       'confirm.newProject': '¿Crear nuevo proyecto?',
@@ -237,6 +243,14 @@
     hero:       svg('<path d="M12 2L2 7v2h20V7L12 2zm-8 9v6l8 5 8-5v-6l-8 4-8-4z"/>'),
     features:   svg('<path d="M3 3h7v7H3V3zm11 0h7v7h-7V3zM3 14h7v7H3v-7zm11 0h7v7h-7v-7z"/>'),
     footer:     svg('<path d="M3 3h18v18H3V3zm2 2v14h14V5H5zm0 11h14" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 3h18v18H3V3zm2 2v14h14V5H5z"/><line x1="5" y1="16" x2="19" y2="16" stroke="currentColor" stroke-width="1.5"/>'),
+
+    // Table operations
+    addRowAbove: svg('<path d="M4 8h16v12H4V8zm2 2v8h12v-8H6z"/><path d="M11 3h2v3h3v2h-3v3h-2V8H8V6h3V3z"/>'),
+    addRowBelow: svg('<path d="M4 4h16v12H4V4zm2 2v8h12V6H6z"/><path d="M11 17h2v3h3v2h-3v3h-2v-3H8v-2h3v-3z"/>'),
+    deleteRow:   svg('<path d="M4 4h16v16H4V4zm2 2v12h12V6H6z"/><path d="M6 11h12v2H6z"/>'),
+    addColLeft:  svg('<path d="M8 4h12v16H8V4zm2 2v12h8V6h-8z"/><path d="M3 11h3V8h2v3h3v2H8v3H6v-3H3v-2z"/>'),
+    addColRight: svg('<path d="M4 4h12v16H4V4zm2 2v12h8V6H6z"/><path d="M17 11h3V8h2v3h3v2h-3v3h-2v-3h-3v-2z"/>'),
+    deleteCol:   svg('<path d="M4 4h16v16H4V4zm2 2v12h12V6H6z"/><path d="M11 6v12h2V6z"/>'),
 
     // Mini toolbar
     drag:       svg('<path d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"/>'),
@@ -2087,7 +2101,8 @@ body{min-height:100vh;padding:10px}
           }
           this.syncToCode();
           this.updateLayers();
-        } else if (this.selectedElement && e.key === 'Delete') {
+        } else if (this.selectedElement && (e.key === 'Delete' || e.key === 'Backspace')) {
+          if (doc.querySelector('[contenteditable="true"]')) return;
           this.deleteSelected();
         } else if (this.selectedElement && e.key === 'Escape') {
           this.selectElement(null);
@@ -2380,13 +2395,41 @@ body{min-height:100vh;padding:10px}
       }
       const toolbar = doc.createElement('div');
       toolbar.className = 'jse-element-toolbar';
-      const isImg = this.selectedElement && this.selectedElement.tagName === 'IMG';
+      const el = this.selectedElement;
+      const isImg = el && el.tagName === 'IMG';
+      const tag = el ? el.tagName : '';
+      const isTableCell = tag === 'TD' || tag === 'TH';
+      const isTableRow = tag === 'TR';
+      const isTable = tag === 'TABLE' || tag === 'THEAD' || tag === 'TBODY' || tag === 'TFOOT';
+
+      let tableButtons = '';
+      if (isTableCell) {
+        tableButtons = `
+          <span class="jse-tb-sep"></span>
+          <button type="button" data-action="add-row-above" title="${t('toolbar.addRowAbove')}">${Icons.addRowAbove}</button>
+          <button type="button" data-action="add-row-below" title="${t('toolbar.addRowBelow')}">${Icons.addRowBelow}</button>
+          <button type="button" data-action="delete-row" title="${t('toolbar.deleteRow')}">${Icons.deleteRow}</button>
+          <span class="jse-tb-sep"></span>
+          <button type="button" data-action="add-col-left" title="${t('toolbar.addColLeft')}">${Icons.addColLeft}</button>
+          <button type="button" data-action="add-col-right" title="${t('toolbar.addColRight')}">${Icons.addColRight}</button>
+          <button type="button" data-action="delete-col" title="${t('toolbar.deleteCol')}">${Icons.deleteCol}</button>
+        `;
+      } else if (isTableRow) {
+        tableButtons = `
+          <span class="jse-tb-sep"></span>
+          <button type="button" data-action="add-row-above" title="${t('toolbar.addRowAbove')}">${Icons.addRowAbove}</button>
+          <button type="button" data-action="add-row-below" title="${t('toolbar.addRowBelow')}">${Icons.addRowBelow}</button>
+          <button type="button" data-action="delete-row" title="${t('toolbar.deleteRow')}">${Icons.deleteRow}</button>
+        `;
+      }
+
       toolbar.innerHTML = `
         <button type="button" class="jse-drag-handle" title="${t('toolbar.drag')}">${Icons.drag}</button>
         <span class="jse-tb-sep"></span>
         ${isImg ? `<button type="button" data-action="edit-image" title="${t('toolbar.editImage')}">${Icons.editImage}</button>` : ''}
         <button type="button" data-action="duplicate" title="${t('toolbar.duplicate')}">${Icons.duplicate}</button>
         <button type="button" data-action="delete" title="${t('toolbar.delete')}">${Icons.delete}</button>
+        ${tableButtons}
       `;
 
       // Drag handle for moving elements
@@ -2407,11 +2450,83 @@ body{min-height:100vh;padding:10px}
           this.deleteSelected();
         } else if (action === 'edit-image' && this.selectedElement?.tagName === 'IMG') {
           this.openImageEditor(this.selectedElement);
+        } else if (action.startsWith('add-row') || action === 'delete-row' || action.startsWith('add-col') || action === 'delete-col') {
+          this._handleTableAction(action);
         }
       });
 
       this.elementToolbar = toolbar;
       return toolbar;
+    }
+
+    _handleTableAction(action) {
+      const el = this.selectedElement;
+      if (!el) return;
+
+      // Find the relevant row and table
+      const cell = (el.tagName === 'TD' || el.tagName === 'TH') ? el : null;
+      const row = cell ? cell.closest('tr') : (el.tagName === 'TR' ? el : null);
+      const table = el.closest('table');
+      if (!table) return;
+
+      if (action === 'add-row-above' || action === 'add-row-below') {
+        if (!row) return;
+        const colCount = row.children.length;
+        const cellTag = row.closest('thead') ? 'th' : 'td';
+        const newRow = row.ownerDocument.createElement('tr');
+        for (let i = 0; i < colCount; i++) {
+          const c = row.ownerDocument.createElement(cellTag);
+          c.textContent = '\u00A0';
+          newRow.appendChild(c);
+        }
+        if (action === 'add-row-above') {
+          row.before(newRow);
+        } else {
+          row.after(newRow);
+        }
+      } else if (action === 'delete-row') {
+        if (!row) return;
+        // Don't delete the last row in a section
+        const section = row.parentElement;
+        if (section && section.querySelectorAll('tr').length <= 1) {
+          section.remove();
+        } else {
+          row.remove();
+        }
+        this.selectElement(table);
+      } else if (action === 'add-col-left' || action === 'add-col-right') {
+        if (!cell) return;
+        const colIdx = Array.from(cell.parentElement.children).indexOf(cell);
+        table.querySelectorAll('tr').forEach(tr => {
+          const cells = tr.children;
+          if (colIdx >= cells.length) return;
+          const refCell = cells[colIdx];
+          const cellTag = refCell.tagName === 'TH' ? 'th' : 'td';
+          const newCell = tr.ownerDocument.createElement(cellTag);
+          newCell.textContent = '\u00A0';
+          if (action === 'add-col-left') {
+            refCell.before(newCell);
+          } else {
+            refCell.after(newCell);
+          }
+        });
+      } else if (action === 'delete-col') {
+        if (!cell) return;
+        const colIdx = Array.from(cell.parentElement.children).indexOf(cell);
+        // Check if it's the last column
+        const firstRow = table.querySelector('tr');
+        if (firstRow && firstRow.children.length <= 1) return; // Don't delete last column
+        table.querySelectorAll('tr').forEach(tr => {
+          const cells = tr.children;
+          if (colIdx < cells.length) {
+            cells[colIdx].remove();
+          }
+        });
+        this.selectElement(table);
+      }
+
+      this.syncToCode();
+      this.updateLayers();
     }
 
     setupDragHandle(handle, doc) {
