@@ -4094,6 +4094,7 @@ ${cleanHtml}
       if (code.js !== undefined) this.code.js = code.js;
       this.updateAllCodeEditors();
       this.syncFromCode();
+      this.saveToStorage();
     }
 
     bindToForm(formSelector, opts = {}) {
