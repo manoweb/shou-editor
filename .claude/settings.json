@@ -16,5 +16,53 @@
     "noCompilers": true,
     "noFrameworks": true,
     "pureVanilla": true
+  },
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/_runpy.sh\" \"$CLAUDE_PROJECT_DIR/.claude/hooks/inject-memory.py\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/_runpy.sh\" \"$CLAUDE_PROJECT_DIR/.claude/hooks/sync-memory-init.py\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/_runpy.sh\" \"$CLAUDE_PROJECT_DIR/.claude/hooks/guard-memory-path.py\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/_runpy.sh\" \"$CLAUDE_PROJECT_DIR/.claude/hooks/mirror-memory.py\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
   }
 }
