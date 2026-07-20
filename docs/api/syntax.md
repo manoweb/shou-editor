@@ -45,7 +45,7 @@ const js = highlight(code, 'js');
 |-------|---------|-------------------|
 | `.tok-comment` | Comments | `#6a9955` (green) |
 | `.tok-tag` | HTML tags | `#569cd6` (blue) |
-| `.tok-attr` | HTML attributes | `#9cdcfe` (cyan) |
+| `.tok-attr` | HTML attributes | `#e5c07b` (gold) |
 | `.tok-str` | Strings | `#ce9178` (orange) |
 | `.tok-kw` | Keywords | `#c586c0` (pink) |
 | `.tok-num` | Numbers | `#b5cea8` (light green) |

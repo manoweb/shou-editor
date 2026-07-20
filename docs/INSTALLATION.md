@@ -675,7 +675,7 @@ const editor = ShouEditor.init('#editor', {
 - Container, 2 Columns, 3 Columns
 
 ### Bootstrap
-- Card, Alert, Button, Table
+- Card, Alert, Button, Table, Accordion, Carousel, Modal, Tabs, Badge, Progress, List Group, Breadcrumb, Pagination, Spinner, Toast
 
 ### Forms
 - Input, Textarea, Select, Checkbox, Radio, File, Range, Switch
@@ -880,7 +880,7 @@ The code editor includes syntax highlighting for HTML, CSS, and JS. Colors can b
 |-------|-------------|---------|
 | `comment` | Comments | `#6a9955` |
 | `tag` | HTML tag names | `#569cd6` |
-| `attr` | HTML attribute names | `#9cdcfe` |
+| `attr` | HTML attribute names | `#e5c07b` |
 | `str` | Strings / attribute values | `#ce9178` |
 | `kw` | Keywords (JS: const, let, if... / CSS: @media...) | `#c586c0` |
 | `num` | Numbers and hex colors | `#b5cea8` |
@@ -889,6 +889,7 @@ The code editor includes syntax highlighting for HTML, CSS, and JS. Colors can b
 | `prop` | CSS properties | `#9cdcfe` |
 | `punct` | Punctuation (`<`, `>`, `=`, `:`, `;`) | `#808080` |
 | `unit` | CSS units (px, em, rem, %, vh, vw, s, ms, deg) | `#b5cea8` |
+| `attrVal` | HTML attribute values (reserved; values currently render with `str`) | `#ce9178` |
 | `selector` | CSS selectors (.class, #id, tag) | `#d7ba7d` |
 
 ### Customize Colors

@@ -1,5 +1,13 @@
 # Shou Editor - Project Memory
 
+## Índice de notas de features (.claude/memory/)
+- [app-editor-features](project_app_editor_features.md) — features completas de js/app.js (editor código/page builder)
+- [image-editor-features](project_image_editor_features.md) — features completas de js/image-editor.js (JSImageEditor)
+- [blocks-styles-data](project_blocks_styles_data.md) — 36 bloques, styles.json, attributes.json, highlight.json, HTML demo
+- [known-bugs](project_known_bugs.md) — bugs e inconsistencias detectados (jul 2026)
+- [docs-desync](project_docs_desync.md) — desajustes docs/ ↔ código real
+- [memory-sync-hooks](project_memory_sync_hooks.md) — sistema de sincronización de memoria multi-máquina
+
 ## Build: Minification (IMPORTANT)
 After ANY change to JS files, ALWAYS regenerate minified versions:
 ```bash

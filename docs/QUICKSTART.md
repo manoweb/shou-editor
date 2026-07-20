@@ -17,10 +17,10 @@ Open `index.html` in your browser or start a local server (see [Installation](./
 
 2. **Available categories**:
    - **Basic**: Text, headings, images, links, dividers
-   - **Layout**: Containers, rows, columns (2, 3, 4)
-   - **Bootstrap**: Cards, alerts, buttons, badges, lists, tables
-   - **Forms**: Inputs, textareas, selects, checkboxes
-   - **Sections**: Navbar, Hero, Features, Pricing, Testimonials, Contact, Footer
+   - **Layout**: Containers, 2 Columns, 3 Columns
+   - **Bootstrap**: Card, Alert, Button, Table, Accordion, Carousel, Modal, Tabs, Badge, Progress, List Group, Breadcrumb, Pagination, Spinner, Toast
+   - **Forms**: Input, Textarea, Select, Checkbox, Radio, File, Range, Switch
+   - **Sections**: Navbar, Hero, Features, Footer
 
 ### Edit Elements
 

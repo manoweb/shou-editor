@@ -81,8 +81,8 @@ Displays components organized by category that you can insert into the canvas:
 
 - **Basic**: Text, Title, Image, Link, Divider
 - **Layout**: Container, 2 Columns, 3 Columns
-- **Bootstrap**: Card, Alert, Button, Table
-- **Forms**: Input, Textarea, Select
+- **Bootstrap**: Card, Alert, Button, Table, Accordion, Carousel, Modal, Tabs, Badge, Progress, List Group, Breadcrumb, Pagination, Spinner, Toast
+- **Forms**: Input, Textarea, Select, Checkbox, Radio, File, Range, Switch
 - **Sections**: Navbar, Hero, Features, Footer
 
 **To insert**: Click on a block or drag it onto the canvas. When dragging, a magnetic indicator (blue line) appears showing where the block will be inserted.

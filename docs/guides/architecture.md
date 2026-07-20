@@ -44,8 +44,11 @@ app.js (IIFE)
 +-- DefaultBlocks             Draggable blocks
 |   +-- basic []              Text, Heading, Image, Link, Divider
 |   +-- layout []             Container, 2/3 Columns
-|   +-- bootstrap []          Card, Alert, Button, Table
-|   +-- forms []              Input, Textarea, Select
+|   +-- bootstrap []          Card, Alert, Button, Table, Accordion, Carousel,
+|   |                         Modal, Tabs, Badge, Progress, List Group,
+|   |                         Breadcrumb, Pagination, Spinner, Toast
+|   +-- forms []              Input, Textarea, Select, Checkbox, Radio,
+|   |                         File, Range, Switch
 |   +-- sections []           Navbar, Hero, Features, Footer
 |
 +-- Syntax Highlighting

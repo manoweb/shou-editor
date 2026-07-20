@@ -29,11 +29,11 @@ Welcome to the Shou Editor documentation, a visual web page editor in the style 
 
 ### Visual Editor (GrapesJS-style)
 - **Blocks Panel**: Draggable components organized by categories
-  - Basic (text, headings, images, links)
-  - Layout (containers, rows, columns)
-  - Bootstrap (cards, alerts, buttons, tables)
-  - Forms (inputs, textareas, selects)
-  - Sections (navbar, hero, features, pricing, footer)
+  - Basic (text, headings, images, links, dividers)
+  - Layout (containers, 2/3 columns)
+  - Bootstrap (cards, alerts, buttons, tables, accordions, carousels, modals, tabs, badges, progress bars, list groups, breadcrumbs, pagination, spinners, toasts)
+  - Forms (inputs, textareas, selects, checkboxes, radios, file, range, switch)
+  - Sections (navbar, hero, features, footer)
 
 - **Visual Canvas**: Real-time preview with iframe
   - Full Bootstrap 5 support
